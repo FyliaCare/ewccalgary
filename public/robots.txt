@@ -1,0 +1,9 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+Sitemap: https://ewccalgary.ca/sitemap.xml
+
+# Disallow admin pages
+Disallow: /admin
+Disallow: /api
