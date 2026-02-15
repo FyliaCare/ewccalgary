@@ -234,18 +234,32 @@ export default function HomeContent() {
             {/* Instagram Reel Embed */}
             <div className="flex justify-center">
               <div className="w-full max-w-sm">
-                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-purple-600 via-pink-500 to-amber-400 p-[2px]">
-                  <div className="rounded-2xl overflow-hidden bg-gray-900">
-                    <iframe
-                      src="https://www.instagram.com/reel/DTLd5GvCEKk/embed/"
-                      className="w-full border-0"
-                      style={{ minHeight: "480px" }}
-                      allowFullScreen
-                      loading="lazy"
-                      title="EWC Calgary Instagram Reel"
-                    />
+                <a
+                  href="https://www.instagram.com/reel/DTLd5GvCEKk/?igsh=MTFmdmZoY21tbXM4Mw=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block group"
+                >
+                  <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-purple-600 via-pink-500 to-amber-400 p-[2px]">
+                    <div className="rounded-2xl overflow-hidden bg-gray-900">
+                      <div className="aspect-[9/16] max-h-[420px] w-full flex flex-col items-center justify-center p-8 text-center">
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-amber-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg">
+                          <Instagram size={36} className="text-white" />
+                        </div>
+                        <p className="text-white font-heading font-bold text-lg mb-2">
+                          Watch on Instagram
+                        </p>
+                        <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                          See what volunteering at EWC Calgary looks like! Tap to watch our latest reel.
+                        </p>
+                        <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 text-white text-xs font-heading font-bold uppercase tracking-wider group-hover:shadow-lg transition-shadow">
+                          <Play size={14} />
+                          Watch Reel
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </a>
                 <p className="text-center mt-4">
                   <a
                     href="https://www.instagram.com/ewccalgary"
