@@ -1,42 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Users, Heart, ArrowRight, AlertCircle } from "lucide-react";
 
-interface Department {
-  id: string;
-  name: string;
-  description: string | null;
-}
-
 export default function VolunteerPage() {
   const router = useRouter();
-  const [departments, setDepartments] = useState<Department[]>([]);
-  const [, setLoading] = useState(true);
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
-    departmentId: "",
-    secondaryDepartmentId: "",
     experience: "",
-    availability: "",
     message: "",
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetch("/api/departments")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setDepartments(data);
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -164,77 +143,18 @@ export default function VolunteerPage() {
                   </div>
                 </div>
 
-                {/* Department */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-sm font-heading text-ewc-charcoal mb-1.5">
-                      Primary Department
-                    </label>
-                    <select
-                      required
-                      value={form.departmentId}
-                      onChange={(e) => updateForm("departmentId", e.target.value)}
-                      className="input-field"
-                    >
-                      <option value="">Select a department</option>
-                      {departments.map((d) => (
-                        <option key={d.id} value={d.id}>
-                          {d.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-heading text-ewc-charcoal mb-1.5">
-                      Secondary Department <span className="text-ewc-silver">(optional)</span>
-                    </label>
-                    <select
-                      value={form.secondaryDepartmentId}
-                      onChange={(e) => updateForm("secondaryDepartmentId", e.target.value)}
-                      className="input-field"
-                    >
-                      <option value="">Select (optional)</option>
-                      {departments
-                        .filter((d) => d.id !== form.departmentId)
-                        .map((d) => (
-                          <option key={d.id} value={d.id}>
-                            {d.name}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                </div>
-
                 {/* Experience */}
                 <div>
                   <label className="block text-sm font-heading text-ewc-charcoal mb-1.5">
-                    Relevant Experience <span className="text-ewc-silver">(optional)</span>
+                    Tell us about yourself <span className="text-ewc-silver">(optional)</span>
                   </label>
                   <textarea
                     rows={3}
                     value={form.experience}
                     onChange={(e) => updateForm("experience", e.target.value)}
                     className="input-field resize-none"
-                    placeholder="Share any relevant skills or experience..."
+                    placeholder="Share any relevant skills, experience, or anything you'd like us to know..."
                   />
-                </div>
-
-                {/* Availability */}
-                <div>
-                  <label className="block text-sm font-heading text-ewc-charcoal mb-1.5">
-                    Availability
-                  </label>
-                  <select
-                    value={form.availability}
-                    onChange={(e) => updateForm("availability", e.target.value)}
-                    className="input-field"
-                  >
-                    <option value="">Select availability</option>
-                    <option value="Sundays">Sundays</option>
-                    <option value="Weekdays">Weekdays</option>
-                    <option value="Weekends">Weekends</option>
-                    <option value="Flexible">Flexible</option>
-                  </select>
                 </div>
 
                 {/* Message */}

@@ -206,21 +206,11 @@ export default function HomeContent() {
                 Your Gifts Were Made to{" "}
                 <span className="text-ewc-gold-hover">Serve</span>
               </h2>
-              <p className="text-gray-400 leading-relaxed mb-6">
+              <p className="text-gray-400 leading-relaxed mb-8">
                 The body of Christ functions best when every member contributes their
                 unique gifts. Whether it&apos;s worship, media, hospitality, or kids ministry —
                 there&apos;s a place for you here.
               </p>
-              <div className="flex flex-wrap gap-3 mb-8">
-                {["Media / Creative", "Worship Team", "Ushering", "Kidz Church", "Technical", "Hospitality"].map((dept) => (
-                  <span
-                    key={dept}
-                    className="px-3 py-1.5 rounded-full bg-white/10 text-white/80 text-xs font-heading font-medium"
-                  >
-                    {dept}
-                  </span>
-                ))}
-              </div>
               <button
                 onClick={openVolunteerModal}
                 className="btn-gold px-8 py-4 text-sm shadow-warm-lg"

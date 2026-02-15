@@ -14,7 +14,6 @@ async function main() {
     { name: "FIXED Teens", description: "Youth ministry for teenagers ages 13-19, spiritual and life development", icon: "Users" },
     { name: "4.12 Young Adults", description: "Young adults ministry ages 19-30, based on 1 Timothy 4:12", icon: "GraduationCap" },
     { name: "Hospitality", description: "Food service, refreshments, and creating a welcoming atmosphere", icon: "Coffee" },
-    { name: "Community Circle Leader", description: "Leading and facilitating weekly community circle gatherings", icon: "Circle" },
     { name: "Prayer Team", description: "Intercessory prayer, prayer meetings, and spiritual warfare", icon: "HeartHandshake" },
   ];
 
