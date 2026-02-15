@@ -49,15 +49,16 @@ export async function middleware(request: NextRequest) {
   const isPublicPost =
     request.method === "POST" && publicPostRoutes.includes(pathname);
 
-  // Public GET for departments (volunteer form needs it)
-  const isPublicDeptGet =
-    request.method === "GET" && pathname === "/api/departments";
+  // Public GET endpoints (events, sermons, departments — needed by frontend pages)
+  const publicGetRoutes = ["/api/events", "/api/sermons", "/api/departments"];
+  const isPublicGet =
+    request.method === "GET" && publicGetRoutes.includes(pathname);
 
   if (isAdminPage) {
     return await verifyAuth(request);
   }
 
-  if (isProtectedApi && !isPublicPost && !isPublicDeptGet) {
+  if (isProtectedApi && !isPublicPost && !isPublicGet) {
     return await verifyAuth(request, true);
   }
 
