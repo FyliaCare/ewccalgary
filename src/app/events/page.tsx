@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, Clock, MapPin, ArrowRight, Sparkles } from "lucide-react";
 
 interface Event {
@@ -10,10 +11,11 @@ interface Event {
   description: string;
   date: string;
   time: string | null;
+  endTime: string | null;
   location: string | null;
-  type: string;
-  isRecurring: boolean;
-  imageUrl: string | null;
+  category: string;
+  image: string | null;
+  featured: boolean;
 }
 
 const serviceSchedule = [
@@ -121,9 +123,9 @@ export default function EventsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {upcomingEvents.map((event) => (
                 <div key={event.id} className="card group hover:border-ewc-gold/30">
-                  {event.imageUrl && (
+                  {event.image && (
                     <div className="relative h-44 bg-ewc-light rounded-xl mb-4 overflow-hidden">
-                      <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover" />
+                      <Image src={event.image} alt={event.title} fill className="object-cover" />
                     </div>
                   )}
                   <div className="flex items-start gap-4">
@@ -137,7 +139,7 @@ export default function EventsPage() {
                     </div>
                     <div className="min-w-0">
                       <span className="inline-block px-2 py-0.5 rounded-full bg-ewc-light text-ewc-silver text-[11px] uppercase tracking-wider font-heading mb-1.5">
-                        {event.type}
+                        {event.category}
                       </span>
                       <h3 className="font-heading font-bold text-ewc-charcoal mb-1 truncate">{event.title}</h3>
                       <p className="text-ewc-silver text-sm line-clamp-2">{event.description}</p>

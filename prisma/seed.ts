@@ -41,6 +41,18 @@ async function main() {
   // Seed sample events
   const events = [
     {
+      title: "Seed in the Soil",
+      description: "A powerful two-day conference designed to plant the seed of God's Word deep into your heart. Join us April 25–26 for worship, powerful teachings, and life-changing encounters with the Holy Spirit.",
+      date: new Date("2026-04-25"),
+      time: "10:00",
+      endTime: "17:00",
+      location: "225 Chaparral Drive SE, Calgary, Alberta",
+      category: "conference",
+      featured: true,
+      published: true,
+      image: "/Seed In the soil .jpeg",
+    },
+    {
       title: "Sunday Family Service",
       description: "Join us for our weekly Sunday Family Service. Experience powerful worship, the Word of God, and genuine fellowship with the EWC Calgary family.",
       date: new Date("2026-02-15"),
