@@ -101,7 +101,7 @@ export default function ContactPage() {
                   <div>
                     <p className="font-heading font-bold text-ewc-charcoal text-sm">Service Hours</p>
                     <p className="text-ewc-silver text-sm">Sunday: 10:00 AM - 12:30 PM</p>
-                    <p className="text-ewc-silver text-sm">Tuesday: 7:00 PM</p>
+                    <p className="text-ewc-silver text-sm">Friday: 7:00 PM (WILDFIRE)</p>
                   </div>
                 </div>
               </div>

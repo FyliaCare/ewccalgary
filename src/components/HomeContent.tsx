@@ -20,8 +20,7 @@ import VolunteerModal from "@/components/VolunteerModal";
 
 const serviceTimes = [
   { day: "Sunday", time: "10:00 AM", label: "Family Service", icon: "🙏" },
-  { day: "Tuesday", time: "7:00 PM", label: "Community Circles", icon: "🤝" },
-  { day: "Friday", time: "7:00 PM", label: "Prayer Night", icon: "✨" },
+  { day: "Friday", time: "7:00 PM", label: "WILDFIRE", icon: "🔥" },
 ];
 
 const communities = [
@@ -173,7 +172,7 @@ export default function HomeContent() {
             <h2 className="section-title mt-3">Service Times</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {serviceTimes.map((service) => (
               <div key={service.day} className="card text-center group">
                 <span className="text-4xl mb-4 block group-hover:scale-110 transition-transform">{service.icon}</span>

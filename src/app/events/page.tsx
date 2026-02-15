@@ -18,8 +18,7 @@ interface Event {
 
 const serviceSchedule = [
   { day: "Sunday", title: "Sunday Worship Service", time: "10:00 AM - 12:30 PM", emoji: "🙏" },
-  { day: "Tuesday", title: "Community Circle Meeting", time: "7:00 PM", emoji: "🤝" },
-  { day: "Friday", title: "All Night Prayer (Last Friday)", time: "10:00 PM - 4:00 AM", emoji: "🔥" },
+  { day: "Friday", title: "WILDFIRE", time: "7:00 PM", emoji: "🔥" },
 ];
 
 export default function EventsPage() {

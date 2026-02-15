@@ -24,7 +24,7 @@ const getInvolved = [
   { name: "Volunteer", href: "/volunteer" },
   { name: "Give / Seeds", href: "/give" },
   { name: "Watch Live", href: "/live" },
-  { name: "Community Circles", href: "/about#community-circles" },
+  { name: "WILDFIRE (Fridays)", href: "/events" },
   { name: "Events", href: "/events" },
 ];
 
