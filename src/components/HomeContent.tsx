@@ -15,6 +15,7 @@ import {
   Sparkles,
   Globe,
 } from "lucide-react";
+import Image from "next/image";
 import VolunteerModal from "@/components/VolunteerModal";
 
 const serviceTimes = [
@@ -315,14 +316,15 @@ export default function HomeContent() {
             </div>
 
             <div className="relative">
-              <div className="aspect-[4/5] rounded-3xl bg-gradient-to-br from-ewc-gold-50 to-ewc-cream border border-ewc-gold-light overflow-hidden flex items-center justify-center shadow-soft-lg">
-                <div className="text-center p-8">
-                  <div className="w-36 h-36 rounded-full gold-gradient mx-auto mb-6 flex items-center justify-center shadow-warm-lg">
-                    <span className="font-heading font-bold text-white text-5xl">HL</span>
-                  </div>
-                  <p className="font-heading font-bold text-ewc-charcoal text-xl">Pastor Humphrey Lomotey</p>
-                  <p className="text-ewc-gold text-sm mt-1 font-medium">Campus Pastor</p>
-                </div>
+              <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-soft-lg">
+                <Image
+                  src="/Homepage photo of Pastor Humphrey.jpeg"
+                  alt="Pastor Humphrey Lomotey — Campus Pastor, EWC Calgary"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                />
               </div>
               <div className="absolute -bottom-3 -right-3 w-full h-full rounded-3xl border-2 border-ewc-gold/15 -z-10" />
               <div className="absolute -top-3 -left-3 w-20 h-20 rounded-2xl bg-ewc-gold/10 -z-10" />

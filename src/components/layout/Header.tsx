@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -41,9 +42,13 @@ export default function Header() {
         <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl gold-gradient flex items-center justify-center font-heading font-bold text-white text-lg shadow-warm">
-              E
-            </div>
+            <Image
+              src="/Ewc Calgary Logo.jpeg"
+              alt="EWC Calgary Logo"
+              width={44}
+              height={44}
+              className="rounded-xl shadow-warm object-cover"
+            />
             <div className="flex flex-col">
               <span className="font-heading font-bold text-ewc-charcoal text-lg leading-tight tracking-wide">
                 EWC

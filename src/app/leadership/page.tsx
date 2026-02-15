@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ const leaders = [
     color: "bg-amber-50",
     accent: "text-amber-600",
     borderColor: "border-l-ewc-gold",
+    image: "/Prophet Gideon Danso.jpeg",
   },
   {
     name: "Lady Gina Danso",
@@ -32,6 +34,7 @@ const leaders = [
     color: "bg-blue-50",
     accent: "text-blue-600",
     borderColor: "border-l-blue-400",
+    image: "/Homepage photo of Pastor Humphrey.jpeg",
   },
 ];
 
@@ -67,14 +70,26 @@ export default function LeadershipPage() {
                 <div className="flex flex-col md:flex-row">
                   {/* Avatar area */}
                   <div className={`${leader.color} flex items-center justify-center p-8 md:p-12 md:w-64 flex-shrink-0`}>
-                    <div className="w-28 h-28 rounded-2xl bg-white/60 flex items-center justify-center shadow-soft">
-                      <span className="font-heading font-bold text-4xl text-ewc-charcoal/30">
-                        {leader.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </span>
-                    </div>
+                    {leader.image ? (
+                      <div className="w-28 h-28 rounded-2xl overflow-hidden shadow-soft relative">
+                        <Image
+                          src={leader.image}
+                          alt={leader.name}
+                          fill
+                          className="object-cover"
+                          sizes="112px"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-28 h-28 rounded-2xl bg-white/60 flex items-center justify-center shadow-soft">
+                        <span className="font-heading font-bold text-4xl text-ewc-charcoal/30">
+                          {leader.name
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   {/* Content */}
                   <div className="p-6 md:p-8 flex flex-col justify-center">

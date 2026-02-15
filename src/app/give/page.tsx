@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Heart, Gift, BookOpen, DollarSign, ArrowRight, CheckCircle, AlertCircle, Shield } from "lucide-react";
 
 const categories = [
@@ -53,18 +54,26 @@ export default function GivePage() {
     <>
       {/* Hero */}
       <section className="relative py-24 sm:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-ewc-gold-50 via-white to-ewc-cream" />
-        <div className="absolute top-20 right-20 w-64 h-64 bg-emerald-100/20 rounded-full blur-3xl" />
+        <div className="absolute inset-0">
+          <Image
+            src="/Seed In the soil .jpeg"
+            alt="Seed in the soil — Sowing into the Kingdom"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+        </div>
         <div className="relative section-container text-center">
-          <span className="section-label">Give</span>
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white font-heading text-xs font-bold uppercase tracking-[0.2em] mb-4">Give</span>
+          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-white mb-6 mt-3">
             Generosity Changes
-            <span className="block text-ewc-gold">Everything</span>
+            <span className="block text-ewc-gold-hover">Everything</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
+          <p className="max-w-2xl mx-auto text-white/90 text-lg leading-relaxed">
             &ldquo;Each of you should give what you have decided in your heart to give,
             not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo;
-            <span className="block text-ewc-gold mt-1 text-sm font-heading">— 2 Corinthians 9:7</span>
+            <span className="block text-ewc-gold-hover mt-1 text-sm font-heading">— 2 Corinthians 9:7</span>
           </p>
         </div>
       </section>

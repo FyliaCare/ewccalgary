@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   MapPin,
   Mail,
@@ -43,9 +44,13 @@ export default function Footer() {
           {/* Church Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl gold-gradient flex items-center justify-center font-heading font-bold text-white text-lg">
-                E
-              </div>
+              <Image
+                src="/Ewc Calgary Logo.jpeg"
+                alt="EWC Calgary Logo"
+                width={44}
+                height={44}
+                className="rounded-xl object-cover"
+              />
               <div className="flex flex-col">
                 <span className="font-heading font-bold text-white text-lg leading-tight">
                   EWC Calgary
