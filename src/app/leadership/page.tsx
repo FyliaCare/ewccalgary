@@ -42,16 +42,16 @@ export default function LeadershipPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-24 sm:py-32 overflow-hidden">
+      <section className="relative py-16 sm:py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
-        <div className="absolute top-20 left-10 w-56 h-56 bg-purple-100/20 rounded-full blur-3xl" />
+        <div className="absolute top-20 left-10 w-48 sm:w-72 h-48 sm:h-72 bg-purple-100/20 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <span className="section-label">Leadership</span>
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-4 sm:mb-6 mt-3 px-2">
             Meet Our
             <span className="block text-ewc-burgundy">Leadership</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
+          <p className="max-w-2xl mx-auto text-ewc-slate text-base sm:text-lg leading-relaxed px-2">
             Servant leaders committed to the Gospel, community, and raising
             the next generation of believers.
           </p>
@@ -69,7 +69,7 @@ export default function LeadershipPage() {
               >
                 <div className="flex flex-col md:flex-row">
                   {/* Avatar area */}
-                  <div className={`${leader.color} flex items-center justify-center p-8 md:p-12 md:w-64 flex-shrink-0`}>
+                  <div className={`${leader.color} flex items-center justify-center p-6 sm:p-8 md:p-12 md:w-64 flex-shrink-0`}>
                     {leader.image ? (
                       <div className="w-28 h-28 rounded-2xl overflow-hidden shadow-soft relative">
                         <Image
@@ -92,11 +92,11 @@ export default function LeadershipPage() {
                     )}
                   </div>
                   {/* Content */}
-                  <div className="p-6 md:p-8 flex flex-col justify-center">
+                  <div className="p-5 sm:p-6 md:p-8 flex flex-col justify-center">
                     <span className={`text-xs font-heading font-bold uppercase tracking-wider ${leader.accent} mb-1`}>
                       {leader.role}
                     </span>
-                    <h3 className="font-heading font-bold text-xl md:text-2xl text-ewc-charcoal mb-3">
+                    <h3 className="font-heading font-bold text-lg sm:text-xl md:text-2xl text-ewc-charcoal mb-3">
                       {leader.name}
                     </h3>
                     <p className="text-ewc-slate text-sm leading-relaxed">{leader.bio}</p>
@@ -111,7 +111,7 @@ export default function LeadershipPage() {
       {/* Global Connection */}
       <section className="bg-ewc-navy section-padding">
         <div className="section-container text-center">
-          <h2 className="font-heading font-bold text-3xl text-white mb-4">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-white mb-4 px-2">
             Part of a Global Family
           </h2>
           <p className="text-gray-400 max-w-xl mx-auto mb-8">
@@ -133,14 +133,14 @@ export default function LeadershipPage() {
       {/* CTA */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 burgundy-gradient" />
-        <div className="relative section-container py-20 text-center">
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
+        <div className="relative section-container py-16 sm:py-20 text-center">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl text-white mb-4 px-2">
             Join Us This Sunday
           </h2>
-          <p className="text-white/80 max-w-xl mx-auto mb-8 text-lg">
+          <p className="text-white/80 max-w-xl mx-auto mb-8 sm:mb-10 text-base sm:text-lg px-4">
             Come worship with us and experience the warmth of the EWC family.
           </p>
-          <Link href="/contact" className="btn-navy px-8 py-4">
+          <Link href="/contact" className="btn-navy px-8 py-4 w-full sm:w-auto">
             Plan Your Visit <ArrowRight size={16} className="ml-2" />
           </Link>
         </div>

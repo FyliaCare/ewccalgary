@@ -34,16 +34,16 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-24 sm:py-32 overflow-hidden">
+      <section className="relative py-16 sm:py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-48 sm:w-72 h-48 sm:h-72 bg-blue-100/30 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <span className="section-label">Contact Us</span>
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-4 sm:mb-6 mt-3 px-2">
             Get In
             <span className="block text-ewc-burgundy">Touch</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
+          <p className="max-w-2xl mx-auto text-ewc-slate text-base sm:text-lg leading-relaxed px-2">
             Have a question, prayer request, or want to learn more about EWC Calgary?
             We&apos;d love to hear from you.
           </p>
@@ -67,7 +67,7 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-5">
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-4 min-h-[44px]">
                   <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
                     <MapPin size={20} className="text-blue-500" />
                   </div>
@@ -76,7 +76,7 @@ export default function ContactPage() {
                     <p className="text-ewc-silver text-sm">225 Chaparral Drive SE, Calgary, AB</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-4 min-h-[44px]">
                   <div className="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
                     <Mail size={20} className="text-emerald-500" />
                   </div>
@@ -85,7 +85,7 @@ export default function ContactPage() {
                     <p className="text-ewc-silver text-sm">info@ewccalgary.ca</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-4 min-h-[44px]">
                   <div className="w-11 h-11 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0">
                     <Phone size={20} className="text-purple-500" />
                   </div>
@@ -94,7 +94,7 @@ export default function ContactPage() {
                     <p className="text-ewc-silver text-sm">+1 (403) 000-0000</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-4 min-h-[44px]">
                   <div className="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
                     <Clock size={20} className="text-amber-500" />
                   </div>
@@ -113,6 +113,7 @@ export default function ContactPage() {
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2515.0!2d-114.0!3d50.96!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDU3JzM2LjAiTiAxMTTCsDAxJzEyLjAiVw!5e0!3m2!1sen!2sca!4v1"
                   width="100%"
                   height="200"
+                  className="h-[180px] sm:h-[200px]"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
@@ -123,7 +124,7 @@ export default function ContactPage() {
 
             {/* Form Column */}
             <div className="lg:col-span-3">
-              <div className="card p-8">
+              <div className="card p-5 sm:p-8">
                 <h3 className="font-heading font-bold text-xl text-ewc-charcoal mb-6">Send a Message</h3>
 
                 {status === "success" ? (

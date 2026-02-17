@@ -53,7 +53,7 @@ export default function GivePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-24 sm:py-32 overflow-hidden">
+      <section className="relative py-16 sm:py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/Seed In the soil .jpeg"
@@ -66,11 +66,11 @@ export default function GivePage() {
         </div>
         <div className="relative section-container text-center">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white font-heading text-xs font-bold uppercase tracking-[0.2em] mb-4">Give</span>
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-white mb-6 mt-3">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl lg:text-6xl text-white mb-4 sm:mb-6 mt-3 px-2">
             Generosity Changes
             <span className="block text-ewc-burgundy-hover">Everything</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-white/90 text-lg leading-relaxed">
+          <p className="max-w-2xl mx-auto text-white/90 text-base sm:text-lg leading-relaxed px-2">
             &ldquo;Each of you should give what you have decided in your heart to give,
             not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo;
             <span className="block text-ewc-burgundy-hover mt-1 text-sm font-heading">— 2 Corinthians 9:7</span>
@@ -81,12 +81,12 @@ export default function GivePage() {
       {/* Category Cards */}
       <section className="bg-white section-padding">
         <div className="section-container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-14">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 max-w-4xl mx-auto mb-10 sm:mb-14">
             {categories.map((cat) => (
               <button
                 key={cat.name}
                 onClick={() => setForm({ ...form, category: cat.name })}
-                className={`card text-center transition-all ${
+                className={`card p-4 sm:p-6 text-center transition-all ${
                   form.category === cat.name
                     ? "border-ewc-burgundy shadow-warm ring-2 ring-ewc-burgundy/20"
                     : "hover:border-ewc-burgundy/30"
@@ -103,7 +103,7 @@ export default function GivePage() {
 
           {/* Form */}
           <div className="max-w-xl mx-auto">
-            <div className="card p-8">
+            <div className="card p-5 sm:p-8">
               <h2 className="font-heading font-bold text-2xl text-ewc-charcoal mb-6 text-center">
                 Make a Donation
               </h2>
@@ -173,13 +173,13 @@ export default function GivePage() {
                       />
                     </div>
                     {/* Quick amounts */}
-                    <div className="flex gap-2 mt-2">
+                    <div className="flex flex-wrap gap-2 mt-2">
                       {["25", "50", "100", "250"].map((amt) => (
                         <button
                           key={amt}
                           type="button"
                           onClick={() => setForm({ ...form, amount: amt })}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-heading transition-all ${
+                          className={`flex-1 sm:flex-initial px-3 py-2 rounded-lg text-xs font-heading transition-all ${
                             form.amount === amt
                               ? "bg-ewc-burgundy text-white"
                               : "bg-ewc-light text-ewc-slate hover:bg-ewc-mist"
@@ -250,10 +250,10 @@ export default function GivePage() {
       {/* Why Give */}
       <section className="bg-ewc-snow section-padding">
         <div className="section-container">
-          <div className="text-center mb-14">
+          <div className="text-center mb-10 sm:mb-14">
             <h2 className="section-title">Why We Give</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
             {[
               { title: "Community Impact", desc: "Your giving supports local outreach, food drives, and community support programs in Calgary." },
               { title: "Ministry Growth", desc: "Funds help sustain our worship services, children and youth programs, and community circles." },
@@ -261,7 +261,7 @@ export default function GivePage() {
             ].map((item) => (
               <div key={item.title} className="card-warm text-center">
                 <h3 className="font-heading font-bold text-ewc-charcoal mb-2">{item.title}</h3>
-                <p className="text-ewc-silver text-sm">{item.desc}</p>
+                <p className="text-ewc-silver text-sm sm:text-base">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -271,14 +271,14 @@ export default function GivePage() {
       {/* CTA */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 burgundy-gradient" />
-        <div className="relative section-container py-20 text-center">
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
+        <div className="relative section-container py-16 sm:py-20 text-center">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl text-white mb-4 px-2">
             Every Gift Makes a Difference
           </h2>
-          <p className="text-white/80 max-w-xl mx-auto mb-8 text-lg">
+          <p className="text-white/80 max-w-xl mx-auto mb-8 sm:mb-10 text-base sm:text-lg px-4">
             No amount is too small. Every seed sown in faith produces a harvest.
           </p>
-          <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="btn-navy px-8 py-4">
+          <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="btn-navy px-8 py-4 w-full sm:w-auto">
             Give Now <ArrowRight size={16} className="ml-2" />
           </a>
         </div>

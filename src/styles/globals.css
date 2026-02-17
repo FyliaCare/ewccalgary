@@ -21,11 +21,22 @@
 
 html {
   scroll-behavior: smooth;
-  /* Prevent overscroll bounce on iOS — gives app feel */
-  overscroll-behavior: none;
-  /* Prevent pull-to-refresh in standalone PWA */
-  overflow: hidden;
   height: 100%;
+}
+
+/* PWA standalone mode — app-like scroll behavior */
+@media all and (display-mode: standalone) {
+  html {
+    overscroll-behavior: none;
+    overflow: hidden;
+  }
+}
+
+/* In-browser — let the browser chrome auto-hide on scroll */
+@media not all and (display-mode: standalone) {
+  html {
+    overscroll-behavior-y: contain;
+  }
 }
 
 body {
@@ -196,6 +207,20 @@ p, span, h1, h2, h3, h4, h5, h6, input, textarea {
   display: none;
 }
 
+/* Horizontal scroll container for pills/tabs — mobile */
+.scroll-pills {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x proximity;
+  gap: 0.5rem;
+  padding-bottom: 2px;
+}
+.scroll-pills::-webkit-scrollbar { display: none; }
+.scroll-pills > * { scroll-snap-align: start; flex-shrink: 0; }
+
 /* Community-specific thin scrollbar */
 .community-scroll::-webkit-scrollbar {
   width: 3px;
@@ -363,5 +388,38 @@ p, span, h1, h2, h3, h4, h5, h6, input, textarea {
 
   .glass-dark {
     @apply bg-ewc-navy/90 backdrop-blur-xl border border-white/10;
+  }
+}
+
+/* ---- Website Mobile Enhancements ---- */
+
+/* Responsive hero height accounting for mobile chrome */
+@media (max-width: 640px) {
+  .hero-mobile {
+    min-height: calc(100svh - 5rem);
+  }
+}
+
+/* Touch-optimized cards on mobile */
+@media (hover: none) and (pointer: coarse) {
+  .card, .card-warm, .card-dark {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card:active, .card-warm:active, .card-dark:active {
+    transform: scale(0.97);
+  }
+
+  /* Buttons get tactile feedback */
+  .btn-burgundy, .btn-outline, .btn-white, .btn-navy {
+    transition: transform 0.1s ease, opacity 0.1s ease;
+  }
+  .btn-burgundy:active, .btn-outline:active, .btn-white:active, .btn-navy:active {
+    transform: scale(0.95);
+    opacity: 0.9;
+  }
+
+  /* Inline links get subtle feedback */
+  a[href]:not(.card):not(.btn-burgundy):not(.btn-outline):not(.btn-navy):not(.btn-white) {
+    -webkit-tap-highlight-color: transparent;
   }
 }

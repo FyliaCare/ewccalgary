@@ -39,10 +39,10 @@ export default function Footer() {
   return (
     <footer className="bg-ewc-navy text-white">
       {/* Main Footer */}
-      <div className="section-container section-padding">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div className="section-container py-12 sm:py-16 lg:py-24">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Church Info */}
-          <div className="lg:col-span-1">
+          <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
               <Image
                 src="/Ewc Calgary Logo.jpeg"
@@ -72,10 +72,10 @@ export default function Footer() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-gray-400 hover:text-ewc-burgundy-hover hover:bg-white/15 transition-all"
+                  className="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center text-gray-400 hover:text-ewc-burgundy-hover hover:bg-white/15 transition-all active:scale-90"
                   aria-label={link.name}
                 >
-                  <link.icon size={18} />
+                  <link.icon size={20} />
                 </a>
               ))}
             </div>
@@ -83,15 +83,15 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-heading font-semibold text-white uppercase tracking-wider text-sm mb-6">
+            <h4 className="font-heading font-semibold text-white uppercase tracking-wider text-sm mb-5">
               Quick Links
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 text-sm hover:text-ewc-burgundy-hover transition-colors"
+                    className="text-gray-400 text-sm hover:text-ewc-burgundy-hover transition-colors inline-block py-0.5"
                   >
                     {link.name}
                   </Link>
@@ -102,15 +102,15 @@ export default function Footer() {
 
           {/* Get Involved */}
           <div>
-            <h4 className="font-heading font-semibold text-white uppercase tracking-wider text-sm mb-6">
+            <h4 className="font-heading font-semibold text-white uppercase tracking-wider text-sm mb-5">
               Get Involved
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5">
               {getInvolved.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 text-sm hover:text-ewc-burgundy-hover transition-colors"
+                    className="text-gray-400 text-sm hover:text-ewc-burgundy-hover transition-colors inline-block py-0.5"
                   >
                     {link.name}
                   </Link>
@@ -121,7 +121,7 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-heading font-semibold text-white uppercase tracking-wider text-sm mb-6">
+            <h4 className="font-heading font-semibold text-white uppercase tracking-wider text-sm mb-5">
               Visit Us
             </h4>
             <ul className="space-y-4">
@@ -155,9 +155,9 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
-        <div className="section-container py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-gray-500 text-xs">
-            © {new Date().getFullYear()} Empowerment Worship Centre — Calgary
+        <div className="section-container py-5 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-3 safe-area-bottom">
+          <p className="text-gray-500 text-xs text-center sm:text-left">
+            &copy; {new Date().getFullYear()} Empowerment Worship Centre &mdash; Calgary
             Campus. All Rights Reserved.
           </p>
           <p className="text-gray-500 text-xs">

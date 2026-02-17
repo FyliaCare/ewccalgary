@@ -67,29 +67,29 @@ export default function HomeContent() {
     <>
       {/* Volunteer Prompt Banner — slides in from bottom */}
       {showVolunteerPrompt && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[999] w-[95%] max-w-lg animate-slide-up">
+        <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-[999] w-[92%] max-w-lg animate-slide-up safe-area-bottom">
           <div className="relative bg-white rounded-2xl shadow-2xl border border-ewc-burgundy-light overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-1 burgundy-gradient" />
             <button
               onClick={dismissPrompt}
-              className="absolute top-3 right-3 w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors text-sm"
+              className="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors text-sm active:scale-90"
             >
               ✕
             </button>
-            <div className="p-5 flex items-center gap-4">
-              <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-ewc-burgundy-50 flex items-center justify-center">
-                <Users size={26} className="text-ewc-burgundy" />
+            <div className="p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
+              <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-ewc-burgundy-50 flex items-center justify-center">
+                <Users size={24} className="text-ewc-burgundy" />
               </div>
               <div className="flex-1 min-w-0">
-                <h4 className="font-heading font-bold text-ewc-charcoal text-base mb-0.5">
+                <h4 className="font-heading font-bold text-ewc-charcoal text-sm sm:text-base mb-0.5">
                   Ready to Make a Difference?
                 </h4>
-                <p className="text-ewc-silver text-xs leading-snug">
+                <p className="text-ewc-silver text-[11px] sm:text-xs leading-snug">
                   Join our volunteer team and serve with your gifts. Sign up takes less than 2 minutes!
                 </p>
               </div>
             </div>
-            <div className="px-5 pb-4 flex gap-3">
+            <div className="px-4 sm:px-5 pb-3 sm:pb-4 flex gap-2 sm:gap-3">
               <button
                 onClick={openVolunteerModal}
                 className="btn-burgundy flex-1 py-2.5 text-xs"
@@ -99,7 +99,7 @@ export default function HomeContent() {
               </button>
               <button
                 onClick={dismissPrompt}
-                className="px-4 py-2.5 rounded-lg text-ewc-silver hover:text-ewc-charcoal text-xs font-heading font-semibold transition-colors"
+                className="px-3 sm:px-4 py-2.5 rounded-lg text-ewc-silver hover:text-ewc-charcoal text-xs font-heading font-semibold transition-colors"
               >
                 Maybe Later
               </button>
@@ -115,47 +115,48 @@ export default function HomeContent() {
       />
 
       {/* Hero Section */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[92vh] hero-mobile flex items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
-        <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-ewc-burgundy/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-rose-200/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-ewc-burgundy/10" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full border border-ewc-burgundy/5" />
+        <div className="absolute top-20 right-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-ewc-burgundy/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] bg-rose-200/20 rounded-full blur-3xl" />
+        <div className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-ewc-burgundy/10" />
+        <div className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full border border-ewc-burgundy/5" />
 
-        <div className="relative section-container py-20 lg:py-28">
+        <div className="relative section-container py-14 sm:py-20 lg:py-28">
           <div className="max-w-4xl mx-auto text-center">
             <div className="animate-fade-in">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ewc-burgundy/10 border border-ewc-burgundy/20 text-ewc-burgundy font-heading text-xs font-bold uppercase tracking-[0.2em] mb-8">
+              <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-ewc-burgundy/10 border border-ewc-burgundy/20 text-ewc-burgundy font-heading text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-6 sm:mb-8">
                 <Sparkles size={14} />
-                Empowerment Worship Centre — Calgary Campus
+                <span className="hidden sm:inline">Empowerment Worship Centre — Calgary Campus</span>
+                <span className="sm:hidden">EWC Calgary Campus</span>
               </span>
             </div>
 
-            <h1 className="font-heading font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-ewc-charcoal leading-[0.95] mb-8 animate-slide-up">
+            <h1 className="font-heading font-bold text-[2.75rem] sm:text-6xl md:text-7xl lg:text-8xl text-ewc-charcoal leading-[0.95] mb-6 sm:mb-8 animate-slide-up">
               Welcome{" "}
               <span className="relative inline-block">
                 <span className="text-ewc-burgundy">Home</span>
-                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
+                <svg className="absolute -bottom-1 sm:-bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
                   <path d="M2 8C50 2 150 2 198 8" stroke="#933548" strokeWidth="3" strokeLinecap="round" opacity="0.4" />
                 </svg>
               </span>
             </h1>
 
-            <p className="max-w-2xl mx-auto text-ewc-slate text-lg sm:text-xl leading-relaxed mb-4 animate-slide-up">
+            <p className="max-w-2xl mx-auto text-ewc-slate text-base sm:text-lg md:text-xl leading-relaxed mb-3 sm:mb-4 animate-slide-up px-2">
               A Bible-believing church with a mandate to win souls and prepare
               them for the soon coming of Christ.
             </p>
 
-            <p className="max-w-xl mx-auto text-ewc-silver text-sm mb-12 animate-slide-up">
+            <p className="max-w-xl mx-auto text-ewc-silver text-xs sm:text-sm mb-8 sm:mb-12 animate-slide-up px-4">
               Global Lead Pastor: Prophet Gideon Danso &bull; Campus Pastor: Humphrey Lomotey
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up">
-              <Link href="/about" className="btn-burgundy px-8 py-4 text-sm shadow-warm-lg">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-slide-up px-4">
+              <Link href="/about" className="btn-burgundy w-full sm:w-auto px-8 py-4 text-sm shadow-warm-lg">
                 Discover EWC Calgary
                 <ArrowRight size={16} className="ml-2" />
               </Link>
-              <button onClick={openVolunteerModal} className="btn-outline px-8 py-4 text-sm">
+              <button onClick={openVolunteerModal} className="btn-outline w-full sm:w-auto px-8 py-4 text-sm">
                 <Users size={16} className="mr-2" />
                 Volunteer With Us
               </button>
@@ -167,25 +168,25 @@ export default function HomeContent() {
       {/* Service Times */}
       <section className="bg-white section-padding border-t border-ewc-mist/50">
         <div className="section-container">
-          <div className="text-center mb-14">
+          <div className="text-center mb-10 sm:mb-14">
             <span className="section-label">Join Us</span>
             <h2 className="section-title mt-3">Service Times</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 sm:gap-6 max-w-3xl mx-auto">
             {serviceTimes.map((service) => (
-              <div key={service.day} className="card text-center group">
-                <span className="text-4xl mb-4 block group-hover:scale-110 transition-transform">{service.icon}</span>
-                <h3 className="font-heading font-bold text-xl text-ewc-charcoal mb-2">{service.day}</h3>
-                <p className="text-ewc-burgundy text-2xl font-heading font-bold mb-1">{service.time}</p>
-                <p className="text-ewc-silver text-sm">{service.label}</p>
+              <div key={service.day} className="card text-center group p-4 sm:p-6">
+                <span className="text-3xl sm:text-4xl mb-3 sm:mb-4 block group-hover:scale-110 transition-transform">{service.icon}</span>
+                <h3 className="font-heading font-bold text-lg sm:text-xl text-ewc-charcoal mb-1 sm:mb-2">{service.day}</h3>
+                <p className="text-ewc-burgundy text-xl sm:text-2xl font-heading font-bold mb-1">{service.time}</p>
+                <p className="text-ewc-silver text-xs sm:text-sm">{service.label}</p>
               </div>
             ))}
           </div>
 
-          <div className="text-center mt-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ewc-light text-ewc-slate text-sm">
-              <MapPin size={16} className="text-ewc-burgundy" />
+          <div className="text-center mt-8 sm:mt-10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ewc-light text-ewc-slate text-xs sm:text-sm">
+              <MapPin size={16} className="text-ewc-burgundy flex-shrink-0" />
               <span>225 Chaparral Drive SE, Calgary, Alberta</span>
             </div>
           </div>
@@ -194,26 +195,26 @@ export default function HomeContent() {
 
       {/* Volunteer CTA Section — moved up! */}
       <section className="relative overflow-hidden bg-gradient-to-br from-ewc-navy via-ewc-navy to-gray-900 section-padding">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-ewc-burgundy/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-ewc-burgundy/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-72 sm:w-96 h-72 sm:h-96 bg-ewc-burgundy/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-56 sm:w-72 h-56 sm:h-72 bg-ewc-burgundy/5 rounded-full blur-3xl" />
         <div className="relative section-container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+            <div className="text-center lg:text-left">
               <span className="inline-flex items-center gap-2 text-ewc-burgundy-hover font-heading text-xs font-bold uppercase tracking-[0.25em] mb-4">
                 <Users size={14} /> Join the Team
               </span>
-              <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-white mb-6 leading-tight">
+              <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-4 sm:mb-6 leading-tight">
                 Your Gifts Were Made to{" "}
                 <span className="text-ewc-burgundy-hover">Serve</span>
               </h2>
-              <p className="text-gray-400 leading-relaxed mb-8">
+              <p className="text-gray-400 leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base max-w-lg mx-auto lg:mx-0">
                 The body of Christ functions best when every member contributes their
                 unique gifts. Whether it&apos;s worship, media, hospitality, or kids ministry —
                 there&apos;s a place for you here.
               </p>
               <button
                 onClick={openVolunteerModal}
-                className="btn-burgundy px-8 py-4 text-sm shadow-warm-lg"
+                className="btn-burgundy w-full sm:w-auto px-8 py-4 text-sm shadow-warm-lg"
               >
                 <Heart size={16} className="mr-2" />
                 Sign Up to Volunteer
@@ -222,12 +223,12 @@ export default function HomeContent() {
 
             {/* Instagram Reel Embed */}
             <div className="flex justify-center">
-              <div className="w-full max-w-sm">
+              <div className="w-full max-w-xs sm:max-w-sm">
                 <a
                   href="https://www.instagram.com/reel/DTLd5GvCEKk/?igsh=MTFmdmZoY21tbXM4Mw=="
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block group"
+                  className="block group active:scale-[0.98] transition-transform"
                 >
                   <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-purple-600 via-pink-500 to-amber-400 p-[2px]">
                     <div className="rounded-2xl overflow-hidden bg-gray-900">
@@ -269,11 +270,11 @@ export default function HomeContent() {
       {/* Welcome Message */}
       <section className="bg-ewc-snow section-padding">
         <div className="section-container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <div className="order-2 lg:order-1">
               <span className="section-label">From Our Campus Pastor</span>
-              <h2 className="section-title mt-3 mb-6">You Belong Here</h2>
-              <div className="space-y-4 text-ewc-slate leading-relaxed text-[15px]">
+              <h2 className="section-title mt-3 mb-5 sm:mb-6">You Belong Here</h2>
+              <div className="space-y-4 text-ewc-slate leading-relaxed text-sm sm:text-[15px]">
                 <p>
                   Welcome to Empowerment Worship Centre, Calgary. We are a family of
                   believers passionate about the presence of God, rooted in His Word,
@@ -304,8 +305,8 @@ export default function HomeContent() {
               </div>
             </div>
 
-            <div className="relative">
-              <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-soft-lg">
+            <div className="relative order-1 lg:order-2">
+              <div className="aspect-[4/5] sm:aspect-[4/5] rounded-3xl overflow-hidden shadow-soft-lg max-w-sm mx-auto lg:max-w-none">
                 <Image
                   src="/Homepage photo of Pastor Humphrey.jpeg"
                   alt="Pastor Humphrey Lomotey — Campus Pastor, EWC Calgary"
@@ -325,36 +326,38 @@ export default function HomeContent() {
       {/* Quick Links */}
       <section className="bg-white section-padding">
         <div className="section-container">
-          <div className="text-center mb-14">
+          <div className="text-center mb-10 sm:mb-14">
             <span className="section-label">Get Connected</span>
             <h2 className="section-title mt-3">How Can We Help You?</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {quickLinks.map((link) =>
               link.isModal ? (
                 <button
                   key={link.title}
                   onClick={openVolunteerModal}
-                  className="card group text-center"
+                  className="card group text-center p-4 sm:p-6"
                 >
-                  <div className={`w-16 h-16 rounded-2xl ${link.color} mx-auto mb-5 flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                    <link.icon size={28} />
+                  <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl ${link.color} mx-auto mb-3 sm:mb-5 flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <link.icon size={24} className="sm:hidden" />
+                    <link.icon size={28} className="hidden sm:block" />
                   </div>
-                  <h3 className="font-heading font-bold text-ewc-charcoal text-lg mb-2">{link.title}</h3>
-                  <p className="text-ewc-silver text-sm mb-4">{link.description}</p>
-                  <span className="text-ewc-burgundy text-sm font-heading font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                  <h3 className="font-heading font-bold text-ewc-charcoal text-sm sm:text-lg mb-1 sm:mb-2">{link.title}</h3>
+                  <p className="text-ewc-silver text-xs sm:text-sm mb-3 sm:mb-4 hidden sm:block">{link.description}</p>
+                  <span className="text-ewc-burgundy text-xs sm:text-sm font-heading font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
                     Sign Up <ChevronRight size={14} />
                   </span>
                 </button>
               ) : (
-                <Link key={link.title} href={link.href} className="card group text-center">
-                  <div className={`w-16 h-16 rounded-2xl ${link.color} mx-auto mb-5 flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                    <link.icon size={28} />
+                <Link key={link.title} href={link.href} className="card group text-center p-4 sm:p-6">
+                  <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl ${link.color} mx-auto mb-3 sm:mb-5 flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <link.icon size={24} className="sm:hidden" />
+                    <link.icon size={28} className="hidden sm:block" />
                   </div>
-                  <h3 className="font-heading font-bold text-ewc-charcoal text-lg mb-2">{link.title}</h3>
-                  <p className="text-ewc-silver text-sm mb-4">{link.description}</p>
-                  <span className="text-ewc-burgundy text-sm font-heading font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                  <h3 className="font-heading font-bold text-ewc-charcoal text-sm sm:text-lg mb-1 sm:mb-2">{link.title}</h3>
+                  <p className="text-ewc-silver text-xs sm:text-sm mb-3 sm:mb-4 hidden sm:block">{link.description}</p>
+                  <span className="text-ewc-burgundy text-xs sm:text-sm font-heading font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
                     Learn More <ChevronRight size={14} />
                   </span>
                 </Link>
@@ -367,31 +370,31 @@ export default function HomeContent() {
       {/* Community Circles */}
       <section className="bg-ewc-burgundy-50 section-padding">
         <div className="section-container">
-          <div className="text-center mb-14">
+          <div className="text-center mb-10 sm:mb-14">
             <span className="section-label">Community Circles</span>
             <h2 className="section-title mt-3 mb-4">Find Your Circle</h2>
-            <p className="section-subtitle mx-auto">
+            <p className="section-subtitle mx-auto text-sm sm:text-lg px-2">
               The community system ensures the mission and vision of EWC is
               transported into practical daily living. Connection. Conversation.
               Care. Accountability.
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-5">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-5">
             {communities.map((community) => (
               <div key={community.name} className="group cursor-pointer">
-                <div className={`w-28 h-28 sm:w-36 sm:h-36 rounded-3xl ${community.lightBg} border-2 border-white/80 flex items-center justify-center shadow-soft group-hover:scale-110 group-hover:shadow-soft-lg transition-all duration-300`}>
+                <div className={`w-24 h-24 sm:w-36 sm:h-36 rounded-2xl sm:rounded-3xl ${community.lightBg} border-2 border-white/80 flex items-center justify-center shadow-soft group-hover:scale-110 group-hover:shadow-soft-lg transition-all duration-300`}>
                   <div className="text-center">
-                    <div className={`w-8 h-8 rounded-full ${community.color} mx-auto mb-2`} />
-                    <span className={`font-heading font-bold text-base sm:text-lg ${community.textColor}`}>{community.name}</span>
+                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full ${community.color} mx-auto mb-1.5 sm:mb-2`} />
+                    <span className={`font-heading font-bold text-sm sm:text-lg ${community.textColor}`}>{community.name}</span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="text-center mt-12">
-            <Link href="/about#community-circles" className="btn-outline">
+          <div className="text-center mt-10 sm:mt-12">
+            <Link href="/about#community-circles" className="btn-outline w-full sm:w-auto">
               Learn About Circles
               <ArrowRight size={16} className="ml-2" />
             </Link>
@@ -405,17 +408,17 @@ export default function HomeContent() {
           <span className="inline-flex items-center gap-2 text-ewc-burgundy-hover font-heading text-xs font-bold uppercase tracking-[0.25em] mb-3">
             <Globe size={14} /> A Global Family
           </span>
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-white mb-6">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-4 sm:mb-6 px-2">
             Connected to EWC Worldwide
           </h2>
-          <p className="max-w-3xl mx-auto text-gray-400 leading-relaxed mb-12">
+          <p className="max-w-3xl mx-auto text-gray-400 leading-relaxed mb-10 sm:mb-12 text-sm sm:text-base px-2">
             EWC Calgary is part of the global Empowerment Worship Centre family,
             founded by Prophet Gideon Danso in Accra, Ghana. With campuses across
             Ghana, London, New Jersey, Berlin, and now Calgary — we are one
             family, one vision, one mandate.
           </p>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-3xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 max-w-3xl mx-auto">
             {[
               { value: "20+", label: "Campuses" },
               { value: "5", label: "Countries" },
@@ -423,19 +426,19 @@ export default function HomeContent() {
               { value: "68K+", label: "Facebook Family" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <p className="font-heading font-bold text-4xl text-ewc-burgundy-hover">{stat.value}</p>
-                <p className="text-gray-500 text-sm mt-2">{stat.label}</p>
+                <p className="font-heading font-bold text-3xl sm:text-4xl text-ewc-burgundy-hover">{stat.value}</p>
+                <p className="text-gray-500 text-xs sm:text-sm mt-1 sm:mt-2">{stat.label}</p>
               </div>
             ))}
           </div>
 
-          <div className="flex justify-center gap-4 mt-12">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-10 sm:mt-12 px-4 sm:px-0">
             <a href="https://www.youtube.com/c/EmpowermentWorshipCentre" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 text-white text-xs font-heading font-semibold uppercase tracking-wider hover:bg-white/20 transition-colors">
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-2.5 rounded-xl bg-white/10 text-white text-xs font-heading font-semibold uppercase tracking-wider hover:bg-white/20 transition-colors active:scale-95">
               <Youtube size={16} /> YouTube
             </a>
             <a href="https://www.instagram.com/reel/DTLd5GvCEKk/?igsh=MTFmdmZoY21tbXM4Mw==" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-amber-400/20 text-white text-xs font-heading font-semibold uppercase tracking-wider hover:from-purple-500/30 hover:via-pink-500/30 hover:to-amber-400/30 transition-colors border border-pink-500/20">
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-2.5 rounded-xl bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-amber-400/20 text-white text-xs font-heading font-semibold uppercase tracking-wider hover:from-purple-500/30 hover:via-pink-500/30 hover:to-amber-400/30 transition-colors border border-pink-500/20 active:scale-95">
               <Instagram size={16} /> Instagram
             </a>
           </div>
@@ -445,20 +448,20 @@ export default function HomeContent() {
       {/* CTA */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 burgundy-gradient" />
-        <div className="relative section-container py-20 text-center">
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
+        <div className="relative section-container py-16 sm:py-20 text-center">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl text-white mb-4 px-2">
             Ready to Get Involved?
           </h2>
-          <p className="text-white/80 max-w-xl mx-auto mb-10 text-lg">
+          <p className="text-white/80 max-w-xl mx-auto mb-8 sm:mb-10 text-base sm:text-lg px-4">
             Whether you want to volunteer, join a community circle, or simply
             visit us this Sunday — we&apos;d love to welcome you.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button onClick={openVolunteerModal} className="btn-navy px-8 py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4">
+            <button onClick={openVolunteerModal} className="btn-navy w-full sm:w-auto px-8 py-4">
               Sign Up to Volunteer
             </button>
             <Link href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-heading font-semibold rounded-lg transition-all duration-300 hover:bg-white hover:text-ewc-charcoal text-sm uppercase tracking-wider">
+              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-heading font-semibold rounded-lg transition-all duration-300 hover:bg-white hover:text-ewc-charcoal text-sm uppercase tracking-wider active:scale-95">
               Contact Us
             </Link>
           </div>

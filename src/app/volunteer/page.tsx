@@ -47,16 +47,16 @@ export default function VolunteerPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-24 sm:py-32 overflow-hidden">
+      <section className="relative py-16 sm:py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
-        <div className="absolute bottom-10 left-10 w-72 h-72 bg-purple-100/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 left-10 w-48 sm:w-72 h-48 sm:h-72 bg-purple-100/20 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <span className="section-label">Volunteer</span>
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-4 sm:mb-6 mt-3 px-2">
             Make a Difference
             <span className="block text-ewc-burgundy">With Us</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
+          <p className="max-w-2xl mx-auto text-ewc-slate text-base sm:text-lg leading-relaxed px-2">
             Use your gifts and talents to serve the body of Christ. Join one of
             our ministry teams and help us impact Calgary for the Kingdom.
           </p>
@@ -67,10 +67,10 @@ export default function VolunteerPage() {
       <section className="bg-white section-padding">
         <div className="section-container">
           <div className="max-w-2xl mx-auto">
-            <div className="card p-8">
+            <div className="card p-5 sm:p-8">
               <div className="text-center mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-ewc-burgundy-50 flex items-center justify-center mx-auto mb-4">
-                  <Users size={26} className="text-ewc-burgundy" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-ewc-burgundy-50 flex items-center justify-center mx-auto mb-4">
+                  <Users size={22} className="text-ewc-burgundy" />
                 </div>
                 <h2 className="font-heading font-bold text-2xl text-ewc-charcoal mb-2">
                   Volunteer Application
@@ -196,15 +196,15 @@ export default function VolunteerPage() {
       {/* CTA */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 burgundy-gradient" />
-        <div className="relative section-container py-20 text-center">
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
+        <div className="relative section-container py-16 sm:py-20 text-center">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl text-white mb-4 px-2">
             Together We Are Stronger
           </h2>
-          <p className="text-white/80 max-w-xl mx-auto mb-8 text-lg">
+          <p className="text-white/80 max-w-xl mx-auto mb-8 sm:mb-10 text-base sm:text-lg px-4">
             The body of Christ functions best when every member contributes their
             unique gifts. Your service matters.
           </p>
-          <a href="/ministries" className="btn-navy px-8 py-4">
+          <a href="/ministries" className="btn-navy px-8 py-4 w-full sm:w-auto">
             Explore Ministries <ArrowRight size={16} className="ml-2" />
           </a>
         </div>

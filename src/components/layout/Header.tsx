@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -29,10 +29,27 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileMenuOpen]);
+
+  const closeMenu = useCallback(() => setMobileMenuOpen(false), []);
+
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 safe-area-top",
         scrolled
           ? "bg-white/95 backdrop-blur-xl shadow-soft border-b border-ewc-mist/50"
           : "bg-white/70 backdrop-blur-md"
@@ -41,7 +58,7 @@ export default function Header() {
       <div className="section-container">
         <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/" className="flex items-center gap-3 group" onClick={closeMenu}>
             <Image
               src="/Ewc Calgary Logo.jpeg"
               alt="EWC Calgary Logo"
@@ -93,7 +110,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-ewc-charcoal hover:text-ewc-burgundy transition-colors rounded-lg hover:bg-ewc-light"
+            className="lg:hidden w-11 h-11 flex items-center justify-center text-ewc-charcoal hover:text-ewc-burgundy transition-colors rounded-xl hover:bg-ewc-light active:scale-90"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -101,44 +118,67 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-ewc-mist animate-slide-down shadow-soft-lg">
+      {/* Mobile Menu — full-screen overlay */}
+      <div
+        className={cn(
+          "lg:hidden fixed inset-0 top-[72px] z-40 transition-all duration-300",
+          mobileMenuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        )}
+      >
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+          onClick={closeMenu}
+        />
+
+        {/* Menu Panel */}
+        <div
+          className={cn(
+            "relative bg-white shadow-soft-lg transition-transform duration-300 ease-out max-h-[calc(100vh-72px)] overflow-y-auto",
+            mobileMenuOpen ? "translate-y-0" : "-translate-y-4"
+          )}
+        >
           <div className="section-container py-4 space-y-1">
-            {navigation.map((item) => (
+            {navigation.map((item, index) => (
               <Link
                 key={item.name}
                 href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={closeMenu}
                 className={cn(
-                  "block px-4 py-3 text-sm font-heading font-semibold uppercase tracking-wider rounded-xl transition-colors",
+                  "flex items-center px-4 py-3.5 text-[15px] font-heading font-semibold uppercase tracking-wider rounded-xl transition-all",
                   pathname === item.href
                     ? "text-ewc-burgundy bg-ewc-burgundy-50"
-                    : "text-ewc-slate hover:text-ewc-burgundy hover:bg-ewc-light"
+                    : "text-ewc-slate active:bg-ewc-light"
                 )}
+                style={{ animationDelay: `${index * 30}ms` }}
               >
                 {item.name}
+                {pathname === item.href && (
+                  <span className="ml-auto w-1.5 h-1.5 rounded-full bg-ewc-burgundy" />
+                )}
               </Link>
             ))}
-            <div className="flex gap-3 pt-4 px-4">
+            <div className="flex gap-3 pt-5 px-4 pb-2">
               <Link
                 href="/volunteer"
-                onClick={() => setMobileMenuOpen(false)}
-                className="btn-outline text-xs py-2.5 px-4 flex-1 text-center"
+                onClick={closeMenu}
+                className="btn-outline text-xs py-3 px-4 flex-1 text-center"
               >
                 Volunteer
               </Link>
               <Link
                 href="/give"
-                onClick={() => setMobileMenuOpen(false)}
-                className="btn-burgundy text-xs py-2.5 px-4 flex-1 text-center"
+                onClick={closeMenu}
+                className="btn-burgundy text-xs py-3 px-4 flex-1 text-center"
               >
                 Give
               </Link>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }

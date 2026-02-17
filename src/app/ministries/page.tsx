@@ -63,16 +63,16 @@ export default function MinistriesPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-24 sm:py-32 overflow-hidden">
+      <section className="relative py-16 sm:py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
-        <div className="absolute bottom-10 left-20 w-72 h-72 bg-emerald-100/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 left-20 w-48 sm:w-72 h-48 sm:h-72 bg-emerald-100/20 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <span className="section-label">Ministries</span>
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-4 sm:mb-6 mt-3 px-2">
             Get Plugged In &
             <span className="block text-ewc-burgundy">Serve With Purpose</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
+          <p className="max-w-2xl mx-auto text-ewc-slate text-base sm:text-lg leading-relaxed px-2">
             Our ministries are the heartbeat of EWC Calgary — find your place,
             use your gifts, and make a difference.
           </p>
@@ -82,11 +82,11 @@ export default function MinistriesPage() {
       {/* Ministry Cards */}
       <section className="bg-white section-padding">
         <div className="section-container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto">
             {ministries.map((ministry) => (
               <div key={ministry.name} className="card group hover:border-ewc-burgundy/30">
-                <div className={`w-14 h-14 rounded-2xl ${ministry.bg} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
-                  <ministry.icon size={26} className={ministry.iconColor} />
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${ministry.bg} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
+                  <ministry.icon size={22} className={ministry.iconColor} />
                 </div>
                 <h3 className="font-heading font-bold text-lg text-ewc-charcoal mb-2">
                   {ministry.name}
@@ -112,11 +112,11 @@ export default function MinistriesPage() {
               you find the right ministry to serve in. Join us and make an
               impact that matters.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/volunteer" className="btn-burgundy px-8 py-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4">
+              <Link href="/volunteer" className="btn-burgundy px-8 py-4 w-full sm:w-auto">
                 Volunteer Today <ArrowRight size={16} className="ml-2" />
               </Link>
-              <Link href="/contact" className="btn-outline px-8 py-4">
+              <Link href="/contact" className="btn-outline px-8 py-4 w-full sm:w-auto">
                 Ask a Question
               </Link>
             </div>
@@ -127,15 +127,15 @@ export default function MinistriesPage() {
       {/* CTA */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 burgundy-gradient" />
-        <div className="relative section-container py-20 text-center">
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
+        <div className="relative section-container py-16 sm:py-20 text-center">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl text-white mb-4 px-2">
             Serve Together, Grow Together
           </h2>
-          <p className="text-white/80 max-w-xl mx-auto mb-8 text-lg">
+          <p className="text-white/80 max-w-xl mx-auto mb-8 sm:mb-10 text-base sm:text-lg px-4">
             Ministry is not just about serving — it&apos;s about growing in faith,
             building friendships, and becoming who God created you to be.
           </p>
-          <Link href="/volunteer" className="btn-navy px-8 py-4">
+          <Link href="/volunteer" className="btn-navy px-8 py-4 w-full sm:w-auto">
             Join a Ministry <ArrowRight size={16} className="ml-2" />
           </Link>
         </div>

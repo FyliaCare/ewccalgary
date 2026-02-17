@@ -57,16 +57,16 @@ export default function EventsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-24 sm:py-32 overflow-hidden">
+      <section className="relative py-16 sm:py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
-        <div className="absolute top-10 left-10 w-56 h-56 bg-rose-200/20 rounded-full blur-3xl" />
+        <div className="absolute top-10 left-10 w-40 sm:w-56 h-40 sm:h-56 bg-rose-200/20 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <span className="section-label">Events & Services</span>
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-4 sm:mb-6 mt-3 px-2">
             Gather, Worship &
             <span className="block text-ewc-burgundy">Grow Together</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
+          <p className="max-w-2xl mx-auto text-ewc-slate text-base sm:text-lg leading-relaxed px-2">
             Weekly services, special events, and community gatherings — there&apos;s always
             something happening at EWC Calgary.
           </p>
@@ -76,27 +76,27 @@ export default function EventsPage() {
       {/* Service Schedule */}
       <section className="bg-white section-padding">
         <div className="section-container">
-          <div className="text-center mb-14">
+          <div className="text-center mb-10 sm:mb-14">
             <span className="section-label">Weekly Schedule</span>
             <h2 className="section-title mt-3">Regular Services</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
             {serviceSchedule.map((service) => (
-              <div key={service.day} className="card text-center group hover:border-ewc-burgundy/30">
-                <div className="text-4xl mb-4">{service.emoji}</div>
+              <div key={service.day} className="card text-center group hover:border-ewc-burgundy/30 p-4 sm:p-6">
+                <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">{service.emoji}</div>
                 <p className="text-xs text-ewc-burgundy font-heading font-bold uppercase tracking-wider mb-1">
                   {service.day}
                 </p>
-                <h3 className="font-heading text-lg font-bold text-ewc-charcoal mb-2">{service.title}</h3>
-                <div className="flex items-center justify-center gap-2 text-sm text-ewc-silver">
+                <h3 className="font-heading text-base sm:text-lg font-bold text-ewc-charcoal mb-1 sm:mb-2">{service.title}</h3>
+                <div className="flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-ewc-silver">
                   <Clock size={14} />
                   <span>{service.time}</span>
                 </div>
               </div>
             ))}
           </div>
-          <div className="text-center mt-8">
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-ewc-light text-ewc-slate text-sm">
+          <div className="text-center mt-6 sm:mt-8">
+            <div className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-ewc-light text-ewc-slate text-xs sm:text-sm">
               <MapPin size={14} className="text-ewc-burgundy" />
               225 Chaparral Drive SE, Calgary, AB
             </div>
@@ -107,7 +107,7 @@ export default function EventsPage() {
       {/* Upcoming Events */}
       <section className="bg-ewc-snow section-padding">
         <div className="section-container">
-          <div className="text-center mb-14">
+          <div className="text-center mb-10 sm:mb-14">
             <span className="section-label">
               <Sparkles size={14} className="inline mr-1" />
               Upcoming
@@ -251,11 +251,11 @@ export default function EventsPage() {
           <p className="text-white/80 max-w-xl mx-auto mb-10 text-lg">
             Join us for our next service or special event — there&apos;s always a place for you.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/contact" className="btn-navy px-8 py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4">
+            <Link href="/contact" className="btn-navy w-full sm:w-auto px-8 py-4">
               Plan Your Visit <ArrowRight size={16} className="ml-2" />
             </Link>
-            <Link href="/live" className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-heading font-semibold rounded-lg transition-all duration-300 hover:bg-white hover:text-ewc-charcoal text-sm uppercase tracking-wider">
+            <Link href="/live" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-heading font-semibold rounded-lg transition-all duration-300 hover:bg-white hover:text-ewc-charcoal text-sm uppercase tracking-wider active:scale-95">
               Watch Online <ArrowRight size={16} className="ml-2" />
             </Link>
           </div>

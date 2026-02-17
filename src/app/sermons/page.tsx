@@ -54,16 +54,16 @@ export default function SermonsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-24 sm:py-32 overflow-hidden">
+      <section className="relative py-16 sm:py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
-        <div className="absolute bottom-10 right-10 w-64 h-64 bg-ewc-burgundy/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-10 right-10 w-48 sm:w-64 h-48 sm:h-64 bg-ewc-burgundy/5 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <span className="section-label">Sermons</span>
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-4 sm:mb-6 mt-3 px-2">
             The Word of
             <span className="block text-ewc-burgundy">God for You</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
+          <p className="max-w-2xl mx-auto text-ewc-slate text-base sm:text-lg leading-relaxed px-2">
             Browse and watch powerful sermons from EWC Calgary. Let the Word build
             your faith and transform your life.
           </p>
@@ -72,8 +72,8 @@ export default function SermonsPage() {
 
       {/* Filter & Search */}
       <section className="bg-white border-b border-ewc-mist sticky top-[72px] z-20">
-        <div className="section-container py-5">
-          <div className="flex flex-col md:flex-row items-center gap-4">
+        <div className="section-container py-3 sm:py-5">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 sm:gap-4">
             <div className="relative flex-1 w-full md:max-w-md">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-ewc-silver" />
               <input
@@ -84,13 +84,13 @@ export default function SermonsPage() {
                 className="input-field pl-10"
               />
             </div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <Filter size={14} className="text-ewc-silver" />
+            <div className="scroll-pills">
+              <Filter size={14} className="text-ewc-silver flex-shrink-0 mt-1.5" />
               {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-sm font-heading transition-all ${
+                  className={`px-4 py-2 rounded-full text-xs sm:text-sm font-heading transition-all whitespace-nowrap ${
                     activeCategory === cat
                       ? "bg-ewc-burgundy text-white shadow-warm"
                       : "bg-ewc-light text-ewc-slate hover:bg-ewc-mist"
