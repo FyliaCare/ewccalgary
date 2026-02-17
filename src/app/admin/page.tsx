@@ -76,13 +76,13 @@ export default function AdminDashboardPage() {
     { label: "Total Volunteers", value: volunteers.length.toString(), change: `${pendingCount} pending`, icon: Users, color: "text-blue-400", bg: "bg-blue-500/10", href: "/admin/volunteers" },
     { label: "Departments", value: deptCount.toString(), change: "All active", icon: Briefcase, color: "text-green-400", bg: "bg-green-500/10", href: "/admin/departments" },
     { label: "Messages", value: messages.length.toString(), change: `${unreadCount} unread`, icon: Mail, color: "text-purple-400", bg: "bg-purple-500/10", href: "/admin/messages" },
-    { label: "Total Giving", value: `$${totalGiving.toLocaleString()}`, change: `${donations.length} transactions`, icon: DollarSign, color: "text-ewc-gold", bg: "bg-ewc-gold/10", href: "/admin/giving" },
+    { label: "Total Giving", value: `$${totalGiving.toLocaleString()}`, change: `${donations.length} transactions`, icon: DollarSign, color: "text-ewc-burgundy", bg: "bg-ewc-burgundy/10", href: "/admin/giving" },
   ];
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={32} className="animate-spin text-ewc-gold" />
+        <Loader2 size={32} className="animate-spin text-ewc-burgundy" />
       </div>
     );
   }
@@ -98,7 +98,7 @@ export default function AdminDashboardPage() {
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Link key={stat.label} href={stat.href} className="card-dark p-5 hover:ring-1 hover:ring-ewc-gold/20 transition-all duration-200">
+            <Link key={stat.label} href={stat.href} className="card-dark p-5 hover:ring-1 hover:ring-ewc-burgundy/20 transition-all duration-200">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-ewc-gray text-xs font-heading uppercase tracking-wider">{stat.label}</span>
                 <div className={`w-9 h-9 rounded-lg ${stat.bg} flex items-center justify-center`}>
@@ -119,9 +119,9 @@ export default function AdminDashboardPage() {
         <div className="lg:col-span-2 card-dark p-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="font-heading font-bold text-lg text-white flex items-center gap-2">
-              <UserPlus size={18} className="text-ewc-gold" /> Recent Volunteers
+              <UserPlus size={18} className="text-ewc-burgundy" /> Recent Volunteers
             </h2>
-            <Link href="/admin/volunteers" className="text-ewc-gold text-xs font-heading uppercase tracking-wider hover:underline">View All</Link>
+            <Link href="/admin/volunteers" className="text-ewc-burgundy text-xs font-heading uppercase tracking-wider hover:underline">View All</Link>
           </div>
           {volunteers.length === 0 ? (
             <p className="text-ewc-gray text-sm">No volunteer applications yet.</p>
@@ -156,9 +156,9 @@ export default function AdminDashboardPage() {
         <div className="card-dark p-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="font-heading font-bold text-lg text-white flex items-center gap-2">
-              <Mail size={18} className="text-ewc-gold" /> Messages
+              <Mail size={18} className="text-ewc-burgundy" /> Messages
             </h2>
-            <Link href="/admin/messages" className="text-ewc-gold text-xs font-heading uppercase tracking-wider hover:underline">View All</Link>
+            <Link href="/admin/messages" className="text-ewc-burgundy text-xs font-heading uppercase tracking-wider hover:underline">View All</Link>
           </div>
           {messages.length === 0 ? (
             <p className="text-ewc-gray text-sm">No messages yet.</p>
@@ -185,11 +185,11 @@ export default function AdminDashboardPage() {
             { label: "Manage Volunteers", icon: Users, href: "/admin/volunteers", color: "text-blue-400" },
             { label: "Schedule Events", icon: Calendar, href: "/admin/events", color: "text-purple-400" },
             { label: "Upload Sermon", icon: Video, href: "/admin/sermons", color: "text-green-400" },
-            { label: "View Messages", icon: Mail, href: "/admin/messages", color: "text-ewc-gold" },
+            { label: "View Messages", icon: Mail, href: "/admin/messages", color: "text-ewc-burgundy" },
           ].map((action) => {
             const Icon = action.icon;
             return (
-              <Link key={action.label} href={action.href} className="card-dark p-4 flex items-center gap-3 hover:ring-1 hover:ring-ewc-gold/20 transition-all">
+              <Link key={action.label} href={action.href} className="card-dark p-4 flex items-center gap-3 hover:ring-1 hover:ring-ewc-burgundy/20 transition-all">
                 <Icon size={20} className={action.color} />
                 <span className="text-white text-sm font-heading">{action.label}</span>
               </Link>

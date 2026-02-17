@@ -32,11 +32,11 @@ export async function sendVolunteerConfirmation(data: VolunteerEmailData) {
       <style>
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a0a; color: #e5e5e5; margin: 0; padding: 0; }
         .container { max-width: 600px; margin: 0 auto; background: #1a1a1a; border-radius: 8px; overflow: hidden; }
-        .header { background: linear-gradient(135deg, #c9a84c, #b8973e); padding: 30px; text-align: center; }
-        .header h1 { color: #0a0a0a; font-size: 24px; margin: 0; }
-        .header p { color: #0a0a0a; opacity: 0.7; font-size: 14px; margin-top: 5px; }
+        .header { background: linear-gradient(135deg, #933548, #7B2D3B); padding: 30px; text-align: center; }
+        .header h1 { color: #ffffff; font-size: 24px; margin: 0; }
+        .header p { color: #ffffff; opacity: 0.7; font-size: 14px; margin-top: 5px; }
         .content { padding: 30px; }
-        .content h2 { color: #c9a84c; font-size: 20px; }
+        .content h2 { color: #933548; font-size: 20px; }
         .content p { line-height: 1.6; color: #d4d4d4; }
         .detail { background: #2a2a2a; padding: 15px; border-radius: 8px; margin: 15px 0; }
         .detail span { color: #a0a0a0; font-size: 13px; }
@@ -72,7 +72,7 @@ export async function sendVolunteerConfirmation(data: VolunteerEmailData) {
             <li>Training and placement in your chosen department</li>
           </ol>
           
-          <p>If you have any questions, feel free to reply to this email or contact us at <a href="mailto:info@ewccalgary.ca" style="color: #c9a84c;">info@ewccalgary.ca</a>.</p>
+          <p>If you have any questions, feel free to reply to this email or contact us at <a href="mailto:info@ewccalgary.ca" style="color: #933548;">info@ewccalgary.ca</a>.</p>
           
           <p>God bless you!<br><strong>EWC Calgary Team</strong></p>
         </div>
@@ -108,13 +108,13 @@ export async function sendContactNotification(data: ContactEmailData) {
       <style>
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a0a; color: #e5e5e5; margin: 0; padding: 0; }
         .container { max-width: 600px; margin: 0 auto; background: #1a1a1a; border-radius: 8px; overflow: hidden; }
-        .header { background: linear-gradient(135deg, #c9a84c, #b8973e); padding: 20px; text-align: center; }
-        .header h1 { color: #0a0a0a; font-size: 20px; margin: 0; }
+        .header { background: linear-gradient(135deg, #933548, #7B2D3B); padding: 20px; text-align: center; }
+        .header h1 { color: #ffffff; font-size: 20px; margin: 0; }
         .content { padding: 25px; }
         .detail { background: #2a2a2a; padding: 12px; border-radius: 6px; margin: 10px 0; }
         .detail span { color: #a0a0a0; font-size: 12px; }
         .detail strong { color: #ffffff; display: block; margin-top: 2px; }
-        .message-box { background: #2a2a2a; padding: 15px; border-radius: 8px; border-left: 3px solid #c9a84c; margin-top: 15px; }
+        .message-box { background: #2a2a2a; padding: 15px; border-radius: 8px; border-left: 3px solid #933548; margin-top: 15px; }
       </style>
     </head>
     <body>
@@ -134,7 +134,7 @@ export async function sendContactNotification(data: ContactEmailData) {
           <div class="message-box">
             <p style="color: #d4d4d4; line-height: 1.6; margin: 0;">${data.message}</p>
           </div>
-          <p style="margin-top: 15px;"><a href="mailto:${data.email}" style="color: #c9a84c;">Reply to ${data.name}</a></p>
+          <p style="margin-top: 15px;"><a href="mailto:${data.email}" style="color: #933548;">Reply to ${data.name}</a></p>
         </div>
       </div>
     </body>

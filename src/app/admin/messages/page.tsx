@@ -71,7 +71,7 @@ export default function AdminMessagesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={32} className="animate-spin text-ewc-gold" />
+        <Loader2 size={32} className="animate-spin text-ewc-burgundy" />
       </div>
     );
   }
@@ -87,7 +87,7 @@ export default function AdminMessagesPage() {
         </div>
         <div className="flex gap-2 text-xs font-heading">
           {(["all", "unread", "read"] as const).map((f) => (
-            <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-md capitalize transition-colors ${filter === f ? "bg-ewc-gold text-ewc-black" : "bg-ewc-dark text-ewc-gray hover:text-white"}`}>
+            <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-md capitalize transition-colors ${filter === f ? "bg-ewc-burgundy text-ewc-black" : "bg-ewc-dark text-ewc-gray hover:text-white"}`}>
               {f}
             </button>
           ))}
@@ -112,10 +112,10 @@ export default function AdminMessagesPage() {
                 <button
                   key={msg.id}
                   onClick={() => handleSelect(msg)}
-                  className={`w-full text-left card-dark p-4 transition-all ${selectedId === msg.id ? "ring-1 ring-ewc-gold" : "hover:bg-ewc-dark/50"}`}
+                  className={`w-full text-left card-dark p-4 transition-all ${selectedId === msg.id ? "ring-1 ring-ewc-burgundy" : "hover:bg-ewc-dark/50"}`}
                 >
                   <div className="flex items-center gap-2 mb-1">
-                    {!msg.read && <span className="w-2 h-2 rounded-full bg-ewc-gold flex-shrink-0" />}
+                    {!msg.read && <span className="w-2 h-2 rounded-full bg-ewc-burgundy flex-shrink-0" />}
                     <span className={`font-heading font-bold text-sm truncate ${!msg.read ? "text-white" : "text-ewc-gray"}`}>
                       {msg.name}
                     </span>
@@ -141,7 +141,7 @@ export default function AdminMessagesPage() {
                   </div>
                   <div className="flex gap-2 flex-shrink-0">
                     {!selected.read && (
-                      <span className="text-[10px] bg-ewc-gold/20 text-ewc-gold px-2 py-0.5 rounded-full font-heading">Unread</span>
+                      <span className="text-[10px] bg-ewc-burgundy/20 text-ewc-burgundy px-2 py-0.5 rounded-full font-heading">Unread</span>
                     )}
                     {selected.read && (
                       <span className="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-heading flex items-center gap-1">
@@ -163,7 +163,7 @@ export default function AdminMessagesPage() {
                 <div className="flex items-center gap-3 pt-4 border-t border-ewc-dark">
                   <a
                     href={`mailto:${selected.email}?subject=Re: ${encodeURIComponent(selected.subject)}`}
-                    className="btn-gold px-4 py-2 text-sm flex items-center gap-2"
+                    className="btn-burgundy px-4 py-2 text-sm flex items-center gap-2"
                   >
                     <ExternalLink size={14} /> Reply via Email
                   </a>

@@ -48,13 +48,13 @@ export default function AdminEventsPage() {
       youth: "bg-purple-500/10 text-purple-400",
       conference: "bg-pink-500/10 text-pink-400",
     };
-    return colors[cat] || "bg-ewc-gold/10 text-ewc-gold";
+    return colors[cat] || "bg-ewc-burgundy/10 text-ewc-burgundy";
   }
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={32} className="animate-spin text-ewc-gold" />
+        <Loader2 size={32} className="animate-spin text-ewc-burgundy" />
       </div>
     );
   }
@@ -96,12 +96,12 @@ export default function AdminEventsPage() {
                     <td className="px-4 py-3">
                       <p className="text-white font-semibold">{event.title}</p>
                       {event.featured && (
-                        <span className="text-ewc-gold text-xs">★ Featured</span>
+                        <span className="text-ewc-burgundy text-xs">★ Featured</span>
                       )}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1.5 text-ewc-cream/70">
-                        <Calendar size={12} className="text-ewc-gold" />
+                        <Calendar size={12} className="text-ewc-burgundy" />
                         {new Date(event.date).toLocaleDateString()}
                       </div>
                       {event.time && (
@@ -114,7 +114,7 @@ export default function AdminEventsPage() {
                     <td className="px-4 py-3 text-ewc-gray hidden sm:table-cell">
                       {event.location && (
                         <div className="flex items-center gap-1">
-                          <MapPin size={12} className="text-ewc-gold" />
+                          <MapPin size={12} className="text-ewc-burgundy" />
                           {event.location}
                         </div>
                       )}

@@ -68,12 +68,12 @@ export default function GivePage() {
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white font-heading text-xs font-bold uppercase tracking-[0.2em] mb-4">Give</span>
           <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-white mb-6 mt-3">
             Generosity Changes
-            <span className="block text-ewc-gold-hover">Everything</span>
+            <span className="block text-ewc-burgundy-hover">Everything</span>
           </h1>
           <p className="max-w-2xl mx-auto text-white/90 text-lg leading-relaxed">
             &ldquo;Each of you should give what you have decided in your heart to give,
             not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo;
-            <span className="block text-ewc-gold-hover mt-1 text-sm font-heading">— 2 Corinthians 9:7</span>
+            <span className="block text-ewc-burgundy-hover mt-1 text-sm font-heading">— 2 Corinthians 9:7</span>
           </p>
         </div>
       </section>
@@ -88,8 +88,8 @@ export default function GivePage() {
                 onClick={() => setForm({ ...form, category: cat.name })}
                 className={`card text-center transition-all ${
                   form.category === cat.name
-                    ? "border-ewc-gold shadow-warm ring-2 ring-ewc-gold/20"
-                    : "hover:border-ewc-gold/30"
+                    ? "border-ewc-burgundy shadow-warm ring-2 ring-ewc-burgundy/20"
+                    : "hover:border-ewc-burgundy/30"
                 }`}
               >
                 <div className={`w-12 h-12 rounded-2xl ${cat.color} mx-auto mb-3 flex items-center justify-center`}>
@@ -181,7 +181,7 @@ export default function GivePage() {
                           onClick={() => setForm({ ...form, amount: amt })}
                           className={`px-3 py-1.5 rounded-lg text-xs font-heading transition-all ${
                             form.amount === amt
-                              ? "bg-ewc-gold text-white"
+                              ? "bg-ewc-burgundy text-white"
                               : "bg-ewc-light text-ewc-slate hover:bg-ewc-mist"
                           }`}
                         >
@@ -222,7 +222,7 @@ export default function GivePage() {
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="btn-gold w-full py-3.5 disabled:opacity-50"
+                    className="btn-burgundy w-full py-3.5 disabled:opacity-50"
                   >
                     {status === "loading" ? (
                       <span className="flex items-center justify-center gap-2">
@@ -270,7 +270,7 @@ export default function GivePage() {
 
       {/* CTA */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 gold-gradient" />
+        <div className="absolute inset-0 burgundy-gradient" />
         <div className="relative section-container py-20 text-center">
           <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
             Every Gift Makes a Difference

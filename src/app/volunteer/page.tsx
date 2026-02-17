@@ -48,13 +48,13 @@ export default function VolunteerPage() {
     <>
       {/* Hero */}
       <section className="relative py-24 sm:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-ewc-gold-50 via-white to-ewc-cream" />
+        <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
         <div className="absolute bottom-10 left-10 w-72 h-72 bg-purple-100/20 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <span className="section-label">Volunteer</span>
           <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
             Make a Difference
-            <span className="block text-ewc-gold">With Us</span>
+            <span className="block text-ewc-burgundy">With Us</span>
           </h1>
           <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
             Use your gifts and talents to serve the body of Christ. Join one of
@@ -69,8 +69,8 @@ export default function VolunteerPage() {
           <div className="max-w-2xl mx-auto">
             <div className="card p-8">
               <div className="text-center mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-ewc-gold-50 flex items-center justify-center mx-auto mb-4">
-                  <Users size={26} className="text-ewc-gold" />
+                <div className="w-14 h-14 rounded-2xl bg-ewc-burgundy-50 flex items-center justify-center mx-auto mb-4">
+                  <Users size={26} className="text-ewc-burgundy" />
                 </div>
                 <h2 className="font-heading font-bold text-2xl text-ewc-charcoal mb-2">
                   Volunteer Application
@@ -174,7 +174,7 @@ export default function VolunteerPage() {
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="btn-gold w-full py-3.5 disabled:opacity-50"
+                  className="btn-burgundy w-full py-3.5 disabled:opacity-50"
                 >
                   {status === "loading" ? (
                     <span className="flex items-center justify-center gap-2">
@@ -195,7 +195,7 @@ export default function VolunteerPage() {
 
       {/* CTA */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 gold-gradient" />
+        <div className="absolute inset-0 burgundy-gradient" />
         <div className="relative section-container py-20 text-center">
           <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
             Together We Are Stronger

@@ -35,13 +35,13 @@ export default function ContactPage() {
     <>
       {/* Hero */}
       <section className="relative py-24 sm:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-ewc-gold-50 via-white to-ewc-cream" />
+        <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <span className="section-label">Contact Us</span>
           <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
             Get In
-            <span className="block text-ewc-gold">Touch</span>
+            <span className="block text-ewc-burgundy">Touch</span>
           </h1>
           <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
             Have a question, prayer request, or want to learn more about EWC Calgary?
@@ -199,7 +199,7 @@ export default function ContactPage() {
                     <button
                       type="submit"
                       disabled={status === "loading"}
-                      className="btn-gold w-full py-3.5 disabled:opacity-50"
+                      className="btn-burgundy w-full py-3.5 disabled:opacity-50"
                     >
                       {status === "loading" ? (
                         <span className="flex items-center justify-center gap-2">

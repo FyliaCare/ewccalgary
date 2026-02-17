@@ -73,8 +73,8 @@ export default function AdminLayout({
             className="flex items-center gap-3"
             onClick={() => setSidebarOpen(false)}
           >
-            <div className="w-10 h-10 rounded-full bg-ewc-gold/20 border border-ewc-gold flex items-center justify-center">
-              <Church size={18} className="text-ewc-gold" />
+            <div className="w-10 h-10 rounded-full bg-ewc-burgundy/20 border border-ewc-burgundy flex items-center justify-center">
+              <Church size={18} className="text-ewc-burgundy" />
             </div>
             <div>
               <p className="font-heading font-bold text-white text-sm">
@@ -97,7 +97,7 @@ export default function AdminLayout({
                 onClick={() => setSidebarOpen(false)}
                 className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all duration-200 ${
                   isActive
-                    ? "bg-ewc-gold/10 text-ewc-gold"
+                    ? "bg-ewc-burgundy/10 text-ewc-burgundy"
                     : "text-ewc-gray hover:text-white hover:bg-ewc-dark"
                 }`}
               >
@@ -138,8 +138,8 @@ export default function AdminLayout({
             <Menu size={24} />
           </button>
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-ewc-gold/20 flex items-center justify-center">
-              <span className="text-ewc-gold text-xs font-bold">A</span>
+            <div className="w-8 h-8 rounded-full bg-ewc-burgundy/20 flex items-center justify-center">
+              <span className="text-ewc-burgundy text-xs font-bold">A</span>
             </div>
             <span className="text-white text-sm font-medium hidden sm:block">
               Administrator

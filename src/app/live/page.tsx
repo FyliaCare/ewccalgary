@@ -19,7 +19,7 @@ export default function LivePage() {
     <>
       {/* Hero */}
       <section className="relative py-24 sm:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-ewc-gold-50 via-white to-ewc-cream" />
+        <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
         <div className="absolute top-10 right-20 w-64 h-64 bg-red-100/20 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-500 text-sm font-heading mb-6">
@@ -27,7 +27,7 @@ export default function LivePage() {
           </div>
           <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6">
             Watch
-            <span className="block text-ewc-gold">Online</span>
+            <span className="block text-ewc-burgundy">Online</span>
           </h1>
           <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
             Can&apos;t make it in person? Join us live from anywhere in the world.
@@ -54,7 +54,7 @@ export default function LivePage() {
                 href="https://www.youtube.com/@empowermentworshipcentre"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-ewc-gold font-heading text-sm hover:text-ewc-gold-hover transition-colors"
+                className="inline-flex items-center gap-2 text-ewc-burgundy font-heading text-sm hover:text-ewc-burgundy-hover transition-colors"
               >
                 Open in YouTube <ExternalLink size={14} />
               </a>
@@ -116,7 +116,7 @@ export default function LivePage() {
               { step: "3", title: "Join the chat", desc: "Participate in the live chat and engage with the community." },
             ].map((item) => (
               <div key={item.step} className="text-center">
-                <div className="w-12 h-12 rounded-full bg-ewc-gold-50 text-ewc-gold font-heading font-bold text-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 rounded-full bg-ewc-burgundy-50 text-ewc-burgundy font-heading font-bold text-lg flex items-center justify-center mx-auto mb-4">
                   {item.step}
                 </div>
                 <h3 className="font-heading font-bold text-ewc-charcoal mb-2">{item.title}</h3>
@@ -129,7 +129,7 @@ export default function LivePage() {
 
       {/* CTA */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 gold-gradient" />
+        <div className="absolute inset-0 burgundy-gradient" />
         <div className="relative section-container py-20 text-center">
           <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
             Better Together

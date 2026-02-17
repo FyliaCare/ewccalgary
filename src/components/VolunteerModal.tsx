@@ -82,10 +82,10 @@ export default function VolunteerModal({ isOpen, onClose }: VolunteerModalProps)
         </button>
 
         {/* Header */}
-        <div className="relative px-8 pt-8 pb-6 bg-gradient-to-br from-ewc-gold-50 to-ewc-cream border-b border-ewc-gold-light">
+        <div className="relative px-8 pt-8 pb-6 bg-gradient-to-br from-ewc-burgundy-50 to-ewc-cream border-b border-ewc-burgundy-light">
           <div className="flex items-center gap-2 mb-3">
-            <Sparkles size={16} className="text-ewc-gold" />
-            <span className="font-heading text-xs font-bold uppercase tracking-[0.2em] text-ewc-gold">
+            <Sparkles size={16} className="text-ewc-burgundy" />
+            <span className="font-heading text-xs font-bold uppercase tracking-[0.2em] text-ewc-burgundy">
               Serve With Us
             </span>
           </div>
@@ -179,7 +179,7 @@ export default function VolunteerModal({ isOpen, onClose }: VolunteerModalProps)
             <button
               type="submit"
               disabled={status === "loading"}
-              className="btn-gold w-full py-3.5 disabled:opacity-50"
+              className="btn-burgundy w-full py-3.5 disabled:opacity-50"
             >
               {status === "loading" ? (
                 <span className="flex items-center justify-center gap-2">

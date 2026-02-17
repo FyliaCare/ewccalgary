@@ -34,7 +34,7 @@ export default function AdminSermonsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={32} className="animate-spin text-ewc-gold" />
+        <Loader2 size={32} className="animate-spin text-ewc-burgundy" />
       </div>
     );
   }
@@ -97,7 +97,7 @@ export default function AdminSermonsPage() {
                     <td className="px-4 py-3 text-ewc-cream/70 hidden md:table-cell">{sermon.speaker}</td>
                     <td className="px-4 py-3">
                       {sermon.series && (
-                        <span className="px-2 py-0.5 rounded-full text-xs bg-ewc-gold/10 text-ewc-gold font-heading">
+                        <span className="px-2 py-0.5 rounded-full text-xs bg-ewc-burgundy/10 text-ewc-burgundy font-heading">
                           {sermon.series}
                         </span>
                       )}
@@ -121,12 +121,12 @@ export default function AdminSermonsPage() {
                             href={sermon.youtubeUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-ewc-gray hover:text-ewc-gold transition-colors"
+                            className="text-ewc-gray hover:text-ewc-burgundy transition-colors"
                           >
                             <Play size={14} />
                           </a>
                         )}
-                        <button className="text-ewc-gray hover:text-ewc-gold transition-colors">
+                        <button className="text-ewc-gray hover:text-ewc-burgundy transition-colors">
                           <Eye size={14} />
                         </button>
                       </div>

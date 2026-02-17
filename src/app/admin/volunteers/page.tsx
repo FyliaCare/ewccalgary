@@ -131,7 +131,7 @@ export default function AdminVolunteersPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={32} className="animate-spin text-ewc-gold" />
+        <Loader2 size={32} className="animate-spin text-ewc-burgundy" />
       </div>
     );
   }
@@ -143,7 +143,7 @@ export default function AdminVolunteersPage() {
           <h1 className="font-heading font-bold text-2xl text-white">Volunteers</h1>
           <p className="text-ewc-gray text-sm mt-1">Manage volunteer applications and assignments.</p>
         </div>
-        <button onClick={handleExportCSV} className="btn-gold px-4 py-2 flex items-center gap-2 text-sm">
+        <button onClick={handleExportCSV} className="btn-burgundy px-4 py-2 flex items-center gap-2 text-sm">
           <Download size={16} /> Export CSV
         </button>
       </div>
@@ -214,7 +214,7 @@ export default function AdminVolunteersPage() {
                   <td className="px-4 py-3 text-ewc-gray hidden sm:table-cell">{new Date(vol.createdAt).toLocaleDateString()}</td>
                   <td className="px-4 py-3">{getStatusBadge(vol.status)}</td>
                   <td className="px-4 py-3">
-                    <button onClick={() => setSelectedVolunteer(vol.id)} className="text-ewc-gold hover:text-ewc-gold/80 transition-colors">
+                    <button onClick={() => setSelectedVolunteer(vol.id)} className="text-ewc-burgundy hover:text-ewc-burgundy/80 transition-colors">
                       <Eye size={16} />
                     </button>
                   </td>
@@ -268,7 +268,7 @@ export default function AdminVolunteersPage() {
                 <button
                   onClick={() => handleAction(selected.id, "approved")}
                   disabled={actionLoading}
-                  className="btn-gold px-4 py-2 text-xs flex items-center gap-1 disabled:opacity-60"
+                  className="btn-burgundy px-4 py-2 text-xs flex items-center gap-1 disabled:opacity-60"
                 >
                   <CheckCircle size={14} /> Approve
                 </button>

@@ -33,17 +33,17 @@ body {
   background: #f3f4f6;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d4a017;
+  background: #933548;
   border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #b8860b;
+  background: #7B2D3B;
 }
 
 /* Selection */
 ::selection {
-  background: #fdf8ef;
-  color: #8b6914;
+  background: #FDF2F4;
+  color: #5C1F2C;
 }
 
 @layer components {
@@ -55,30 +55,30 @@ body {
     @apply py-16 sm:py-20 lg:py-24;
   }
 
-  .gold-gradient {
-    background: linear-gradient(135deg, #d4a017 0%, #b8860b 50%, #8b6914 100%);
+  .burgundy-gradient {
+    background: linear-gradient(135deg, #933548 0%, #7B2D3B 50%, #5C1F2C 100%);
   }
 
-  .gold-gradient-soft {
-    background: linear-gradient(135deg, #fdf8ef 0%, #f5e6c8 50%, #fdf8ef 100%);
+  .burgundy-gradient-soft {
+    background: linear-gradient(135deg, #FDF2F4 0%, #E8C4CB 50%, #FDF2F4 100%);
   }
 
-  .gold-text {
-    @apply text-ewc-gold;
+  .burgundy-text {
+    @apply text-ewc-burgundy;
   }
 
   /* ---- Buttons ---- */
-  .btn-gold {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-ewc-gold text-white font-heading font-semibold 
-           rounded-lg transition-all duration-300 hover:bg-ewc-gold-hover hover:shadow-warm-lg
-           active:bg-ewc-gold-dark focus:outline-none focus:ring-2 focus:ring-ewc-gold/40 focus:ring-offset-2 
+  .btn-burgundy {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-ewc-burgundy text-white font-heading font-semibold 
+           rounded-lg transition-all duration-300 hover:bg-ewc-burgundy-hover hover:shadow-warm-lg
+           active:bg-ewc-burgundy-dark focus:outline-none focus:ring-2 focus:ring-ewc-burgundy/40 focus:ring-offset-2 
            focus:ring-offset-white text-sm uppercase tracking-wider;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center px-6 py-3 border-2 border-ewc-gold text-ewc-gold font-heading 
-           font-semibold rounded-lg transition-all duration-300 hover:bg-ewc-gold hover:text-white
-           focus:outline-none focus:ring-2 focus:ring-ewc-gold/40 focus:ring-offset-2 focus:ring-offset-white
+    @apply inline-flex items-center justify-center px-6 py-3 border-2 border-ewc-burgundy text-ewc-burgundy font-heading 
+           font-semibold rounded-lg transition-all duration-300 hover:bg-ewc-burgundy hover:text-white
+           focus:outline-none focus:ring-2 focus:ring-ewc-burgundy/40 focus:ring-offset-2 focus:ring-offset-white
            text-sm uppercase tracking-wider;
   }
 
@@ -99,29 +99,29 @@ body {
   /* ---- Cards ---- */
   .card {
     @apply bg-white rounded-2xl border border-ewc-mist/60 p-6 transition-all duration-300
-           hover:shadow-soft-lg hover:border-ewc-gold/20 hover:-translate-y-1;
+           hover:shadow-soft-lg hover:border-ewc-burgundy/20 hover:-translate-y-1;
   }
 
   .card-warm {
-    @apply bg-ewc-gold-50 rounded-2xl border border-ewc-gold-light p-6 transition-all duration-300
-           hover:shadow-warm hover:border-ewc-gold/30;
+    @apply bg-ewc-burgundy-50 rounded-2xl border border-ewc-burgundy-light p-6 transition-all duration-300
+           hover:shadow-warm hover:border-ewc-burgundy/30;
   }
 
   .card-dark {
     @apply bg-ewc-navy rounded-2xl border border-ewc-navy-light p-6 transition-all duration-300
-           hover:border-ewc-gold/30 hover:shadow-warm;
+           hover:border-ewc-burgundy/30 hover:shadow-warm;
   }
 
   /* ---- Form elements ---- */
   .input-field {
     @apply w-full px-4 py-3 bg-white border border-ewc-mist rounded-xl text-ewc-charcoal
-           placeholder-ewc-silver focus:outline-none focus:border-ewc-gold focus:ring-2 focus:ring-ewc-gold/20
+           placeholder-ewc-silver focus:outline-none focus:border-ewc-burgundy focus:ring-2 focus:ring-ewc-burgundy/20
            transition-all duration-200 shadow-elevation;
   }
 
   .input-dark {
     @apply w-full px-4 py-3 bg-ewc-navy-light border border-ewc-navy rounded-xl text-white
-           placeholder-gray-400 focus:outline-none focus:border-ewc-gold focus:ring-2 focus:ring-ewc-gold/20
+           placeholder-gray-400 focus:outline-none focus:border-ewc-burgundy focus:ring-2 focus:ring-ewc-burgundy/20
            transition-all duration-200;
   }
 
@@ -131,7 +131,7 @@ body {
 
   /* ---- Section labels ---- */
   .section-label {
-    @apply text-ewc-gold font-heading text-xs font-bold uppercase tracking-[0.25em];
+    @apply text-ewc-burgundy font-heading text-xs font-bold uppercase tracking-[0.25em];
   }
 
   .section-title {

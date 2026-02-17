@@ -40,7 +40,7 @@ export default function AdminDepartmentsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={32} className="animate-spin text-ewc-gold" />
+        <Loader2 size={32} className="animate-spin text-ewc-burgundy" />
       </div>
     );
   }
@@ -75,7 +75,7 @@ export default function AdminDepartmentsPage() {
               <p className="text-ewc-gray text-xs mb-4">{dept.description}</p>
               <div className="flex items-center justify-between pt-3 border-t border-ewc-dark">
                 <div className="flex items-center gap-1.5 text-sm">
-                  <Users size={14} className="text-ewc-gold" />
+                  <Users size={14} className="text-ewc-burgundy" />
                   <span className="text-white font-semibold">{getVolunteerCount(dept)}</span>
                   <span className="text-ewc-gray text-xs">volunteers</span>
                 </div>

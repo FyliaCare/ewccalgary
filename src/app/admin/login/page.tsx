@@ -42,8 +42,8 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-ewc-black flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-full bg-ewc-gold/20 border-2 border-ewc-gold flex items-center justify-center mx-auto mb-4">
-            <Church size={28} className="text-ewc-gold" />
+          <div className="w-16 h-16 rounded-full bg-ewc-burgundy/20 border-2 border-ewc-burgundy flex items-center justify-center mx-auto mb-4">
+            <Church size={28} className="text-ewc-burgundy" />
           </div>
           <h1 className="font-heading font-bold text-2xl text-white">
             Admin Dashboard
@@ -104,7 +104,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="btn-gold w-full py-3 flex items-center justify-center gap-2 disabled:opacity-60"
+              className="btn-burgundy w-full py-3 flex items-center justify-center gap-2 disabled:opacity-60"
             >
               {isLoading ? (
                 <>

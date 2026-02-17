@@ -55,7 +55,7 @@ export default function Footer() {
                 <span className="font-heading font-bold text-white text-lg leading-tight">
                   EWC Calgary
                 </span>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-ewc-gold-hover font-heading font-semibold">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-ewc-burgundy-hover font-heading font-semibold">
                   Empowerment Worship Centre
                 </span>
               </div>
@@ -72,7 +72,7 @@ export default function Footer() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-gray-400 hover:text-ewc-gold-hover hover:bg-white/15 transition-all"
+                  className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-gray-400 hover:text-ewc-burgundy-hover hover:bg-white/15 transition-all"
                   aria-label={link.name}
                 >
                   <link.icon size={18} />
@@ -91,7 +91,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 text-sm hover:text-ewc-gold-hover transition-colors"
+                    className="text-gray-400 text-sm hover:text-ewc-burgundy-hover transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -110,7 +110,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 text-sm hover:text-ewc-gold-hover transition-colors"
+                    className="text-gray-400 text-sm hover:text-ewc-burgundy-hover transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -126,7 +126,7 @@ export default function Footer() {
             </h4>
             <ul className="space-y-4">
               <li className="flex gap-3 text-sm">
-                <MapPin size={18} className="text-ewc-gold-hover shrink-0 mt-0.5" />
+                <MapPin size={18} className="text-ewc-burgundy-hover shrink-0 mt-0.5" />
                 <span className="text-gray-400">
                   225 Chaparral Drive SE,
                   <br />
@@ -134,16 +134,16 @@ export default function Footer() {
                 </span>
               </li>
               <li className="flex gap-3 text-sm">
-                <Clock size={18} className="text-ewc-gold-hover shrink-0 mt-0.5" />
+                <Clock size={18} className="text-ewc-burgundy-hover shrink-0 mt-0.5" />
                 <span className="text-gray-400">
                   Sunday Service: 10:00 AM
                 </span>
               </li>
               <li className="flex gap-3 text-sm">
-                <Mail size={18} className="text-ewc-gold-hover shrink-0 mt-0.5" />
+                <Mail size={18} className="text-ewc-burgundy-hover shrink-0 mt-0.5" />
                 <a
                   href="mailto:info@ewccalgary.ca"
-                  className="text-gray-400 hover:text-ewc-gold-hover transition-colors"
+                  className="text-gray-400 hover:text-ewc-burgundy-hover transition-colors"
                 >
                   info@ewccalgary.ca
                 </a>

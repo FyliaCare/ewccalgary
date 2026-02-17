@@ -68,8 +68,8 @@ export default function HomeContent() {
       {/* Volunteer Prompt Banner — slides in from bottom */}
       {showVolunteerPrompt && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[999] w-[95%] max-w-lg animate-slide-up">
-          <div className="relative bg-white rounded-2xl shadow-2xl border border-ewc-gold-light overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1 gold-gradient" />
+          <div className="relative bg-white rounded-2xl shadow-2xl border border-ewc-burgundy-light overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 burgundy-gradient" />
             <button
               onClick={dismissPrompt}
               className="absolute top-3 right-3 w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors text-sm"
@@ -77,8 +77,8 @@ export default function HomeContent() {
               ✕
             </button>
             <div className="p-5 flex items-center gap-4">
-              <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-ewc-gold-50 flex items-center justify-center">
-                <Users size={26} className="text-ewc-gold" />
+              <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-ewc-burgundy-50 flex items-center justify-center">
+                <Users size={26} className="text-ewc-burgundy" />
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-heading font-bold text-ewc-charcoal text-base mb-0.5">
@@ -92,7 +92,7 @@ export default function HomeContent() {
             <div className="px-5 pb-4 flex gap-3">
               <button
                 onClick={openVolunteerModal}
-                className="btn-gold flex-1 py-2.5 text-xs"
+                className="btn-burgundy flex-1 py-2.5 text-xs"
               >
                 <Sparkles size={14} className="mr-1.5" />
                 Sign Up Now
@@ -116,16 +116,16 @@ export default function HomeContent() {
 
       {/* Hero Section */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-ewc-gold-50 via-white to-ewc-cream" />
-        <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-ewc-gold/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-amber-200/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-ewc-gold/10" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full border border-ewc-gold/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
+        <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-ewc-burgundy/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-rose-200/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-ewc-burgundy/10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full border border-ewc-burgundy/5" />
 
         <div className="relative section-container py-20 lg:py-28">
           <div className="max-w-4xl mx-auto text-center">
             <div className="animate-fade-in">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ewc-gold/10 border border-ewc-gold/20 text-ewc-gold font-heading text-xs font-bold uppercase tracking-[0.2em] mb-8">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ewc-burgundy/10 border border-ewc-burgundy/20 text-ewc-burgundy font-heading text-xs font-bold uppercase tracking-[0.2em] mb-8">
                 <Sparkles size={14} />
                 Empowerment Worship Centre — Calgary Campus
               </span>
@@ -134,9 +134,9 @@ export default function HomeContent() {
             <h1 className="font-heading font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-ewc-charcoal leading-[0.95] mb-8 animate-slide-up">
               Welcome{" "}
               <span className="relative inline-block">
-                <span className="text-ewc-gold">Home</span>
+                <span className="text-ewc-burgundy">Home</span>
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
-                  <path d="M2 8C50 2 150 2 198 8" stroke="#d4a017" strokeWidth="3" strokeLinecap="round" opacity="0.4" />
+                  <path d="M2 8C50 2 150 2 198 8" stroke="#933548" strokeWidth="3" strokeLinecap="round" opacity="0.4" />
                 </svg>
               </span>
             </h1>
@@ -151,7 +151,7 @@ export default function HomeContent() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up">
-              <Link href="/about" className="btn-gold px-8 py-4 text-sm shadow-warm-lg">
+              <Link href="/about" className="btn-burgundy px-8 py-4 text-sm shadow-warm-lg">
                 Discover EWC Calgary
                 <ArrowRight size={16} className="ml-2" />
               </Link>
@@ -177,7 +177,7 @@ export default function HomeContent() {
               <div key={service.day} className="card text-center group">
                 <span className="text-4xl mb-4 block group-hover:scale-110 transition-transform">{service.icon}</span>
                 <h3 className="font-heading font-bold text-xl text-ewc-charcoal mb-2">{service.day}</h3>
-                <p className="text-ewc-gold text-2xl font-heading font-bold mb-1">{service.time}</p>
+                <p className="text-ewc-burgundy text-2xl font-heading font-bold mb-1">{service.time}</p>
                 <p className="text-ewc-silver text-sm">{service.label}</p>
               </div>
             ))}
@@ -185,7 +185,7 @@ export default function HomeContent() {
 
           <div className="text-center mt-10">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ewc-light text-ewc-slate text-sm">
-              <MapPin size={16} className="text-ewc-gold" />
+              <MapPin size={16} className="text-ewc-burgundy" />
               <span>225 Chaparral Drive SE, Calgary, Alberta</span>
             </div>
           </div>
@@ -194,17 +194,17 @@ export default function HomeContent() {
 
       {/* Volunteer CTA Section — moved up! */}
       <section className="relative overflow-hidden bg-gradient-to-br from-ewc-navy via-ewc-navy to-gray-900 section-padding">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-ewc-gold/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-ewc-gold/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-ewc-burgundy/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-ewc-burgundy/5 rounded-full blur-3xl" />
         <div className="relative section-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="inline-flex items-center gap-2 text-ewc-gold-hover font-heading text-xs font-bold uppercase tracking-[0.25em] mb-4">
+              <span className="inline-flex items-center gap-2 text-ewc-burgundy-hover font-heading text-xs font-bold uppercase tracking-[0.25em] mb-4">
                 <Users size={14} /> Join the Team
               </span>
               <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-white mb-6 leading-tight">
                 Your Gifts Were Made to{" "}
-                <span className="text-ewc-gold-hover">Serve</span>
+                <span className="text-ewc-burgundy-hover">Serve</span>
               </h2>
               <p className="text-gray-400 leading-relaxed mb-8">
                 The body of Christ functions best when every member contributes their
@@ -213,7 +213,7 @@ export default function HomeContent() {
               </p>
               <button
                 onClick={openVolunteerModal}
-                className="btn-gold px-8 py-4 text-sm shadow-warm-lg"
+                className="btn-burgundy px-8 py-4 text-sm shadow-warm-lg"
               >
                 <Heart size={16} className="mr-2" />
                 Sign Up to Volunteer
@@ -294,12 +294,12 @@ export default function HomeContent() {
                 </p>
               </div>
               <div className="mt-8 flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full gold-gradient flex items-center justify-center shadow-warm">
+                <div className="w-14 h-14 rounded-full burgundy-gradient flex items-center justify-center shadow-warm">
                   <span className="font-heading font-bold text-white text-lg">HL</span>
                 </div>
                 <div>
                   <p className="font-heading font-bold text-ewc-charcoal">Pastor Humphrey Lomotey</p>
-                  <p className="text-ewc-gold text-sm font-medium">Campus Pastor, EWC Calgary</p>
+                  <p className="text-ewc-burgundy text-sm font-medium">Campus Pastor, EWC Calgary</p>
                 </div>
               </div>
             </div>
@@ -315,8 +315,8 @@ export default function HomeContent() {
                   priority
                 />
               </div>
-              <div className="absolute -bottom-3 -right-3 w-full h-full rounded-3xl border-2 border-ewc-gold/15 -z-10" />
-              <div className="absolute -top-3 -left-3 w-20 h-20 rounded-2xl bg-ewc-gold/10 -z-10" />
+              <div className="absolute -bottom-3 -right-3 w-full h-full rounded-3xl border-2 border-ewc-burgundy/15 -z-10" />
+              <div className="absolute -top-3 -left-3 w-20 h-20 rounded-2xl bg-ewc-burgundy/10 -z-10" />
             </div>
           </div>
         </div>
@@ -343,7 +343,7 @@ export default function HomeContent() {
                   </div>
                   <h3 className="font-heading font-bold text-ewc-charcoal text-lg mb-2">{link.title}</h3>
                   <p className="text-ewc-silver text-sm mb-4">{link.description}</p>
-                  <span className="text-ewc-gold text-sm font-heading font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                  <span className="text-ewc-burgundy text-sm font-heading font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
                     Sign Up <ChevronRight size={14} />
                   </span>
                 </button>
@@ -354,7 +354,7 @@ export default function HomeContent() {
                   </div>
                   <h3 className="font-heading font-bold text-ewc-charcoal text-lg mb-2">{link.title}</h3>
                   <p className="text-ewc-silver text-sm mb-4">{link.description}</p>
-                  <span className="text-ewc-gold text-sm font-heading font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                  <span className="text-ewc-burgundy text-sm font-heading font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
                     Learn More <ChevronRight size={14} />
                   </span>
                 </Link>
@@ -365,7 +365,7 @@ export default function HomeContent() {
       </section>
 
       {/* Community Circles */}
-      <section className="bg-ewc-gold-50 section-padding">
+      <section className="bg-ewc-burgundy-50 section-padding">
         <div className="section-container">
           <div className="text-center mb-14">
             <span className="section-label">Community Circles</span>
@@ -402,7 +402,7 @@ export default function HomeContent() {
       {/* Global Connection */}
       <section className="bg-ewc-navy section-padding">
         <div className="section-container text-center">
-          <span className="inline-flex items-center gap-2 text-ewc-gold-hover font-heading text-xs font-bold uppercase tracking-[0.25em] mb-3">
+          <span className="inline-flex items-center gap-2 text-ewc-burgundy-hover font-heading text-xs font-bold uppercase tracking-[0.25em] mb-3">
             <Globe size={14} /> A Global Family
           </span>
           <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-white mb-6">
@@ -423,7 +423,7 @@ export default function HomeContent() {
               { value: "68K+", label: "Facebook Family" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <p className="font-heading font-bold text-4xl text-ewc-gold-hover">{stat.value}</p>
+                <p className="font-heading font-bold text-4xl text-ewc-burgundy-hover">{stat.value}</p>
                 <p className="text-gray-500 text-sm mt-2">{stat.label}</p>
               </div>
             ))}
@@ -444,7 +444,7 @@ export default function HomeContent() {
 
       {/* CTA */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 gold-gradient" />
+        <div className="absolute inset-0 burgundy-gradient" />
         <div className="relative section-container py-20 text-center">
           <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
             Ready to Get Involved?

@@ -57,13 +57,13 @@ export default function AboutPage() {
     <>
       {/* Hero */}
       <section className="relative py-24 sm:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-ewc-gold-50 via-white to-ewc-cream" />
-        <div className="absolute top-20 right-10 w-72 h-72 bg-ewc-gold/5 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
+        <div className="absolute top-20 right-10 w-72 h-72 bg-ewc-burgundy/5 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <span className="section-label">About Us</span>
           <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
             Empowerment Worship Centre
-            <span className="block text-ewc-gold mt-2">Calgary</span>
+            <span className="block text-ewc-burgundy mt-2">Calgary</span>
           </h1>
           <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
             A Bible-believing church with a mandate to win souls and prepare them
@@ -76,10 +76,10 @@ export default function AboutPage() {
       <section className="bg-white section-padding">
         <div className="section-container">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="card p-8 border-l-4 border-l-ewc-gold">
+            <div className="card p-8 border-l-4 border-l-ewc-burgundy">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center">
-                  <Eye size={24} className="text-ewc-gold" />
+                  <Eye size={24} className="text-ewc-burgundy" />
                 </div>
                 <h2 className="font-heading font-bold text-2xl text-ewc-charcoal">Our Vision</h2>
               </div>
@@ -90,10 +90,10 @@ export default function AboutPage() {
                 discovers their God-given purpose and walks boldly in it.
               </p>
             </div>
-            <div className="card p-8 border-l-4 border-l-ewc-gold">
+            <div className="card p-8 border-l-4 border-l-ewc-burgundy">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center">
-                  <Target size={24} className="text-ewc-gold" />
+                  <Target size={24} className="text-ewc-burgundy" />
                 </div>
                 <h2 className="font-heading font-bold text-2xl text-ewc-charcoal">Our Mandate</h2>
               </div>
@@ -150,14 +150,14 @@ export default function AboutPage() {
             <div className="mt-16">
               <h3 className="font-heading font-bold text-xl text-ewc-charcoal mb-8 text-center">Our Journey</h3>
               <div className="relative">
-                <div className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-px bg-ewc-gold/30" />
+                <div className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-px bg-ewc-burgundy/30" />
                 <div className="space-y-8">
                   {timeline.map((item, index) => (
                     <div key={item.year} className={`relative flex items-start gap-6 ${index % 2 === 0 ? "sm:flex-row" : "sm:flex-row-reverse"}`}>
                       <div className="hidden sm:block sm:w-1/2" />
-                      <div className="absolute left-4 sm:left-1/2 w-3 h-3 rounded-full bg-ewc-gold -translate-x-1.5 mt-2 z-10 shadow-warm" />
+                      <div className="absolute left-4 sm:left-1/2 w-3 h-3 rounded-full bg-ewc-burgundy -translate-x-1.5 mt-2 z-10 shadow-warm" />
                       <div className="pl-10 sm:pl-0 sm:w-1/2">
-                        <span className="font-heading font-bold text-ewc-gold text-lg">{item.year}</span>
+                        <span className="font-heading font-bold text-ewc-burgundy text-lg">{item.year}</span>
                         <p className="text-ewc-slate text-sm mt-1">{item.event}</p>
                       </div>
                     </div>
@@ -191,7 +191,7 @@ export default function AboutPage() {
       </section>
 
       {/* Community Circles */}
-      <section id="community-circles" className="bg-ewc-gold-50 section-padding">
+      <section id="community-circles" className="bg-ewc-burgundy-50 section-padding">
         <div className="section-container">
           <div className="text-center mb-14">
             <span className="section-label">Community Circles</span>
@@ -206,7 +206,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto mb-12">
             {["Connection", "Conversation", "Care", "Accountability"].map((obj) => (
               <div key={obj} className="text-center p-4 bg-white rounded-2xl shadow-elevation">
-                <p className="font-heading font-bold text-ewc-gold text-sm uppercase tracking-wider">{obj}</p>
+                <p className="font-heading font-bold text-ewc-burgundy text-sm uppercase tracking-wider">{obj}</p>
               </div>
             ))}
           </div>
@@ -218,7 +218,7 @@ export default function AboutPage() {
                   <div className={`w-8 h-8 rounded-full ${c.dotColor}`} />
                 </div>
                 <h3 className={`font-heading font-bold text-lg mb-1 ${c.textColor}`}>{c.name}</h3>
-                <p className="text-ewc-gold text-xs font-heading mb-2">{c.verse}</p>
+                <p className="text-ewc-burgundy text-xs font-heading mb-2">{c.verse}</p>
                 <p className="text-ewc-silver text-xs leading-relaxed">{c.description}</p>
               </div>
             ))}
@@ -226,7 +226,7 @@ export default function AboutPage() {
 
           <div className="text-center mt-10">
             <p className="text-ewc-slate text-sm mb-1">Weekly Community Circle Meetings</p>
-            <p className="text-ewc-gold font-heading font-bold flex items-center justify-center gap-2">
+            <p className="text-ewc-burgundy font-heading font-bold flex items-center justify-center gap-2">
               <Sparkles size={16} /> Every Tuesday at 7:00 PM
             </p>
           </div>
@@ -235,7 +235,7 @@ export default function AboutPage() {
 
       {/* CTA */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 gold-gradient" />
+        <div className="absolute inset-0 burgundy-gradient" />
         <div className="relative section-container py-20 text-center">
           <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
             Ready to Join the Family?

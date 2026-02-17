@@ -64,13 +64,13 @@ export default function MinistriesPage() {
     <>
       {/* Hero */}
       <section className="relative py-24 sm:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-ewc-gold-50 via-white to-ewc-cream" />
+        <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
         <div className="absolute bottom-10 left-20 w-72 h-72 bg-emerald-100/20 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <span className="section-label">Ministries</span>
           <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
             Get Plugged In &
-            <span className="block text-ewc-gold">Serve With Purpose</span>
+            <span className="block text-ewc-burgundy">Serve With Purpose</span>
           </h1>
           <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
             Our ministries are the heartbeat of EWC Calgary — find your place,
@@ -84,7 +84,7 @@ export default function MinistriesPage() {
         <div className="section-container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {ministries.map((ministry) => (
-              <div key={ministry.name} className="card group hover:border-ewc-gold/30">
+              <div key={ministry.name} className="card group hover:border-ewc-burgundy/30">
                 <div className={`w-14 h-14 rounded-2xl ${ministry.bg} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
                   <ministry.icon size={26} className={ministry.iconColor} />
                 </div>
@@ -101,10 +101,10 @@ export default function MinistriesPage() {
       </section>
 
       {/* Get Involved */}
-      <section className="bg-ewc-gold-50 section-padding">
+      <section className="bg-ewc-burgundy-50 section-padding">
         <div className="section-container">
           <div className="max-w-3xl mx-auto text-center">
-            <Sparkles size={32} className="text-ewc-gold mx-auto mb-4" />
+            <Sparkles size={32} className="text-ewc-burgundy mx-auto mb-4" />
             <h2 className="section-title mb-4">Discover Your Calling</h2>
             <p className="text-ewc-slate leading-relaxed mb-8">
               Everyone has a unique gift and role to play in the body of Christ.
@@ -113,7 +113,7 @@ export default function MinistriesPage() {
               impact that matters.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/volunteer" className="btn-gold px-8 py-4">
+              <Link href="/volunteer" className="btn-burgundy px-8 py-4">
                 Volunteer Today <ArrowRight size={16} className="ml-2" />
               </Link>
               <Link href="/contact" className="btn-outline px-8 py-4">
@@ -126,7 +126,7 @@ export default function MinistriesPage() {
 
       {/* CTA */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 gold-gradient" />
+        <div className="absolute inset-0 burgundy-gradient" />
         <div className="relative section-container py-20 text-center">
           <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
             Serve Together, Grow Together

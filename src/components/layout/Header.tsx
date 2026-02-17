@@ -53,7 +53,7 @@ export default function Header() {
               <span className="font-heading font-bold text-ewc-charcoal text-lg leading-tight tracking-wide">
                 EWC
               </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-ewc-gold font-heading font-semibold">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-ewc-burgundy font-heading font-semibold">
                 Calgary
               </span>
             </div>
@@ -68,13 +68,13 @@ export default function Header() {
                 className={cn(
                   "px-3 py-2 text-[13px] font-heading font-semibold uppercase tracking-wider transition-all duration-200 rounded-lg relative",
                   pathname === item.href
-                    ? "text-ewc-gold"
-                    : "text-ewc-slate hover:text-ewc-gold"
+                    ? "text-ewc-burgundy"
+                    : "text-ewc-slate hover:text-ewc-burgundy"
                 )}
               >
                 {item.name}
                 {pathname === item.href && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-ewc-gold rounded-full" />
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-ewc-burgundy rounded-full" />
                 )}
               </Link>
             ))}
@@ -85,7 +85,7 @@ export default function Header() {
             <Link href="/volunteer" className="btn-outline text-xs py-2 px-4">
               Volunteer
             </Link>
-            <Link href="/give" className="btn-gold text-xs py-2 px-4">
+            <Link href="/give" className="btn-burgundy text-xs py-2 px-4">
               Give
             </Link>
           </div>
@@ -93,7 +93,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-ewc-charcoal hover:text-ewc-gold transition-colors rounded-lg hover:bg-ewc-light"
+            className="lg:hidden p-2 text-ewc-charcoal hover:text-ewc-burgundy transition-colors rounded-lg hover:bg-ewc-light"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -113,8 +113,8 @@ export default function Header() {
                 className={cn(
                   "block px-4 py-3 text-sm font-heading font-semibold uppercase tracking-wider rounded-xl transition-colors",
                   pathname === item.href
-                    ? "text-ewc-gold bg-ewc-gold-50"
-                    : "text-ewc-slate hover:text-ewc-gold hover:bg-ewc-light"
+                    ? "text-ewc-burgundy bg-ewc-burgundy-50"
+                    : "text-ewc-slate hover:text-ewc-burgundy hover:bg-ewc-light"
                 )}
               >
                 {item.name}
@@ -131,7 +131,7 @@ export default function Header() {
               <Link
                 href="/give"
                 onClick={() => setMobileMenuOpen(false)}
-                className="btn-gold text-xs py-2.5 px-4 flex-1 text-center"
+                className="btn-burgundy text-xs py-2.5 px-4 flex-1 text-center"
               >
                 Give
               </Link>

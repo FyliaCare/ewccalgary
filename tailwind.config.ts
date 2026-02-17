@@ -19,18 +19,18 @@ const config: Config = {
           slate: "#4b5563",
           charcoal: "#1f2937",
           black: "#111827",
-          // Brand accent — warm rich gold
-          gold: "#b8860b",
-          "gold-hover": "#d4a017",
-          "gold-dark": "#8b6914",
-          "gold-light": "#f5e6c8",
-          "gold-50": "#fdf8ef",
-          // Warm accent
-          cream: "#fffbf0",
+          // Brand accent — rich burgundy
+          burgundy: "#7B2D3B",
+          "burgundy-hover": "#933548",
+          "burgundy-dark": "#5C1F2C",
+          "burgundy-light": "#E8C4CB",
+          "burgundy-50": "#FDF2F4",
+          // Neutral accent
+          cream: "#F0EDEB",
           amber: "#f59e0b",
-          // Deep navy for hero/contrast sections
-          navy: "#0f172a",
-          "navy-light": "#1e293b",
+          // Dark grey for hero/contrast sections
+          navy: "#1F1F21",
+          "navy-light": "#2E2E30",
         },
         background: "var(--background)",
         foreground: "var(--foreground)",
@@ -40,8 +40,8 @@ const config: Config = {
         body: ["var(--font-inter)", "sans-serif"],
       },
       boxShadow: {
-        "warm": "0 4px 14px -2px rgba(184, 134, 11, 0.12)",
-        "warm-lg": "0 10px 40px -10px rgba(184, 134, 11, 0.15)",
+        "warm": "0 4px 14px -2px rgba(123, 45, 59, 0.12)",
+        "warm-lg": "0 10px 40px -10px rgba(123, 45, 59, 0.15)",
         "soft": "0 2px 15px -3px rgba(0,0,0,0.07), 0 4px 6px -4px rgba(0,0,0,0.05)",
         "soft-lg": "0 10px 40px -10px rgba(0,0,0,0.1)",
         "elevation": "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",

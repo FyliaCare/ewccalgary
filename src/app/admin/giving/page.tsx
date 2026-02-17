@@ -62,7 +62,7 @@ export default function AdminGivingPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={32} className="animate-spin text-ewc-gold" />
+        <Loader2 size={32} className="animate-spin text-ewc-burgundy" />
       </div>
     );
   }
@@ -76,7 +76,7 @@ export default function AdminGivingPage() {
             Track tithes, offerings, seeds, and all giving categories.
           </p>
         </div>
-        <button onClick={handleExport} className="btn-gold px-4 py-2 flex items-center gap-2 text-sm">
+        <button onClick={handleExport} className="btn-burgundy px-4 py-2 flex items-center gap-2 text-sm">
           <Download size={16} /> Export Report
         </button>
       </div>
@@ -85,7 +85,7 @@ export default function AdminGivingPage() {
         <div className="card-dark p-5">
           <div className="flex items-center justify-between mb-2">
             <span className="text-ewc-gray text-xs font-heading uppercase">Total</span>
-            <DollarSign size={18} className="text-ewc-gold" />
+            <DollarSign size={18} className="text-ewc-burgundy" />
           </div>
           <p className="font-heading font-bold text-2xl text-white">${totalAmount.toLocaleString()}</p>
           <p className="text-green-400 text-xs flex items-center gap-1 mt-1">
@@ -129,7 +129,7 @@ export default function AdminGivingPage() {
                   <span className="text-ewc-cream/70 text-sm w-32">{cat}</span>
                   <div className="flex-1 h-2 bg-ewc-dark rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-ewc-gold rounded-full"
+                      className="h-full bg-ewc-burgundy rounded-full"
                       style={{ width: `${totalAmount > 0 ? (amt / totalAmount) * 100 : 0}%` }}
                     />
                   </div>
@@ -164,11 +164,11 @@ export default function AdminGivingPage() {
                   <tr key={row.id} className="border-b border-ewc-dark/50 hover:bg-ewc-dark/30 transition-colors">
                     <td className="px-4 py-3 text-white font-semibold">{row.donorName}</td>
                     <td className="px-4 py-3">
-                      <span className="px-2 py-0.5 rounded-full text-xs bg-ewc-gold/10 text-ewc-gold font-heading">
+                      <span className="px-2 py-0.5 rounded-full text-xs bg-ewc-burgundy/10 text-ewc-burgundy font-heading">
                         {row.category}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-ewc-gold font-heading font-bold">${row.amount}</td>
+                    <td className="px-4 py-3 text-ewc-burgundy font-heading font-bold">${row.amount}</td>
                     <td className="px-4 py-3 text-ewc-gray hidden sm:table-cell">
                       {new Date(row.createdAt).toLocaleDateString()}
                     </td>

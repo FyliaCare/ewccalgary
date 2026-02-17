@@ -16,7 +16,7 @@ const leaders = [
     bio: "Prophet Gideon Danso is the visionary founder of Empowerment Worship Centre and Empowerment Ministries Worldwide. A dynamic teacher and prophetic voice, he has a mandate to raise Spirit-filled leaders who transform their world through faith, excellence, and purpose. Under his leadership, EWC has grown from a single campus in Accra, Ghana to a global movement spanning multiple countries.",
     color: "bg-amber-50",
     accent: "text-amber-600",
-    borderColor: "border-l-ewc-gold",
+    borderColor: "border-l-ewc-burgundy",
     image: "/Prophet Gideon Danso.jpeg",
   },
   {
@@ -43,13 +43,13 @@ export default function LeadershipPage() {
     <>
       {/* Hero */}
       <section className="relative py-24 sm:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-ewc-gold-50 via-white to-ewc-cream" />
+        <div className="absolute inset-0 bg-gradient-to-br from-ewc-burgundy-50 via-white to-ewc-cream" />
         <div className="absolute top-20 left-10 w-56 h-56 bg-purple-100/20 rounded-full blur-3xl" />
         <div className="relative section-container text-center">
           <span className="section-label">Leadership</span>
           <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-ewc-charcoal mb-6 mt-3">
             Meet Our
-            <span className="block text-ewc-gold">Leadership</span>
+            <span className="block text-ewc-burgundy">Leadership</span>
           </h1>
           <p className="max-w-2xl mx-auto text-ewc-slate text-lg leading-relaxed">
             Servant leaders committed to the Gospel, community, and raising
@@ -123,7 +123,7 @@ export default function LeadershipPage() {
             href="https://ewcglobal.org"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-gold px-8 py-4"
+            className="btn-burgundy px-8 py-4"
           >
             Visit EWC Global <ArrowRight size={16} className="ml-2" />
           </a>
@@ -132,7 +132,7 @@ export default function LeadershipPage() {
 
       {/* CTA */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 gold-gradient" />
+        <div className="absolute inset-0 burgundy-gradient" />
         <div className="relative section-container py-20 text-center">
           <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white mb-4">
             Join Us This Sunday
