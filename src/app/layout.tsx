@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import "@/styles/globals.css";
 import Header from "@/components/layout/Header";
@@ -34,7 +34,6 @@ export const metadata: Metadata = {
     "church Calgary",
   ],
   manifest: "/manifest.json",
-  themeColor: "#7B2D3B",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -47,6 +46,15 @@ export const metadata: Metadata = {
     siteName: "EWC Calgary",
     type: "website",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#7B2D3B",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
 };
 
 export default async function RootLayout({
@@ -63,7 +71,6 @@ export default async function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />

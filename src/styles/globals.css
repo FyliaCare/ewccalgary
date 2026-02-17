@@ -5,6 +5,12 @@
 :root {
   --background: #fafbfc;
   --foreground: #111827;
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+  --bottom-nav-height: 3.5rem;
+  --header-height: 3.5rem;
 }
 
 * {
@@ -15,6 +21,11 @@
 
 html {
   scroll-behavior: smooth;
+  /* Prevent overscroll bounce on iOS — gives app feel */
+  overscroll-behavior: none;
+  /* Prevent pull-to-refresh in standalone PWA */
+  overflow: hidden;
+  height: 100%;
 }
 
 body {
@@ -23,6 +34,186 @@ body {
   font-family: var(--font-inter), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Disable tap highlight — native apps don't have it */
+  -webkit-tap-highlight-color: transparent;
+  /* Prevent text selection on UI elements */
+  -webkit-touch-callout: none;
+  /* Enable hardware acceleration */
+  -webkit-transform: translateZ(0);
+  /* Full height for app shell */
+  height: 100%;
+  overflow: auto;
+  overscroll-behavior-y: contain;
+}
+
+/* ---- Mobile App Feel ---- */
+
+/* Disable text selection on interactive elements */
+button, a, nav, [role="button"] {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection in content areas */
+p, span, h1, h2, h3, h4, h5, h6, input, textarea {
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+
+/* iOS momentum scrolling */
+.scroll-touch {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* Active state press effect — makes buttons feel tactile */
+@media (hover: none) and (pointer: coarse) {
+  .press-effect {
+    transition: transform 0.1s ease, opacity 0.1s ease;
+  }
+  .press-effect:active {
+    transform: scale(0.96);
+    opacity: 0.85;
+  }
+
+  /* Tab press effect — subtle, fast */
+  .tab-press:active {
+    transform: scale(0.9);
+    opacity: 0.7;
+    transition: transform 0.05s ease, opacity 0.05s ease;
+  }
+
+  /* List item press — subtle highlight */
+  .list-press:active {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    transition: background-color 0.05s ease;
+  }
+}
+
+/* ---- Slide Transitions ---- */
+.slide-in-right {
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.slide-out-right {
+  animation: slideOutRight 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.slide-in-up {
+  animation: slideInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.slide-in-down {
+  animation: slideInDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.fade-in {
+  animation: fadeIn 0.2s ease forwards;
+}
+.fade-in-up {
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.scale-in {
+  animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+@keyframes slideOutRight {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+@keyframes slideInUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes slideInDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Message appear animation */
+.msg-appear {
+  animation: msgAppear 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes msgAppear {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Send button pulse */
+.send-pulse {
+  animation: sendPulse 0.3s ease;
+}
+@keyframes sendPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}
+
+/* Skeleton loading shimmer */
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Pull indicator */
+.pull-indicator {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Badge pulse for unread */
+.badge-pulse {
+  animation: badgePulse 2s ease-in-out infinite;
+}
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Community-specific thin scrollbar */
+.community-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+.community-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.community-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 99px;
+}
+
+/* Safe area padding utilities */
+.safe-area-top {
+  padding-top: var(--safe-area-top);
+}
+.safe-area-bottom {
+  padding-bottom: var(--safe-area-bottom);
 }
 
 /* Scrollbar — light theme */
@@ -44,6 +235,24 @@ body {
 ::selection {
   background: #FDF2F4;
   color: #5C1F2C;
+}
+
+/* ---- iOS Input Fixes ---- */
+/* Prevent iOS zoom on input focus */
+@media screen and (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Fix iOS fixed positioning with keyboard */
+@supports (-webkit-touch-callout: none) {
+  .ios-keyboard-fix {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 @layer components {

@@ -1,7 +1,12 @@
-const CACHE_NAME = "ewc-calgary-v1";
+const CACHE_NAME = "ewc-calgary-v2";
 const STATIC_ASSETS = [
   "/",
   "/community",
+  "/community/chat",
+  "/community/dm",
+  "/community/members",
+  "/community/profile",
+  "/community/login",
   "/offline",
   "/manifest.json",
 ];
@@ -26,7 +31,7 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Fetch — network first, fallback to cache
+// Fetch — stale-while-revalidate for pages, network-first for API
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -36,27 +41,48 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  event.respondWith(
-    fetch(request)
-      .then((response) => {
-        // Cache successful responses
-        if (response.ok && url.origin === self.location.origin) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-        }
-        return response;
+  // Static assets (JS, CSS, fonts, images) — cache-first
+  if (
+    url.pathname.match(/\.(js|css|woff2?|ttf|otf|png|jpg|jpeg|svg|ico|webp)$/) ||
+    url.pathname.startsWith("/_next/static/")
+  ) {
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        if (cached) return cached;
+        return fetch(request).then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        }).catch(() => cached || new Response("Offline", { status: 503 }));
       })
-      .catch(() => {
-        // Fallback to cache
-        return caches.match(request).then((cached) => {
+    );
+    return;
+  }
+
+  // Pages — stale-while-revalidate for instant loads
+  event.respondWith(
+    caches.match(request).then((cached) => {
+      const networkFetch = fetch(request)
+        .then((response) => {
+          if (response.ok && url.origin === self.location.origin) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        })
+        .catch(() => {
           if (cached) return cached;
-          // For navigation requests, show offline page
           if (request.mode === "navigate") {
             return caches.match("/offline");
           }
           return new Response("Offline", { status: 503 });
         });
-      })
+
+      // Return cached immediately if available, update in background
+      return cached || networkFetch;
+    })
   );
 });
 

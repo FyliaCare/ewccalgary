@@ -42,10 +42,11 @@ export default function DMConversationPage() {
   const [sending, setSending] = useState(false);
   const [hasMore, setHasMore] = useState(false);
   const [atBottom, setAtBottom] = useState(true);
+  const [sendAnimation, setSendAnimation] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lastMsgIdRef = useRef<string | null>(null);
 
   const fetchConversationInfo = useCallback(async () => {
@@ -116,6 +117,14 @@ export default function DMConversationPage() {
     }
   }, [messages.length > 0]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Auto-resize textarea
+  const adjustTextarea = () => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = Math.min(el.scrollHeight, 120) + "px";
+  };
+
   const handleScroll = () => {
     const c = containerRef.current;
     if (!c) return;
@@ -126,6 +135,9 @@ export default function DMConversationPage() {
     e.preventDefault();
     if (!newMessage.trim() || sending) return;
     setSending(true);
+    setSendAnimation(true);
+    setTimeout(() => setSendAnimation(false), 300);
+
     try {
       const res = await fetch(`/api/chat/dm/${convId}/messages`, {
         method: "POST",
@@ -137,6 +149,7 @@ export default function DMConversationPage() {
         setMessages((prev) => [...prev, msg]);
         lastMsgIdRef.current = msg.id;
         setNewMessage("");
+        if (textareaRef.current) textareaRef.current.style.height = "auto";
         setTimeout(() => {
           messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
           setAtBottom(true);
@@ -144,7 +157,7 @@ export default function DMConversationPage() {
       }
     } catch { /* silent */ }
     setSending(false);
-    inputRef.current?.focus();
+    textareaRef.current?.focus();
   };
 
   const formatTime = (dateStr: string) => {
@@ -177,40 +190,41 @@ export default function DMConversationPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      {/* Header */}
-      <div className="bg-ewc-navy-light border-b border-white/10 px-4 py-3 flex items-center gap-3 flex-shrink-0 z-10">
+    <div className="flex flex-col h-screen bg-ewc-navy">
+      {/* Header — frosted glass */}
+      <div className="bg-ewc-navy-light/95 backdrop-blur-xl border-b border-white/10 px-4 py-3 flex items-center gap-3 flex-shrink-0 z-10 safe-area-top">
         <Link
           href="/community/dm"
-          className="text-ewc-silver hover:text-white"
+          className="text-ewc-silver hover:text-white press-effect p-1 -ml-1 rounded-lg"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="relative flex-shrink-0">
-          <div className="w-9 h-9 rounded-full bg-ewc-burgundy/30 flex items-center justify-center text-white text-xs font-bold">
+          <div className="w-10 h-10 rounded-full bg-ewc-burgundy/30 flex items-center justify-center text-white text-sm font-bold">
             {otherMember?.avatar ? (
-              <img
-                src={otherMember.avatar}
-                alt=""
-                className="w-9 h-9 rounded-full object-cover"
-              />
+              <img src={otherMember.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
             ) : (
               otherMember?.displayName?.charAt(0).toUpperCase() || "?"
             )}
           </div>
           {otherMember?.isOnline && (
-            <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-ewc-navy-light" />
+            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-ewc-navy-light" />
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <h2 className="text-white font-medium text-sm truncate">
-            {otherMember?.displayName || "Loading..."}
+          <h2 className="text-white font-medium text-[15px] truncate">
+            {otherMember?.displayName || (
+              <div className="w-24 h-4 skeleton rounded" />
+            )}
           </h2>
-          <p className="text-ewc-silver/50 text-xs">
+          <p className="text-xs">
             {otherMember?.isOnline ? (
-              <span className="text-green-400">Online</span>
+              <span className="text-green-400 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-green-400 rounded-full inline-block" />
+                Online
+              </span>
             ) : (
-              "Offline"
+              <span className="text-ewc-silver/50">Offline</span>
             )}
           </p>
         </div>
@@ -220,13 +234,13 @@ export default function DMConversationPage() {
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto p-4"
+        className="flex-1 overflow-y-auto p-4 community-scroll overscroll-contain"
       >
         {hasMore && (
-          <div className="text-center py-2 mb-2">
+          <div className="text-center py-3 mb-2">
             <button
               onClick={() => messages.length > 0 && fetchMessages(messages[0].id)}
-              className="text-ewc-burgundy-light text-xs hover:underline"
+              className="text-ewc-burgundy-light text-xs press-effect px-4 py-2 rounded-full bg-white/5"
             >
               Load earlier messages
             </button>
@@ -234,14 +248,15 @@ export default function DMConversationPage() {
         )}
 
         {messages.length === 0 ? (
-          <div className="flex items-center justify-center py-16">
+          <div className="flex items-center justify-center py-16 fade-in-up">
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-ewc-burgundy/10 flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl">👋</span>
+              <div className="w-16 h-16 rounded-2xl bg-ewc-burgundy/10 flex items-center justify-center mx-auto mb-3">
+                <span className="text-3xl">👋</span>
               </div>
               <p className="text-ewc-silver text-sm">
                 Say hello to {otherMember?.displayName?.split(" ")[0] || "them"}!
               </p>
+              <p className="text-ewc-silver/40 text-xs mt-1">Messages are private and encrypted</p>
             </div>
           </div>
         ) : (
@@ -249,7 +264,7 @@ export default function DMConversationPage() {
             <div key={group.date}>
               <div className="flex items-center gap-3 my-4">
                 <div className="flex-1 h-px bg-white/10" />
-                <span className="text-ewc-silver/50 text-[11px] font-medium uppercase">
+                <span className="text-ewc-silver/50 text-[11px] font-medium uppercase bg-ewc-navy px-2 py-0.5 rounded-full">
                   {group.date}
                 </span>
                 <div className="flex-1 h-px bg-white/10" />
@@ -267,16 +282,16 @@ export default function DMConversationPage() {
                     key={msg.id}
                     className={`flex ${isOwn ? "justify-end" : "justify-start"} ${
                       collapsed ? "mt-0.5" : "mt-3"
-                    }`}
+                    } msg-appear`}
                   >
-                    <div className={`max-w-[75%] ${isOwn ? "items-end" : "items-start"} flex flex-col`}>
+                    <div className={`max-w-[78%] ${isOwn ? "items-end" : "items-start"} flex flex-col`}>
                       {!collapsed && !isOwn && (
                         <span className="text-[10px] text-ewc-silver/40 mb-0.5 ml-1">
                           {formatTime(msg.createdAt)}
                         </span>
                       )}
                       <div
-                        className={`px-3 py-2 rounded-2xl text-sm break-words ${
+                        className={`px-3.5 py-2.5 rounded-2xl text-[15px] leading-relaxed break-words ${
                           isOwn
                             ? "bg-ewc-burgundy text-white rounded-br-md"
                             : "bg-white/10 text-white rounded-bl-md"
@@ -311,29 +326,43 @@ export default function DMConversationPage() {
             messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
             setAtBottom(true);
           }}
-          className="absolute bottom-24 md:bottom-20 right-6 w-9 h-9 bg-ewc-burgundy rounded-full flex items-center justify-center text-white shadow-lg"
+          className="absolute bottom-20 right-4 w-10 h-10 bg-ewc-burgundy rounded-full flex items-center justify-center text-white shadow-lg press-effect z-10 scale-in"
         >
           <ChevronDown className="w-5 h-5" />
         </button>
       )}
 
-      {/* Input */}
+      {/* Input — auto-resize textarea */}
       <form
         onSubmit={sendMessage}
-        className="px-4 py-3 bg-ewc-navy-light border-t border-white/10 flex items-center gap-2 flex-shrink-0 mb-14 md:mb-0"
+        className="px-3 py-2.5 bg-ewc-navy-light/95 backdrop-blur-xl border-t border-white/10 flex items-end gap-2 flex-shrink-0 safe-area-bottom"
       >
-        <input
-          ref={inputRef}
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type a message..."
-          className="flex-1 px-4 py-2.5 bg-white/5 border border-white/10 rounded-full text-white text-sm placeholder:text-ewc-silver/50 focus:outline-none focus:border-ewc-burgundy transition-colors"
-        />
+        <div className="flex-1">
+          <textarea
+            ref={textareaRef}
+            value={newMessage}
+            onChange={(e) => {
+              setNewMessage(e.target.value);
+              adjustTextarea();
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage(e);
+              }
+            }}
+            placeholder="Type a message..."
+            rows={1}
+            className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-2xl text-white text-[15px] placeholder:text-ewc-silver/50 focus:outline-none focus:border-ewc-burgundy/50 transition-colors resize-none overflow-hidden leading-normal"
+            style={{ maxHeight: "120px" }}
+          />
+        </div>
         <button
           type="submit"
           disabled={!newMessage.trim() || sending}
-          className="w-10 h-10 bg-ewc-burgundy rounded-full flex items-center justify-center text-white hover:bg-ewc-burgundy-hover transition-colors disabled:opacity-40 flex-shrink-0"
+          className={`w-10 h-10 bg-ewc-burgundy rounded-full flex items-center justify-center text-white transition-all disabled:opacity-30 disabled:scale-90 flex-shrink-0 mb-0.5 press-effect ${
+            sendAnimation ? "send-pulse" : ""
+          }`}
         >
           <Send className="w-4 h-4" />
         </button>

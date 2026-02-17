@@ -1,13 +1,24 @@
 {
-  "name": "EWC Calgary",
+  "name": "EWC Calgary Community",
   "short_name": "EWC",
   "description": "Empowerment Worship Centre — Calgary Campus. Community, worship, and connection.",
   "start_url": "/community",
+  "id": "/community",
   "display": "standalone",
-  "background_color": "#0a0a0a",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#1F1F21",
   "theme_color": "#7B2D3B",
   "orientation": "portrait-primary",
   "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["social", "lifestyle", "community"],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
@@ -58,26 +69,35 @@
       "purpose": "maskable any"
     }
   ],
-  "categories": ["social", "lifestyle", "community"],
   "screenshots": [],
   "shortcuts": [
     {
-      "name": "Community Chat",
-      "short_name": "Chat",
+      "name": "Community Hub",
+      "short_name": "Hub",
       "url": "/community",
-      "description": "Open community chats"
+      "description": "Go to community hub",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Chat Rooms",
+      "short_name": "Chat",
+      "url": "/community/chat",
+      "description": "Open chat rooms",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     },
     {
       "name": "Direct Messages",
       "short_name": "DMs",
       "url": "/community/dm",
-      "description": "View direct messages"
+      "description": "View direct messages",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     },
     {
       "name": "Events",
       "short_name": "Events",
       "url": "/events",
-      "description": "Browse upcoming events"
+      "description": "Browse upcoming events",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     }
   ]
 }

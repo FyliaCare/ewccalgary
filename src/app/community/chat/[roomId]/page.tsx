@@ -81,11 +81,14 @@ export default function ChatRoomPage() {
   const [hasMore, setHasMore] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [atBottom, setAtBottom] = useState(true);
+  const [longPressMsg, setLongPressMsg] = useState<string | null>(null);
+  const [sendAnimation, setSendAnimation] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lastMessageIdRef = useRef<string | null>(null);
+  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
 
   const fetchRoom = useCallback(async () => {
     try {
@@ -111,7 +114,6 @@ export default function ChatRoomPage() {
           setMessages(data.messages);
         }
         setHasMore(data.hasMore);
-
         if (!cursor && data.messages.length > 0) {
           lastMessageIdRef.current = data.messages[data.messages.length - 1].id;
         }
@@ -119,7 +121,6 @@ export default function ChatRoomPage() {
     } catch { /* silent */ }
   }, [roomId]);
 
-  // Poll for new messages
   const pollMessages = useCallback(async () => {
     try {
       const res = await fetch(`/api/chat/rooms/${roomId}/messages`);
@@ -150,12 +151,19 @@ export default function ChatRoomPage() {
     return () => clearInterval(interval);
   }, [pollMessages]);
 
-  // Scroll to bottom on initial load
   useEffect(() => {
     if (messages.length > 0 && atBottom) {
       messagesEndRef.current?.scrollIntoView();
     }
   }, [messages.length > 0]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Auto-resize textarea
+  const adjustTextarea = () => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = Math.min(el.scrollHeight, 120) + "px";
+  };
 
   const handleScroll = () => {
     const container = messagesContainerRef.current;
@@ -171,10 +179,29 @@ export default function ChatRoomPage() {
     setLoadingMore(false);
   };
 
+  // Long press handler for mobile reactions
+  const handleTouchStart = (msgId: string) => {
+    longPressTimer.current = setTimeout(() => {
+      setLongPressMsg(msgId);
+      setShowEmojiFor(msgId);
+      // Haptic feedback (if supported)
+      if (navigator.vibrate) navigator.vibrate(30);
+    }, 500);
+  };
+
+  const handleTouchEnd = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  };
+
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || sending) return;
     setSending(true);
+    setSendAnimation(true);
+    setTimeout(() => setSendAnimation(false), 300);
 
     try {
       const body: Record<string, string> = { content: newMessage.trim() };
@@ -192,6 +219,8 @@ export default function ChatRoomPage() {
         lastMessageIdRef.current = msg.id;
         setNewMessage("");
         setReplyTo(null);
+        // Reset textarea height
+        if (textareaRef.current) textareaRef.current.style.height = "auto";
         setTimeout(() => {
           messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
           setAtBottom(true);
@@ -199,7 +228,7 @@ export default function ChatRoomPage() {
       }
     } catch { /* silent */ }
     setSending(false);
-    inputRef.current?.focus();
+    textareaRef.current?.focus();
   };
 
   const toggleReaction = async (messageId: string, emoji: string) => {
@@ -211,6 +240,7 @@ export default function ChatRoomPage() {
       });
       if (res.ok) {
         setShowEmojiFor(null);
+        setLongPressMsg(null);
         pollMessages();
       }
     } catch { /* silent */ }
@@ -230,8 +260,7 @@ export default function ChatRoomPage() {
   };
 
   const formatTime = (dateStr: string) => {
-    const d = new Date(dateStr);
-    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    return new Date(dateStr).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
   const formatDate = (dateStr: string) => {
@@ -259,31 +288,46 @@ export default function ChatRoomPage() {
     return groups;
   };
 
+  // Skeleton loading screen
   if (!room) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-ewc-burgundy border-t-transparent rounded-full animate-spin" />
+      <div className="h-screen flex flex-col bg-ewc-navy">
+        {/* Skeleton header */}
+        <div className="bg-ewc-navy-light border-b border-white/10 px-4 py-3 flex items-center gap-3 flex-shrink-0">
+          <div className="w-5 h-5 skeleton rounded" />
+          <div className="w-9 h-9 skeleton rounded-lg" />
+          <div className="flex-1 space-y-2">
+            <div className="w-24 h-4 skeleton" />
+            <div className="w-32 h-3 skeleton" />
+          </div>
+        </div>
+        {/* Skeleton messages */}
+        <div className="flex-1 p-4 space-y-4">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className={`flex gap-3 ${i % 2 === 0 ? "" : "flex-row-reverse"}`}>
+              <div className="w-8 h-8 skeleton rounded-full flex-shrink-0" />
+              <div className="space-y-1.5" style={{ width: `${40 + Math.random() * 30}%` }}>
+                <div className="h-3 skeleton w-16" />
+                <div className="h-10 skeleton rounded-2xl" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-screen md:h-screen">
-      {/* Header */}
-      <div className="bg-ewc-navy-light border-b border-white/10 px-4 py-3 flex items-center gap-3 flex-shrink-0 z-10">
+    <div className="flex flex-col h-screen bg-ewc-navy">
+      {/* Header — frosted glass */}
+      <div className="bg-ewc-navy-light/95 backdrop-blur-xl border-b border-white/10 px-4 py-3 flex items-center gap-3 flex-shrink-0 z-10 safe-area-top">
         <Link
           href="/community/chat"
-          className="text-ewc-silver hover:text-white md:hidden"
+          className="text-ewc-silver hover:text-white press-effect p-1 -ml-1 rounded-lg"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
-        <Link
-          href="/community"
-          className="text-ewc-silver hover:text-white hidden md:block"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
-        <div className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+        <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
           {getRoomIcon()}
         </div>
         <div className="flex-1 min-w-0">
@@ -294,7 +338,7 @@ export default function ChatRoomPage() {
         </div>
         <button
           onClick={() => setShowMembers(!showMembers)}
-          className="text-ewc-silver hover:text-white p-1.5 rounded-lg hover:bg-white/5 transition-colors"
+          className="text-ewc-silver hover:text-white p-2 rounded-xl hover:bg-white/5 transition-colors press-effect"
         >
           <Users className="w-5 h-5" />
         </button>
@@ -302,29 +346,36 @@ export default function ChatRoomPage() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Messages area */}
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-1 flex flex-col min-w-0 relative">
           <div
             ref={messagesContainerRef}
             onScroll={handleScroll}
-            className="flex-1 overflow-y-auto p-4 space-y-0 relative"
+            className="flex-1 overflow-y-auto p-4 space-y-0 community-scroll overscroll-contain"
           >
             {/* Load more */}
             {hasMore && (
-              <div className="text-center py-2 mb-2">
+              <div className="text-center py-3 mb-2">
                 <button
                   onClick={loadMore}
                   disabled={loadingMore}
-                  className="text-ewc-burgundy-light text-xs hover:underline disabled:opacity-50"
+                  className="text-ewc-burgundy-light text-xs press-effect px-4 py-2 rounded-full bg-white/5 disabled:opacity-50"
                 >
-                  {loadingMore ? "Loading..." : "Load earlier messages"}
+                  {loadingMore ? (
+                    <span className="flex items-center gap-2">
+                      <div className="w-3 h-3 border border-ewc-burgundy-light border-t-transparent rounded-full animate-spin" />
+                      Loading...
+                    </span>
+                  ) : "Load earlier messages"}
                 </button>
               </div>
             )}
 
             {messages.length === 0 ? (
               <div className="flex-1 flex items-center justify-center py-16">
-                <div className="text-center">
-                  <MessageCircle className="w-12 h-12 text-ewc-silver/20 mx-auto mb-3" />
+                <div className="text-center fade-in-up">
+                  <div className="w-16 h-16 rounded-2xl bg-ewc-burgundy/10 flex items-center justify-center mx-auto mb-3">
+                    <MessageCircle className="w-8 h-8 text-ewc-burgundy-light/50" />
+                  </div>
                   <p className="text-ewc-silver text-sm">
                     No messages yet. Start the conversation!
                   </p>
@@ -336,7 +387,7 @@ export default function ChatRoomPage() {
                   {/* Date separator */}
                   <div className="flex items-center gap-3 my-4">
                     <div className="flex-1 h-px bg-white/10" />
-                    <span className="text-ewc-silver/50 text-[11px] font-medium uppercase">
+                    <span className="text-ewc-silver/50 text-[11px] font-medium uppercase bg-ewc-navy px-2 py-0.5 rounded-full">
                       {group.date}
                     </span>
                     <div className="flex-1 h-px bg-white/10" />
@@ -346,29 +397,25 @@ export default function ChatRoomPage() {
                     const isOwn = msg.senderId === member?.id;
                     const prevMsg = idx > 0 ? group.messages[idx - 1] : null;
                     const sameSender = prevMsg?.senderId === msg.senderId;
-                    const withinMinute =
-                      prevMsg &&
-                      new Date(msg.createdAt).getTime() -
-                        new Date(prevMsg.createdAt).getTime() <
-                        60000;
+                    const withinMinute = prevMsg &&
+                      new Date(msg.createdAt).getTime() - new Date(prevMsg.createdAt).getTime() < 60000;
                     const collapsed = sameSender && withinMinute;
 
                     return (
                       <div
                         key={msg.id}
-                        className={`group flex gap-3 ${collapsed ? "mt-0.5" : "mt-3"} ${
+                        className={`group flex gap-2.5 ${collapsed ? "mt-0.5" : "mt-3"} ${
                           isOwn ? "flex-row-reverse" : ""
-                        }`}
+                        } msg-appear`}
+                        onTouchStart={() => handleTouchStart(msg.id)}
+                        onTouchEnd={handleTouchEnd}
+                        onTouchCancel={handleTouchEnd}
                       >
                         {/* Avatar */}
                         {!collapsed ? (
                           <div className="w-8 h-8 rounded-full bg-ewc-burgundy/30 flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-1">
                             {msg.sender.avatar ? (
-                              <img
-                                src={msg.sender.avatar}
-                                alt=""
-                                className="w-8 h-8 rounded-full object-cover"
-                              />
+                              <img src={msg.sender.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
                             ) : (
                               msg.sender.displayName?.charAt(0).toUpperCase()
                             )}
@@ -377,7 +424,7 @@ export default function ChatRoomPage() {
                           <div className="w-8 flex-shrink-0" />
                         )}
 
-                        <div className={`max-w-[75%] min-w-0 ${isOwn ? "items-end" : "items-start"} flex flex-col`}>
+                        <div className={`max-w-[78%] min-w-0 ${isOwn ? "items-end" : "items-start"} flex flex-col`}>
                           {/* Name + time */}
                           {!collapsed && (
                             <div className={`flex items-center gap-2 mb-0.5 ${isOwn ? "flex-row-reverse" : ""}`}>
@@ -392,7 +439,7 @@ export default function ChatRoomPage() {
 
                           {/* Reply preview */}
                           {msg.replyTo && (
-                            <div className={`text-[11px] px-2 py-1 mb-0.5 rounded border-l-2 border-ewc-burgundy/50 bg-white/5 text-ewc-silver/60 ${isOwn ? "ml-auto" : ""}`}>
+                            <div className={`text-[11px] px-2.5 py-1.5 mb-0.5 rounded-lg border-l-2 border-ewc-burgundy/50 bg-white/5 text-ewc-silver/60 ${isOwn ? "ml-auto" : ""}`}>
                               <span className="text-ewc-burgundy-light font-medium">
                                 {msg.replyTo.sender.displayName}
                               </span>
@@ -403,24 +450,21 @@ export default function ChatRoomPage() {
 
                           {/* Message bubble */}
                           <div
-                            className={`relative px-3 py-2 rounded-2xl text-sm break-words ${
+                            className={`relative px-3.5 py-2.5 rounded-2xl text-[15px] leading-relaxed break-words ${
                               isOwn
                                 ? "bg-ewc-burgundy text-white rounded-br-md"
                                 : "bg-white/10 text-white rounded-bl-md"
-                            }`}
+                            } ${longPressMsg === msg.id ? "ring-2 ring-ewc-burgundy-light/50 scale-[1.02]" : ""} transition-transform duration-150`}
                           >
                             {msg.content}
                             {msg.edited && (
                               <span className="text-[9px] ml-1 opacity-50">(edited)</span>
                             )}
 
-                            {/* Action buttons (appear on hover) */}
-                            <div className={`absolute top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-0.5 ${isOwn ? "-left-16" : "-right-16"}`}>
+                            {/* Desktop hover actions */}
+                            <div className={`absolute top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex gap-0.5 ${isOwn ? "-left-16" : "-right-16"}`}>
                               <button
-                                onClick={() => {
-                                  setReplyTo(msg);
-                                  inputRef.current?.focus();
-                                }}
+                                onClick={() => { setReplyTo(msg); textareaRef.current?.focus(); }}
                                 className="p-1 rounded bg-white/10 text-ewc-silver hover:text-white"
                                 title="Reply"
                               >
@@ -436,18 +480,36 @@ export default function ChatRoomPage() {
                             </div>
                           </div>
 
-                          {/* Emoji picker */}
+                          {/* Emoji picker — mobile: shown on long press, desktop: on hover click */}
                           {showEmojiFor === msg.id && (
-                            <div className={`flex gap-1 mt-1 flex-wrap ${isOwn ? "justify-end" : ""}`}>
+                            <div className={`flex gap-1.5 mt-1.5 flex-wrap ${isOwn ? "justify-end" : ""} scale-in`}>
                               {EMOJIS.map((emoji) => (
                                 <button
                                   key={emoji}
                                   onClick={() => toggleReaction(msg.id, emoji)}
-                                  className="text-base hover:scale-125 transition-transform p-0.5"
+                                  className="text-lg hover:scale-125 active:scale-95 transition-transform p-1 rounded-lg hover:bg-white/10"
                                 >
                                   {emoji}
                                 </button>
                               ))}
+                              {/* Mobile: Reply & Close buttons */}
+                              <button
+                                onClick={() => {
+                                  setReplyTo(msg);
+                                  setShowEmojiFor(null);
+                                  setLongPressMsg(null);
+                                  textareaRef.current?.focus();
+                                }}
+                                className="p-1.5 rounded-lg bg-white/10 text-ewc-silver hover:text-white md:hidden"
+                              >
+                                <Reply className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => { setShowEmojiFor(null); setLongPressMsg(null); }}
+                                className="p-1.5 rounded-lg bg-white/10 text-ewc-silver hover:text-white"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
                             </div>
                           )}
 
@@ -465,7 +527,7 @@ export default function ChatRoomPage() {
                                 <button
                                   key={emoji}
                                   onClick={() => toggleReaction(msg.id, emoji)}
-                                  className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs border transition-colors ${
+                                  className={`flex items-center gap-0.5 px-2 py-0.5 rounded-full text-xs border transition-all active:scale-95 ${
                                     data.hasOwn
                                       ? "bg-ewc-burgundy/20 border-ewc-burgundy/40 text-white"
                                       : "bg-white/5 border-white/10 text-ewc-silver"
@@ -487,11 +549,11 @@ export default function ChatRoomPage() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Scroll to bottom button */}
+          {/* Scroll to bottom FAB */}
           {!atBottom && (
             <button
               onClick={scrollToBottom}
-              className="absolute bottom-24 md:bottom-20 right-6 w-9 h-9 bg-ewc-burgundy rounded-full flex items-center justify-center text-white shadow-lg hover:bg-ewc-burgundy-hover transition-colors z-10"
+              className="absolute bottom-20 right-4 w-10 h-10 bg-ewc-burgundy rounded-full flex items-center justify-center text-white shadow-lg press-effect z-10 scale-in"
             >
               <ChevronDown className="w-5 h-5" />
             </button>
@@ -499,37 +561,49 @@ export default function ChatRoomPage() {
 
           {/* Reply bar */}
           {replyTo && (
-            <div className="px-4 py-2 bg-white/5 border-t border-white/10 flex items-center gap-2">
+            <div className="px-4 py-2.5 bg-white/5 border-t border-white/10 flex items-center gap-2 slide-in-up">
               <Reply className="w-4 h-4 text-ewc-burgundy flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-ewc-burgundy-light font-medium">
-                  {replyTo.sender.displayName}
-                </p>
+                <p className="text-xs text-ewc-burgundy-light font-medium">{replyTo.sender.displayName}</p>
                 <p className="text-xs text-ewc-silver truncate">{replyTo.content}</p>
               </div>
-              <button onClick={() => setReplyTo(null)} className="text-ewc-silver hover:text-white">
+              <button onClick={() => setReplyTo(null)} className="text-ewc-silver hover:text-white press-effect p-1">
                 <X className="w-4 h-4" />
               </button>
             </div>
           )}
 
-          {/* Input bar */}
+          {/* Input bar — auto-resize textarea */}
           <form
             onSubmit={sendMessage}
-            className="px-4 py-3 bg-ewc-navy-light border-t border-white/10 flex items-center gap-2 flex-shrink-0 mb-14 md:mb-0"
+            className="px-3 py-2.5 bg-ewc-navy-light/95 backdrop-blur-xl border-t border-white/10 flex items-end gap-2 flex-shrink-0 safe-area-bottom"
           >
-            <input
-              ref={inputRef}
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type a message..."
-              className="flex-1 px-4 py-2.5 bg-white/5 border border-white/10 rounded-full text-white text-sm placeholder:text-ewc-silver/50 focus:outline-none focus:border-ewc-burgundy transition-colors"
-            />
+            <div className="flex-1 relative">
+              <textarea
+                ref={textareaRef}
+                value={newMessage}
+                onChange={(e) => {
+                  setNewMessage(e.target.value);
+                  adjustTextarea();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage(e);
+                  }
+                }}
+                placeholder="Type a message..."
+                rows={1}
+                className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-2xl text-white text-[15px] placeholder:text-ewc-silver/50 focus:outline-none focus:border-ewc-burgundy/50 transition-colors resize-none overflow-hidden leading-normal"
+                style={{ maxHeight: "120px" }}
+              />
+            </div>
             <button
               type="submit"
               disabled={!newMessage.trim() || sending}
-              className="w-10 h-10 bg-ewc-burgundy rounded-full flex items-center justify-center text-white hover:bg-ewc-burgundy-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
+              className={`w-10 h-10 bg-ewc-burgundy rounded-full flex items-center justify-center text-white transition-all disabled:opacity-30 disabled:scale-90 flex-shrink-0 mb-0.5 press-effect ${
+                sendAnimation ? "send-pulse" : ""
+              }`}
             >
               <Send className="w-4 h-4" />
             </button>
@@ -538,46 +612,32 @@ export default function ChatRoomPage() {
 
         {/* Members sidebar (desktop) */}
         {showMembers && (
-          <div className="hidden md:block w-64 border-l border-white/10 bg-ewc-navy-light overflow-y-auto flex-shrink-0">
+          <div className="hidden md:block w-64 border-l border-white/10 bg-ewc-navy-light overflow-y-auto flex-shrink-0 community-scroll">
             <div className="p-4 border-b border-white/10">
               <div className="flex items-center justify-between">
                 <h3 className="text-white font-medium text-sm">Members</h3>
-                <button
-                  onClick={() => setShowMembers(false)}
-                  className="text-ewc-silver hover:text-white"
-                >
+                <button onClick={() => setShowMembers(false)} className="text-ewc-silver hover:text-white">
                   <X className="w-4 h-4" />
                 </button>
               </div>
             </div>
             <div className="p-3 space-y-1">
               {room.members
-                .sort((a, b) => {
-                  if (a.member.isOnline && !b.member.isOnline) return -1;
-                  if (!a.member.isOnline && b.member.isOnline) return 1;
-                  return 0;
-                })
+                .sort((a, b) => (a.member.isOnline ? -1 : 1) - (b.member.isOnline ? -1 : 1))
                 .map((rm) => (
-                  <div
-                    key={rm.id}
-                    className="flex items-center gap-2.5 px-2 py-1.5 rounded-lg hover:bg-white/5"
-                  >
+                  <div key={rm.id} className="flex items-center gap-2.5 px-2 py-1.5 rounded-lg hover:bg-white/5">
                     <div className="relative flex-shrink-0">
                       <div className="w-7 h-7 rounded-full bg-ewc-burgundy/30 flex items-center justify-center text-white text-[11px] font-bold">
                         {rm.member.displayName?.charAt(0).toUpperCase()}
                       </div>
-                      <div
-                        className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-ewc-navy-light ${
-                          rm.member.isOnline ? "bg-green-500" : "bg-ewc-silver/30"
-                        }`}
-                      />
+                      <div className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-ewc-navy-light ${
+                        rm.member.isOnline ? "bg-green-500" : "bg-ewc-silver/30"
+                      }`} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-white text-xs truncate">{rm.member.displayName}</p>
                       {rm.role !== "member" && (
-                        <span className="text-[9px] text-ewc-burgundy-light uppercase font-bold">
-                          {rm.role}
-                        </span>
+                        <span className="text-[9px] text-ewc-burgundy-light uppercase font-bold">{rm.role}</span>
                       )}
                     </div>
                   </div>
@@ -587,49 +647,38 @@ export default function ChatRoomPage() {
         )}
       </div>
 
-      {/* Mobile members panel (overlay) */}
+      {/* Mobile members panel (overlay) — slide from right */}
       {showMembers && (
         <div className="md:hidden fixed inset-0 z-50">
-          <div
-            className="absolute inset-0 bg-black/60"
-            onClick={() => setShowMembers(false)}
-          />
-          <div className="absolute right-0 top-0 bottom-0 w-72 bg-ewc-navy-light overflow-y-auto">
-            <div className="p-4 border-b border-white/10 flex items-center justify-between">
+          <div className="absolute inset-0 bg-black/60 fade-in" onClick={() => setShowMembers(false)} />
+          <div className="absolute right-0 top-0 bottom-0 w-72 bg-ewc-navy-light overflow-y-auto slide-in-right community-scroll">
+            <div className="p-4 border-b border-white/10 flex items-center justify-between safe-area-top">
               <h3 className="text-white font-medium text-sm">Members ({room._count.members})</h3>
-              <button
-                onClick={() => setShowMembers(false)}
-                className="text-ewc-silver hover:text-white"
-              >
+              <button onClick={() => setShowMembers(false)} className="text-ewc-silver hover:text-white press-effect p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="p-3 space-y-1">
+            <div className="p-3 space-y-0.5">
               {room.members
                 .sort((a, b) => (a.member.isOnline ? -1 : 1) - (b.member.isOnline ? -1 : 1))
                 .map((rm) => (
-                  <div
-                    key={rm.id}
-                    className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5"
-                  >
+                  <div key={rm.id} className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 list-press transition-colors">
                     <div className="relative flex-shrink-0">
-                      <div className="w-8 h-8 rounded-full bg-ewc-burgundy/30 flex items-center justify-center text-white text-xs font-bold">
+                      <div className="w-9 h-9 rounded-full bg-ewc-burgundy/30 flex items-center justify-center text-white text-xs font-bold">
                         {rm.member.displayName?.charAt(0).toUpperCase()}
                       </div>
-                      <div
-                        className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-ewc-navy-light ${
-                          rm.member.isOnline ? "bg-green-500" : "bg-ewc-silver/30"
-                        }`}
-                      />
+                      <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-ewc-navy-light ${
+                        rm.member.isOnline ? "bg-green-500" : "bg-ewc-silver/30"
+                      }`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-white text-sm truncate">
-                        {rm.member.displayName}
-                      </p>
+                      <p className="text-white text-sm truncate">{rm.member.displayName}</p>
                       <p className="text-ewc-silver/50 text-[11px]">
-                        {rm.member.isOnline
-                          ? "Online"
-                          : `Last seen ${new Date(rm.member.lastSeen).toLocaleDateString()}`}
+                        {rm.member.isOnline ? (
+                          <span className="text-green-400">Online</span>
+                        ) : (
+                          `Last seen ${new Date(rm.member.lastSeen).toLocaleDateString()}`
+                        )}
                       </p>
                     </div>
                     {rm.role !== "member" && (
