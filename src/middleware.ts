@@ -27,8 +27,19 @@ export async function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", pathname);
 
-  // Allow login page and login API
-  if (pathname === "/admin/login" || pathname === "/api/auth/login") {
+  // Allow login page, login API, and member auth routes
+  if (
+    pathname === "/admin/login" ||
+    pathname === "/api/auth/login" ||
+    pathname.startsWith("/api/auth/member/")
+  ) {
+    return NextResponse.next({
+      request: { headers: requestHeaders },
+    });
+  }
+
+  // Community chat API routes — auth handled in route handlers via member-token
+  if (pathname.startsWith("/api/chat/")) {
     return NextResponse.next({
       request: { headers: requestHeaders },
     });
@@ -44,15 +55,20 @@ export async function middleware(request: NextRequest) {
     (route) => pathname === route || pathname.startsWith(route + "/")
   );
 
-  // Public POST endpoints (volunteer signup, contact form, giving)
+  // Public POST endpoints (volunteer signup, contact form, giving, event registration)
   const publicPostRoutes = ["/api/volunteers", "/api/contact", "/api/give"];
   const isPublicPost =
-    request.method === "POST" && publicPostRoutes.includes(pathname);
+    request.method === "POST" &&
+    (publicPostRoutes.includes(pathname) ||
+      /^\/api\/events\/[^/]+\/register$/.test(pathname));
 
-  // Public GET endpoints (events, sermons, departments — needed by frontend pages)
+  // Public GET endpoints (events, sermons, departments, single event, ticket lookup)
   const publicGetRoutes = ["/api/events", "/api/sermons", "/api/departments"];
   const isPublicGet =
-    request.method === "GET" && publicGetRoutes.includes(pathname);
+    request.method === "GET" &&
+    (publicGetRoutes.includes(pathname) ||
+      /^\/api\/events\/[^/]+$/.test(pathname) ||
+      /^\/api\/tickets\/[^/]+$/.test(pathname));
 
   if (isAdminPage) {
     return await verifyAuth(request);

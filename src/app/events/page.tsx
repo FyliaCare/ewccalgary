@@ -3,7 +3,16 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, Clock, MapPin, ArrowRight, Sparkles } from "lucide-react";
+import { Calendar, Clock, MapPin, ArrowRight, Sparkles, Ticket, Users } from "lucide-react";
+
+interface TicketType {
+  id: string;
+  name: string;
+  price: number;
+  isFree: boolean;
+  quantity: number | null;
+  _count: { registrations: number };
+}
 
 interface Event {
   id: string;
@@ -16,6 +25,11 @@ interface Event {
   category: string;
   image: string | null;
   featured: boolean;
+  registrationOpen: boolean;
+  registrationDeadline: string | null;
+  maxCapacity: number | null;
+  ticketTypes: TicketType[];
+  _count: { registrations: number };
 }
 
 const serviceSchedule = [
@@ -121,11 +135,23 @@ export default function EventsPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {upcomingEvents.map((event) => (
-                <div key={event.id} className="card group hover:border-ewc-burgundy/30">
+              {upcomingEvents.map((event) => {
+                const lowestPrice = event.ticketTypes.length > 0
+                  ? Math.min(...event.ticketTypes.map((t) => t.price))
+                  : null;
+                const allFree = event.ticketTypes.every((t) => t.isFree);
+                const hasTickets = event.ticketTypes.length > 0;
+
+                return (
+                <Link href={`/events/${event.id}`} key={event.id} className="card group hover:border-ewc-burgundy/30 block">
                   {event.image && (
                     <div className="relative h-44 bg-ewc-light rounded-xl mb-4 overflow-hidden">
                       <Image src={event.image} alt={event.title} fill className="object-cover" />
+                      {event.featured && (
+                        <div className="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 text-[10px] font-heading font-bold uppercase tracking-wider">
+                          ★ Featured
+                        </div>
+                      )}
                     </div>
                   )}
                   <div className="flex items-start gap-4">
@@ -137,7 +163,7 @@ export default function EventsPage() {
                         {new Date(event.date).getDate()}
                       </p>
                     </div>
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <span className="inline-block px-2 py-0.5 rounded-full bg-ewc-light text-ewc-silver text-[11px] uppercase tracking-wider font-heading mb-1.5">
                         {event.category}
                       </span>
@@ -153,10 +179,32 @@ export default function EventsPage() {
                           <MapPin size={12} /> {event.location}
                         </p>
                       )}
+
+                      {/* Ticket Info */}
+                      {hasTickets && (
+                        <div className="flex items-center gap-3 mt-3 pt-3 border-t border-ewc-mist">
+                          <div className="flex items-center gap-1.5 text-xs font-heading font-bold text-ewc-burgundy">
+                            <Ticket size={13} />
+                            {allFree ? "Free" : `From $${lowestPrice?.toFixed(2)}`}
+                          </div>
+                          {event.registrationOpen && (
+                            <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-heading font-bold uppercase tracking-wider">
+                              Open
+                            </span>
+                          )}
+                          {event.maxCapacity && (
+                            <div className="flex items-center gap-1 text-[11px] text-ewc-silver ml-auto">
+                              <Users size={11} />
+                              {event._count.registrations}/{event.maxCapacity}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              ))}
+                </Link>
+              );
+              })}
             </div>
           )}
         </div>
@@ -171,7 +219,7 @@ export default function EventsPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {pastEvents.map((event) => (
-                <div key={event.id} className="card opacity-80 hover:opacity-100 transition-opacity">
+                <Link href={`/events/${event.id}`} key={event.id} className="card opacity-80 hover:opacity-100 transition-opacity block">
                   <div className="flex items-start gap-4">
                     <div className="bg-ewc-light rounded-xl p-3 text-center flex-shrink-0">
                       <p className="text-ewc-silver font-heading font-bold text-xs uppercase">
@@ -186,7 +234,7 @@ export default function EventsPage() {
                       <p className="text-ewc-silver text-sm line-clamp-2">{event.description}</p>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

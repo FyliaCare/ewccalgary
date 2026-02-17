@@ -33,6 +33,13 @@ export const metadata: Metadata = {
     "EWC Canada",
     "church Calgary",
   ],
+  manifest: "/manifest.json",
+  themeColor: "#7B2D3B",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "EWC Calgary",
+  },
   openGraph: {
     title: "EWC Calgary — Empowerment Worship Centre",
     description:
@@ -50,15 +57,34 @@ export default async function RootLayout({
   const headersList = await headers();
   const pathname = headersList.get("x-pathname") || "";
   const isAdmin = pathname.startsWith("/admin");
+  const isCommunity = pathname.startsWith("/community");
+  const isAppShell = isAdmin || isCommunity;
 
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+      </head>
       <body
         className={`${inter.variable} ${montserrat.variable} font-body antialiased bg-ewc-snow text-ewc-charcoal`}
       >
-        {!isAdmin && <Header />}
-        <main className={!isAdmin ? "min-h-screen pt-20" : ""}>{children}</main>
-        {!isAdmin && <Footer />}
+        {!isAppShell && <Header />}
+        <main className={!isAppShell ? "min-h-screen pt-20" : ""}>{children}</main>
+        {!isAppShell && <Footer />}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                  navigator.serviceWorker.register('/sw.js').catch(() => {});
+                });
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   );

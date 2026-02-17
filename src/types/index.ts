@@ -39,8 +39,49 @@ export interface Event {
   category: string;
   featured: boolean;
   published: boolean;
+  registrationOpen: boolean;
+  registrationDeadline?: Date | string | null;
+  maxCapacity?: number | null;
+  requireApproval: boolean;
+  ticketTypes?: EventTicketType[];
+  registrations?: EventRegistration[];
+  _count?: { registrations: number };
   createdAt: Date | string;
   updatedAt: Date | string;
+}
+
+export interface EventTicketType {
+  id: string;
+  eventId: string;
+  name: string;
+  description?: string | null;
+  price: number;
+  currency: string;
+  quantity?: number | null;
+  maxPerOrder: number;
+  isFree: boolean;
+  sortOrder: number;
+  _count?: { registrations: number };
+  createdAt: Date | string;
+}
+
+export interface EventRegistration {
+  id: string;
+  eventId: string;
+  event?: Event;
+  ticketTypeId: string;
+  ticketType?: EventTicketType;
+  ticketCode: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string | null;
+  numberOfTickets: number;
+  status: string;
+  checkedIn: boolean;
+  checkedInAt?: Date | string | null;
+  notes?: string | null;
+  createdAt: Date | string;
 }
 
 export interface Sermon {
