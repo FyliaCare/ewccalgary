@@ -160,9 +160,23 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Empowerment Worship Centre &mdash; Calgary
             Campus. All Rights Reserved.
           </p>
-          <p className="text-gray-500 text-xs">
-            Global Lead Pastor: Prophet Gideon Danso
-          </p>
+          <div className="flex items-center gap-3 sm:gap-4 text-xs">
+            <a
+              href="https://www.microaisystems.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-ewc-burgundy-hover transition-colors"
+            >
+              Powered by MicroAI Systems
+            </a>
+            <span className="text-gray-600">|</span>
+            <Link
+              href="/admin"
+              className="text-gray-500 hover:text-ewc-burgundy-hover transition-colors"
+            >
+              Admin
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
