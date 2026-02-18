@@ -42,7 +42,6 @@ const quickLinks = [
 
 export default function HomeContent() {
   const [showVolunteerModal, setShowVolunteerModal] = useState(false);
-  const [showVolunteerPrompt, setShowVolunteerPrompt] = useState(false);
   const [showPastorLightbox, setShowPastorLightbox] = useState(false);
   const [lightboxEnter, setLightboxEnter] = useState(false);
 
@@ -59,6 +58,16 @@ export default function HomeContent() {
     }
   }, []);
 
+  // Lock body scroll while pastor lightbox is open
+  useEffect(() => {
+    if (showPastorLightbox) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [showPastorLightbox]);
+
   function closePastorLightbox() {
     setLightboxEnter(false);
     setTimeout(() => {
@@ -67,24 +76,7 @@ export default function HomeContent() {
     }, 300);
   }
 
-  // Show the volunteer prompt after 8 seconds, but only once per session
-  useEffect(() => {
-    const hasSeenPrompt = sessionStorage.getItem("ewc-volunteer-prompt");
-    if (!hasSeenPrompt) {
-      const timer = setTimeout(() => {
-        setShowVolunteerPrompt(true);
-      }, 8000);
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
-  function dismissPrompt() {
-    setShowVolunteerPrompt(false);
-    sessionStorage.setItem("ewc-volunteer-prompt", "true");
-  }
-
   function openVolunteerModal() {
-    dismissPrompt();
     setShowVolunteerModal(true);
   }
 
@@ -101,7 +93,7 @@ export default function HomeContent() {
           }}
         >
           <div
-            className={`relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ${
+            className={`relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl transition-all duration-300 ${
               lightboxEnter
                 ? "opacity-100 scale-100 translate-y-0"
                 : "opacity-0 scale-95 translate-y-4"
@@ -116,16 +108,17 @@ export default function HomeContent() {
             </button>
 
             {/* Pastor photo */}
-            <div className="relative w-full aspect-[4/3] overflow-hidden">
+            <div className="relative w-full">
               <Image
                 src="/PHL.png"
                 alt="Pastor Humphrey Lomotey"
-                fill
-                className="object-cover object-top"
+                width={512}
+                height={640}
+                className="w-full h-auto block"
                 sizes="(max-width: 512px) 100vw, 512px"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-5">
                 <p className="text-white/80 text-xs font-heading font-semibold tracking-wider uppercase">
                   Campus Pastor
@@ -181,49 +174,6 @@ export default function HomeContent() {
               <p className="text-center text-ewc-silver text-[11px] mt-4">
                 God bless you — see you Sunday! 🙏
               </p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Volunteer Prompt Banner — slides in from bottom */}
-      {showVolunteerPrompt && (
-        <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-[999] w-[92%] max-w-lg animate-slide-up safe-area-bottom">
-          <div className="relative bg-white rounded-2xl shadow-2xl border border-ewc-burgundy-light overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1 burgundy-gradient" />
-            <button
-              onClick={dismissPrompt}
-              className="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors text-sm active:scale-90"
-            >
-              ✕
-            </button>
-            <div className="p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
-              <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-ewc-burgundy-50 flex items-center justify-center">
-                <Users size={24} className="text-ewc-burgundy" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="font-heading font-bold text-ewc-charcoal text-sm sm:text-base mb-0.5">
-                  Ready to Make a Difference?
-                </h4>
-                <p className="text-ewc-silver text-[11px] sm:text-xs leading-snug">
-                  Join our volunteer team and serve with your gifts. Sign up takes less than 2 minutes!
-                </p>
-              </div>
-            </div>
-            <div className="px-4 sm:px-5 pb-3 sm:pb-4 flex gap-2 sm:gap-3">
-              <button
-                onClick={openVolunteerModal}
-                className="btn-burgundy flex-1 py-2.5 text-xs"
-              >
-                <Sparkles size={14} className="mr-1.5" />
-                Sign Up Now
-              </button>
-              <button
-                onClick={dismissPrompt}
-                className="px-3 sm:px-4 py-2.5 rounded-lg text-ewc-silver hover:text-ewc-charcoal text-xs font-heading font-semibold transition-colors"
-              >
-                Maybe Later
-              </button>
             </div>
           </div>
         </div>
