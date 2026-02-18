@@ -73,10 +73,10 @@ export default function AdminDashboardPage() {
   const unreadCount = messages.filter((m) => !m.read).length;
 
   const stats = [
-    { label: "Total Volunteers", value: volunteers.length.toString(), change: `${pendingCount} pending`, icon: Users, color: "text-blue-400", bg: "bg-blue-500/10", href: "/admin/volunteers" },
-    { label: "Departments", value: deptCount.toString(), change: "All active", icon: Briefcase, color: "text-green-400", bg: "bg-green-500/10", href: "/admin/departments" },
-    { label: "Messages", value: messages.length.toString(), change: `${unreadCount} unread`, icon: Mail, color: "text-purple-400", bg: "bg-purple-500/10", href: "/admin/messages" },
-    { label: "Total Giving", value: `$${totalGiving.toLocaleString()}`, change: `${donations.length} transactions`, icon: DollarSign, color: "text-ewc-burgundy", bg: "bg-ewc-burgundy/10", href: "/admin/giving" },
+    { label: "Total Volunteers", value: volunteers.length.toString(), change: `${pendingCount} pending`, icon: Users, color: "text-blue-600", bg: "bg-blue-50", href: "/admin/volunteers" },
+    { label: "Departments", value: deptCount.toString(), change: "All active", icon: Briefcase, color: "text-emerald-600", bg: "bg-emerald-50", href: "/admin/departments" },
+    { label: "Messages", value: messages.length.toString(), change: `${unreadCount} unread`, icon: Mail, color: "text-violet-600", bg: "bg-violet-50", href: "/admin/messages" },
+    { label: "Total Giving", value: `$${totalGiving.toLocaleString()}`, change: `${donations.length} transactions`, icon: DollarSign, color: "text-ewc-burgundy", bg: "bg-ewc-burgundy-50", href: "/admin/giving" },
   ];
 
   if (loading) {
@@ -90,24 +90,24 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-heading font-bold text-2xl text-white">Dashboard</h1>
-        <p className="text-ewc-gray text-sm mt-1">Welcome back. Here&apos;s an overview of EWC Calgary.</p>
+        <h1 className="font-heading font-bold text-2xl text-gray-900">Dashboard</h1>
+        <p className="text-gray-500 text-sm mt-1">Welcome back. Here&apos;s an overview of EWC Calgary.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Link key={stat.label} href={stat.href} className="card-dark p-5 hover:ring-1 hover:ring-ewc-burgundy/20 transition-all duration-200">
+            <Link key={stat.label} href={stat.href} className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md hover:border-ewc-burgundy/20 transition-all duration-200">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-ewc-gray text-xs font-heading uppercase tracking-wider">{stat.label}</span>
-                <div className={`w-9 h-9 rounded-lg ${stat.bg} flex items-center justify-center`}>
+                <span className="text-gray-500 text-xs font-heading uppercase tracking-wider">{stat.label}</span>
+                <div className={`w-10 h-10 rounded-xl ${stat.bg} flex items-center justify-center`}>
                   <Icon size={18} className={stat.color} />
                 </div>
               </div>
-              <p className="font-heading font-bold text-2xl text-white">{stat.value}</p>
-              <p className="text-ewc-gray text-xs mt-1 flex items-center gap-1">
-                <TrendingUp size={12} className="text-green-400" />
+              <p className="font-heading font-bold text-2xl text-gray-900">{stat.value}</p>
+              <p className="text-gray-400 text-xs mt-1 flex items-center gap-1">
+                <TrendingUp size={12} className="text-emerald-500" />
                 {stat.change}
               </p>
             </Link>
@@ -116,34 +116,34 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 card-dark p-6">
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-heading font-bold text-lg text-white flex items-center gap-2">
+            <h2 className="font-heading font-bold text-lg text-gray-900 flex items-center gap-2">
               <UserPlus size={18} className="text-ewc-burgundy" /> Recent Volunteers
             </h2>
             <Link href="/admin/volunteers" className="text-ewc-burgundy text-xs font-heading uppercase tracking-wider hover:underline">View All</Link>
           </div>
           {volunteers.length === 0 ? (
-            <p className="text-ewc-gray text-sm">No volunteer applications yet.</p>
+            <p className="text-gray-400 text-sm">No volunteer applications yet.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-ewc-dark">
-                    <th className="text-left py-2 text-ewc-gray font-heading text-xs uppercase tracking-wider">Name</th>
-                    <th className="text-left py-2 text-ewc-gray font-heading text-xs uppercase tracking-wider">Department</th>
-                    <th className="text-left py-2 text-ewc-gray font-heading text-xs uppercase tracking-wider">Date</th>
-                    <th className="text-left py-2 text-ewc-gray font-heading text-xs uppercase tracking-wider">Status</th>
+                  <tr className="border-b border-gray-100">
+                    <th className="text-left py-2 text-gray-500 font-heading text-xs uppercase tracking-wider">Name</th>
+                    <th className="text-left py-2 text-gray-500 font-heading text-xs uppercase tracking-wider">Department</th>
+                    <th className="text-left py-2 text-gray-500 font-heading text-xs uppercase tracking-wider">Date</th>
+                    <th className="text-left py-2 text-gray-500 font-heading text-xs uppercase tracking-wider">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {volunteers.slice(0, 5).map((vol) => (
-                    <tr key={vol.id} className="border-b border-ewc-dark/50">
-                      <td className="py-3 text-white">{vol.firstName} {vol.lastName}</td>
-                      <td className="py-3 text-ewc-cream/70">{vol.department?.name || "—"}</td>
-                      <td className="py-3 text-ewc-gray">{new Date(vol.createdAt).toLocaleDateString()}</td>
+                    <tr key={vol.id} className="border-b border-gray-50">
+                      <td className="py-3 text-gray-900 font-medium">{vol.firstName} {vol.lastName}</td>
+                      <td className="py-3 text-gray-600">{vol.department?.name || "—"}</td>
+                      <td className="py-3 text-gray-400">{new Date(vol.createdAt).toLocaleDateString()}</td>
                       <td className="py-3">
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-heading uppercase ${vol.status === "approved" ? "bg-green-500/10 text-green-400" : vol.status === "rejected" ? "bg-red-500/10 text-red-400" : "bg-yellow-500/10 text-yellow-400"}`}>{vol.status}</span>
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${vol.status === "approved" ? "bg-emerald-50 text-emerald-600" : vol.status === "rejected" ? "bg-red-50 text-red-500" : "bg-amber-50 text-amber-600"}`}>{vol.status}</span>
                       </td>
                     </tr>
                   ))}
@@ -153,24 +153,24 @@ export default function AdminDashboardPage() {
           )}
         </div>
 
-        <div className="card-dark p-6">
+        <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-heading font-bold text-lg text-white flex items-center gap-2">
+            <h2 className="font-heading font-bold text-lg text-gray-900 flex items-center gap-2">
               <Mail size={18} className="text-ewc-burgundy" /> Messages
             </h2>
             <Link href="/admin/messages" className="text-ewc-burgundy text-xs font-heading uppercase tracking-wider hover:underline">View All</Link>
           </div>
           {messages.length === 0 ? (
-            <p className="text-ewc-gray text-sm">No messages yet.</p>
+            <p className="text-gray-400 text-sm">No messages yet.</p>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {messages.slice(0, 3).map((msg) => (
-                <div key={msg.id} className="p-3 rounded-lg bg-ewc-dark hover:bg-ewc-dark/80 transition-colors">
+                <div key={msg.id} className="p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
                   <div className="flex items-center justify-between mb-1">
-                    <p className="text-white text-sm font-semibold">{msg.name}</p>
-                    <span className="text-ewc-gray text-xs">{new Date(msg.createdAt).toLocaleDateString()}</span>
+                    <p className="text-gray-900 text-sm font-semibold">{msg.name}</p>
+                    <span className="text-gray-400 text-xs">{new Date(msg.createdAt).toLocaleDateString()}</span>
                   </div>
-                  <p className="text-ewc-gray text-xs">{msg.subject}</p>
+                  <p className="text-gray-500 text-xs">{msg.subject}</p>
                 </div>
               ))}
             </div>
@@ -179,19 +179,21 @@ export default function AdminDashboardPage() {
       </div>
 
       <div>
-        <h2 className="font-heading font-bold text-lg text-white mb-4">Quick Actions</h2>
+        <h2 className="font-heading font-bold text-lg text-gray-900 mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: "Manage Volunteers", icon: Users, href: "/admin/volunteers", color: "text-blue-400" },
-            { label: "Schedule Events", icon: Calendar, href: "/admin/events", color: "text-purple-400" },
-            { label: "Upload Sermon", icon: Video, href: "/admin/sermons", color: "text-green-400" },
-            { label: "View Messages", icon: Mail, href: "/admin/messages", color: "text-ewc-burgundy" },
+            { label: "Manage Volunteers", icon: Users, href: "/admin/volunteers", color: "text-blue-600", bg: "bg-blue-50" },
+            { label: "Schedule Events", icon: Calendar, href: "/admin/events", color: "text-violet-600", bg: "bg-violet-50" },
+            { label: "Upload Sermon", icon: Video, href: "/admin/sermons", color: "text-emerald-600", bg: "bg-emerald-50" },
+            { label: "View Messages", icon: Mail, href: "/admin/messages", color: "text-ewc-burgundy", bg: "bg-ewc-burgundy-50" },
           ].map((action) => {
             const Icon = action.icon;
             return (
-              <Link key={action.label} href={action.href} className="card-dark p-4 flex items-center gap-3 hover:ring-1 hover:ring-ewc-burgundy/20 transition-all">
-                <Icon size={20} className={action.color} />
-                <span className="text-white text-sm font-heading">{action.label}</span>
+              <Link key={action.label} href={action.href} className="bg-white rounded-2xl border border-gray-100 p-4 flex items-center gap-3 shadow-sm hover:shadow-md hover:border-ewc-burgundy/20 transition-all">
+                <div className={`w-10 h-10 rounded-xl ${action.bg} flex items-center justify-center`}>
+                  <Icon size={18} className={action.color} />
+                </div>
+                <span className="text-gray-900 text-sm font-heading font-medium">{action.label}</span>
               </Link>
             );
           })}

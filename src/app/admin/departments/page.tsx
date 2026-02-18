@@ -49,37 +49,37 @@ export default function AdminDepartmentsPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="font-heading font-bold text-2xl text-white">Departments</h1>
-          <p className="text-ewc-gray text-sm mt-1">
+          <h1 className="font-heading font-bold text-2xl text-gray-900">Departments</h1>
+          <p className="text-gray-500 text-sm mt-1">
             Ministry departments and volunteer assignments.
           </p>
         </div>
-        <div className="card-dark px-4 py-2 text-sm text-ewc-cream/70">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-4 py-2 text-sm text-gray-600">
           {departments.length} departments
         </div>
       </div>
 
       {departments.length === 0 ? (
-        <div className="card-dark p-12 text-center">
-          <p className="text-ewc-gray">No departments found.</p>
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-12 text-center">
+          <p className="text-gray-400">No departments found.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {departments.map((dept) => (
-            <div key={dept.id} className="card-dark p-5">
+            <div key={dept.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-ewc-burgundy/20 transition-all">
               <div className="flex items-start justify-between mb-3">
-                <h3 className="font-heading font-bold text-white text-sm">
+                <h3 className="font-heading font-bold text-gray-900 text-sm">
                   {dept.name}
                 </h3>
               </div>
-              <p className="text-ewc-gray text-xs mb-4">{dept.description}</p>
-              <div className="flex items-center justify-between pt-3 border-t border-ewc-dark">
+              <p className="text-gray-500 text-xs mb-4">{dept.description}</p>
+              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                 <div className="flex items-center gap-1.5 text-sm">
                   <Users size={14} className="text-ewc-burgundy" />
-                  <span className="text-white font-semibold">{getVolunteerCount(dept)}</span>
-                  <span className="text-ewc-gray text-xs">volunteers</span>
+                  <span className="text-gray-900 font-semibold">{getVolunteerCount(dept)}</span>
+                  <span className="text-gray-500 text-xs">volunteers</span>
                 </div>
-                <span className="text-ewc-gray text-xs">
+                <span className="text-gray-400 text-xs">
                   Lead: {dept.leader || "TBD"}
                 </span>
               </div>

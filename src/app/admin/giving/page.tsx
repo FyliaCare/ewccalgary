@@ -71,8 +71,8 @@ export default function AdminGivingPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="font-heading font-bold text-2xl text-white">Giving</h1>
-          <p className="text-ewc-gray text-sm mt-1">
+          <h1 className="font-heading font-bold text-2xl text-gray-900">Giving</h1>
+          <p className="text-gray-500 text-sm mt-1">
             Track tithes, offerings, seeds, and all giving categories.
           </p>
         </div>
@@ -82,58 +82,58 @@ export default function AdminGivingPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="card-dark p-5">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-ewc-gray text-xs font-heading uppercase">Total</span>
-            <DollarSign size={18} className="text-ewc-burgundy" />
+            <span className="text-gray-500 text-xs font-heading uppercase">Total</span>
+            <div className="w-9 h-9 rounded-xl bg-ewc-burgundy/10 flex items-center justify-center"><DollarSign size={18} className="text-ewc-burgundy" /></div>
           </div>
-          <p className="font-heading font-bold text-2xl text-white">${totalAmount.toLocaleString()}</p>
-          <p className="text-green-400 text-xs flex items-center gap-1 mt-1">
+          <p className="font-heading font-bold text-2xl text-gray-900">${totalAmount.toLocaleString()}</p>
+          <p className="text-emerald-600 text-xs flex items-center gap-1 mt-1">
             <ArrowUp size={12} /> {donations.length} transactions
           </p>
         </div>
-        <div className="card-dark p-5">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-ewc-gray text-xs font-heading uppercase">Transactions</span>
-            <TrendingUp size={18} className="text-blue-400" />
+            <span className="text-gray-500 text-xs font-heading uppercase">Transactions</span>
+            <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center"><TrendingUp size={18} className="text-blue-600" /></div>
           </div>
-          <p className="font-heading font-bold text-2xl text-white">{donations.length}</p>
-          <p className="text-ewc-gray text-xs mt-1">Total recorded</p>
+          <p className="font-heading font-bold text-2xl text-gray-900">{donations.length}</p>
+          <p className="text-gray-400 text-xs mt-1">Total recorded</p>
         </div>
-        <div className="card-dark p-5">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-ewc-gray text-xs font-heading uppercase">Avg. Gift</span>
-            <DollarSign size={18} className="text-green-400" />
+            <span className="text-gray-500 text-xs font-heading uppercase">Avg. Gift</span>
+            <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center"><DollarSign size={18} className="text-emerald-600" /></div>
           </div>
-          <p className="font-heading font-bold text-2xl text-white">${avgGift.toLocaleString()}</p>
-          <p className="text-ewc-gray text-xs mt-1">Per transaction</p>
+          <p className="font-heading font-bold text-2xl text-gray-900">${avgGift.toLocaleString()}</p>
+          <p className="text-gray-400 text-xs mt-1">Per transaction</p>
         </div>
-        <div className="card-dark p-5">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-ewc-gray text-xs font-heading uppercase">Donors</span>
-            <Calendar size={18} className="text-purple-400" />
+            <span className="text-gray-500 text-xs font-heading uppercase">Donors</span>
+            <div className="w-9 h-9 rounded-xl bg-violet-50 flex items-center justify-center"><Calendar size={18} className="text-violet-600" /></div>
           </div>
-          <p className="font-heading font-bold text-2xl text-white">{uniqueDonors}</p>
-          <p className="text-ewc-gray text-xs mt-1">Unique donors</p>
+          <p className="font-heading font-bold text-2xl text-gray-900">{uniqueDonors}</p>
+          <p className="text-gray-400 text-xs mt-1">Unique donors</p>
         </div>
       </div>
 
       {Object.keys(byCategory).length > 0 && (
-        <div className="card-dark p-6">
-          <h2 className="font-heading font-bold text-lg text-white mb-4">By Category</h2>
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <h2 className="font-heading font-bold text-lg text-gray-900 mb-4">By Category</h2>
           <div className="space-y-3">
             {Object.entries(byCategory)
               .sort(([, a], [, b]) => b - a)
               .map(([cat, amt]) => (
                 <div key={cat} className="flex items-center gap-4">
-                  <span className="text-ewc-cream/70 text-sm w-32">{cat}</span>
-                  <div className="flex-1 h-2 bg-ewc-dark rounded-full overflow-hidden">
+                  <span className="text-gray-600 text-sm w-32">{cat}</span>
+                  <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-ewc-burgundy rounded-full"
                       style={{ width: `${totalAmount > 0 ? (amt / totalAmount) * 100 : 0}%` }}
                     />
                   </div>
-                  <span className="text-white font-heading font-bold text-sm w-20 text-right">
+                  <span className="text-gray-900 font-heading font-bold text-sm w-20 text-right">
                     ${amt.toLocaleString()}
                   </span>
                 </div>
@@ -143,36 +143,36 @@ export default function AdminGivingPage() {
       )}
 
       {donations.length === 0 ? (
-        <div className="card-dark p-12 text-center">
-          <p className="text-ewc-gray">No donations recorded yet.</p>
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-12 text-center">
+          <p className="text-gray-400">No donations recorded yet.</p>
         </div>
       ) : (
-        <div className="card-dark overflow-hidden">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-ewc-dark">
-                  <th className="text-left px-4 py-3 text-ewc-gray font-heading text-xs uppercase tracking-wider">Donor</th>
-                  <th className="text-left px-4 py-3 text-ewc-gray font-heading text-xs uppercase tracking-wider">Category</th>
-                  <th className="text-left px-4 py-3 text-ewc-gray font-heading text-xs uppercase tracking-wider">Amount</th>
-                  <th className="text-left px-4 py-3 text-ewc-gray font-heading text-xs uppercase tracking-wider hidden sm:table-cell">Date</th>
-                  <th className="text-left px-4 py-3 text-ewc-gray font-heading text-xs uppercase tracking-wider hidden md:table-cell">Status</th>
+                <tr className="bg-gray-50">
+                  <th className="text-left px-4 py-3 text-gray-500 font-heading text-xs uppercase tracking-wider">Donor</th>
+                  <th className="text-left px-4 py-3 text-gray-500 font-heading text-xs uppercase tracking-wider">Category</th>
+                  <th className="text-left px-4 py-3 text-gray-500 font-heading text-xs uppercase tracking-wider">Amount</th>
+                  <th className="text-left px-4 py-3 text-gray-500 font-heading text-xs uppercase tracking-wider hidden sm:table-cell">Date</th>
+                  <th className="text-left px-4 py-3 text-gray-500 font-heading text-xs uppercase tracking-wider hidden md:table-cell">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {donations.map((row) => (
-                  <tr key={row.id} className="border-b border-ewc-dark/50 hover:bg-ewc-dark/30 transition-colors">
-                    <td className="px-4 py-3 text-white font-semibold">{row.donorName}</td>
+                  <tr key={row.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-3 text-gray-900 font-semibold">{row.donorName}</td>
                     <td className="px-4 py-3">
                       <span className="px-2 py-0.5 rounded-full text-xs bg-ewc-burgundy/10 text-ewc-burgundy font-heading">
                         {row.category}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-ewc-burgundy font-heading font-bold">${row.amount}</td>
-                    <td className="px-4 py-3 text-ewc-gray hidden sm:table-cell">
+                    <td className="px-4 py-3 text-gray-400 hidden sm:table-cell">
                       {new Date(row.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="px-4 py-3 text-ewc-gray hidden md:table-cell capitalize">{row.status}</td>
+                    <td className="px-4 py-3 text-gray-400 hidden md:table-cell capitalize">{row.status}</td>
                   </tr>
                 ))}
               </tbody>

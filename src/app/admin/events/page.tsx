@@ -345,13 +345,13 @@ export default function AdminEventsPage() {
 
   function getCategoryColor(cat: string): string {
     const colors: Record<string, string> = {
-      service: "bg-blue-500/10 text-blue-400",
-      community: "bg-green-500/10 text-green-400",
-      prayer: "bg-orange-500/10 text-orange-400",
-      youth: "bg-purple-500/10 text-purple-400",
-      conference: "bg-pink-500/10 text-pink-400",
-      outreach: "bg-teal-500/10 text-teal-400",
-      worship: "bg-indigo-500/10 text-indigo-400",
+      service: "bg-blue-50 text-blue-600",
+      community: "bg-emerald-50 text-emerald-600",
+      prayer: "bg-orange-50 text-orange-600",
+      youth: "bg-violet-50 text-violet-600",
+      conference: "bg-pink-50 text-pink-600",
+      outreach: "bg-teal-50 text-teal-600",
+      worship: "bg-indigo-50 text-indigo-600",
     };
     return colors[cat] || "bg-ewc-burgundy/10 text-ewc-burgundy";
   }
@@ -406,15 +406,15 @@ export default function AdminEventsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="font-heading font-bold text-2xl text-white">
+          <h1 className="font-heading font-bold text-2xl text-gray-900">
             Events & Ticketing
           </h1>
-          <p className="text-ewc-gray text-sm mt-1">
+          <p className="text-gray-500 text-sm mt-1">
             Manage events, ticket types, and registrations.
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="card-dark px-4 py-2 text-sm text-ewc-cream/70">
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm px-4 py-2 text-sm text-gray-600">
             {events.length} events
           </div>
           <button
@@ -430,22 +430,22 @@ export default function AdminEventsPage() {
       <div className="relative">
         <Search
           size={16}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-ewc-gray"
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
         />
         <input
           type="text"
           placeholder="Search events..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full bg-ewc-darker border border-ewc-dark rounded-lg pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none transition-colors"
+          className="w-full bg-white border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none transition-colors shadow-sm"
         />
       </div>
 
       {/* Events List */}
       {events.length === 0 ? (
-        <div className="card-dark p-12 text-center">
-          <Calendar size={40} className="mx-auto text-ewc-gray mb-4" />
-          <p className="text-ewc-gray mb-4">No events yet.</p>
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-12 text-center">
+          <Calendar size={40} className="mx-auto text-gray-300 mb-4" />
+          <p className="text-gray-400 mb-4">No events yet.</p>
           <button onClick={openCreate} className="bg-ewc-burgundy hover:bg-ewc-burgundy-hover text-white px-4 py-2 rounded-lg text-sm">
             <Plus size={14} className="inline mr-1" /> Create First Event
           </button>
@@ -466,18 +466,18 @@ export default function AdminEventsPage() {
               const totalSold = ev._count?.registrations || 0;
 
               return (
-                <div key={ev.id} className="card-dark overflow-hidden">
+                <div key={ev.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-all">
                   {/* Event Row */}
                   <div className="flex items-center gap-4 p-4">
                     {/* Date box */}
                     <div
                       className={`rounded-xl p-3 text-center flex-shrink-0 min-w-[56px] ${
-                        isPast ? "bg-ewc-dark" : "bg-ewc-burgundy/10"
+                        isPast ? "bg-gray-100" : "bg-ewc-burgundy/10"
                       }`}
                     >
                       <p
                         className={`font-heading font-bold text-xs uppercase ${
-                          isPast ? "text-ewc-gray" : "text-ewc-burgundy"
+                          isPast ? "text-gray-400" : "text-ewc-burgundy"
                         }`}
                       >
                         {new Date(ev.date).toLocaleDateString("en-US", {
@@ -486,7 +486,7 @@ export default function AdminEventsPage() {
                       </p>
                       <p
                         className={`text-xl font-bold leading-none ${
-                          isPast ? "text-ewc-gray" : "text-white"
+                          isPast ? "text-gray-400" : "text-gray-900"
                         }`}
                       >
                         {new Date(ev.date).getDate()}
@@ -498,7 +498,7 @@ export default function AdminEventsPage() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <h3
                           className={`font-heading font-bold truncate ${
-                            isPast ? "text-ewc-gray" : "text-white"
+                            isPast ? "text-gray-400" : "text-gray-900"
                           }`}
                         >
                           {ev.title}
@@ -514,7 +514,7 @@ export default function AdminEventsPage() {
                           {ev.category}
                         </span>
                       </div>
-                      <div className="flex items-center gap-4 text-xs text-ewc-gray mt-1 flex-wrap">
+                      <div className="flex items-center gap-4 text-xs text-gray-400 mt-1 flex-wrap">
                         {ev.time && (
                           <span className="flex items-center gap-1">
                             <Clock size={11} /> {ev.time}
@@ -560,26 +560,26 @@ export default function AdminEventsPage() {
                             className="text-green-500"
                           />
                         ) : (
-                          <ToggleLeft size={22} className="text-ewc-gray" />
+                          <ToggleLeft size={22} className="text-gray-300" />
                         )}
                       </button>
                       <button
                         onClick={() => openEdit(ev)}
-                        className="p-1.5 text-ewc-gray hover:text-white transition-colors"
+                        className="p-1.5 text-gray-400 hover:text-gray-900 transition-colors"
                         title="Edit"
                       >
                         <Edit3 size={15} />
                       </button>
                       <button
                         onClick={() => handleDelete(ev.id)}
-                        className="p-1.5 text-ewc-gray hover:text-red-400 transition-colors"
+                        className="p-1.5 text-gray-400 hover:text-red-500 transition-colors"
                         title="Delete"
                       >
                         <Trash2 size={15} />
                       </button>
                       <button
                         onClick={() => toggleExpand(ev.id)}
-                        className="p-1.5 text-ewc-gray hover:text-white transition-colors"
+                        className="p-1.5 text-gray-400 hover:text-gray-900 transition-colors"
                         title="View Registrations"
                       >
                         {isExpanded ? (
@@ -593,41 +593,41 @@ export default function AdminEventsPage() {
 
                   {/* Expanded — Registrations */}
                   {isExpanded && (
-                    <div className="border-t border-ewc-dark">
+                    <div className="border-t border-gray-100">
                       {/* Stats */}
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4">
-                        <div className="bg-ewc-dark rounded-lg p-3 text-center">
-                          <p className="text-xs text-ewc-gray font-heading">
+                        <div className="bg-gray-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 font-heading">
                             Total
                           </p>
-                          <p className="text-xl font-bold text-white">
+                          <p className="text-xl font-bold text-gray-900">
                             {totalSold}
                           </p>
                         </div>
-                        <div className="bg-ewc-dark rounded-lg p-3 text-center">
-                          <p className="text-xs text-ewc-gray font-heading">
+                        <div className="bg-gray-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 font-heading">
                             Checked In
                           </p>
-                          <p className="text-xl font-bold text-green-400">
+                          <p className="text-xl font-bold text-emerald-600">
                             {eventRegs.filter((r) => r.checkedIn).length}
                           </p>
                         </div>
-                        <div className="bg-ewc-dark rounded-lg p-3 text-center">
-                          <p className="text-xs text-ewc-gray font-heading">
+                        <div className="bg-gray-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 font-heading">
                             Pending
                           </p>
-                          <p className="text-xl font-bold text-amber-400">
+                          <p className="text-xl font-bold text-amber-600">
                             {
                               eventRegs.filter((r) => r.status === "pending")
                                 .length
                             }
                           </p>
                         </div>
-                        <div className="bg-ewc-dark rounded-lg p-3 text-center">
-                          <p className="text-xs text-ewc-gray font-heading">
+                        <div className="bg-gray-50 rounded-lg p-3 text-center">
+                          <p className="text-xs text-gray-500 font-heading">
                             Capacity
                           </p>
-                          <p className="text-xl font-bold text-white">
+                          <p className="text-xl font-bold text-gray-900">
                             {ev.maxCapacity
                               ? `${totalSold}/${ev.maxCapacity}`
                               : "∞"}
@@ -638,24 +638,24 @@ export default function AdminEventsPage() {
                       {/* Ticket Types Summary */}
                       {ev.ticketTypes.length > 0 && (
                         <div className="px-4 pb-3">
-                          <p className="text-xs text-ewc-gray font-heading uppercase tracking-wider mb-2">
+                          <p className="text-xs text-gray-500 font-heading uppercase tracking-wider mb-2">
                             Ticket Types
                           </p>
                           <div className="flex flex-wrap gap-2">
                             {ev.ticketTypes.map((t) => (
                               <div
                                 key={t.id || t.name}
-                                className="bg-ewc-dark rounded-lg px-3 py-2 text-xs"
+                                className="bg-gray-50 rounded-lg px-3 py-2 text-xs"
                               >
-                                <span className="text-white font-semibold">
+                                <span className="text-gray-900 font-semibold">
                                   {t.name}
                                 </span>
-                                <span className="text-ewc-gray ml-2">
+                                <span className="text-gray-500 ml-2">
                                   {t.isFree
                                     ? "Free"
                                     : `$${t.price.toFixed(2)}`}
                                 </span>
-                                <span className="text-ewc-gray ml-2">
+                                <span className="text-gray-500 ml-2">
                                   {t._count?.registrations || 0}
                                   {t.quantity !== null && `/${t.quantity}`} sold
                                 </span>
@@ -668,7 +668,7 @@ export default function AdminEventsPage() {
                       {/* Registration Table */}
                       <div className="px-4 pb-4">
                         <div className="flex items-center justify-between mb-2">
-                          <p className="text-xs text-ewc-gray font-heading uppercase tracking-wider">
+                          <p className="text-xs text-gray-500 font-heading uppercase tracking-wider">
                             Registrations
                           </p>
                           {eventRegs.length > 0 && (
@@ -689,30 +689,30 @@ export default function AdminEventsPage() {
                             />
                           </div>
                         ) : eventRegs.length === 0 ? (
-                          <p className="text-ewc-gray text-sm text-center py-4">
+                          <p className="text-gray-400 text-sm text-center py-4">
                             No registrations yet.
                           </p>
                         ) : (
                           <div className="overflow-x-auto">
                             <table className="w-full text-xs">
                               <thead>
-                                <tr className="bg-ewc-dark">
-                                  <th className="text-left px-3 py-2 text-ewc-gray font-heading">
+                                <tr className="bg-gray-50">
+                                  <th className="text-left px-3 py-2 text-gray-500 font-heading">
                                     Name
                                   </th>
-                                  <th className="text-left px-3 py-2 text-ewc-gray font-heading hidden sm:table-cell">
+                                  <th className="text-left px-3 py-2 text-gray-500 font-heading hidden sm:table-cell">
                                     Email
                                   </th>
-                                  <th className="text-left px-3 py-2 text-ewc-gray font-heading">
+                                  <th className="text-left px-3 py-2 text-gray-500 font-heading">
                                     Ticket
                                   </th>
-                                  <th className="text-left px-3 py-2 text-ewc-gray font-heading">
+                                  <th className="text-left px-3 py-2 text-gray-500 font-heading">
                                     Code
                                   </th>
-                                  <th className="text-left px-3 py-2 text-ewc-gray font-heading">
+                                  <th className="text-left px-3 py-2 text-gray-500 font-heading">
                                     Status
                                   </th>
-                                  <th className="text-left px-3 py-2 text-ewc-gray font-heading">
+                                  <th className="text-left px-3 py-2 text-gray-500 font-heading">
                                     Actions
                                   </th>
                                 </tr>
@@ -721,20 +721,20 @@ export default function AdminEventsPage() {
                                 {eventRegs.map((reg) => (
                                   <tr
                                     key={reg.id}
-                                    className="border-b border-ewc-dark/50 hover:bg-ewc-dark/30"
+                                    className="border-b border-gray-50 hover:bg-gray-50"
                                   >
                                     <td className="px-3 py-2">
-                                      <span className="text-white font-medium">
+                                      <span className="text-gray-900 font-medium">
                                         {reg.firstName} {reg.lastName}
                                       </span>
-                                      <span className="block text-ewc-gray sm:hidden">
+                                      <span className="block text-gray-400 sm:hidden">
                                         {reg.email}
                                       </span>
                                     </td>
-                                    <td className="px-3 py-2 text-ewc-gray hidden sm:table-cell">
+                                    <td className="px-3 py-2 text-gray-400 hidden sm:table-cell">
                                       {reg.email}
                                     </td>
-                                    <td className="px-3 py-2 text-ewc-cream/70">
+                                    <td className="px-3 py-2 text-gray-600">
                                       {reg.ticketType.name} × {reg.numberOfTickets}
                                     </td>
                                     <td className="px-3 py-2">
@@ -763,7 +763,7 @@ export default function AdminEventsPage() {
                                           ) : (
                                             <Copy
                                               size={11}
-                                              className="text-ewc-gray"
+                                              className="text-gray-400"
                                             />
                                           )}
                                         </button>
@@ -773,10 +773,10 @@ export default function AdminEventsPage() {
                                       <span
                                         className={`px-2 py-0.5 rounded-full text-[10px] font-heading ${
                                           reg.status === "confirmed"
-                                            ? "bg-green-500/10 text-green-400"
+                                            ? "bg-emerald-50 text-emerald-600"
                                             : reg.status === "pending"
-                                            ? "bg-amber-500/10 text-amber-400"
-                                            : "bg-red-500/10 text-red-400"
+                                            ? "bg-amber-50 text-amber-600"
+                                            : "bg-red-50 text-red-500"
                                         }`}
                                       >
                                         {reg.checkedIn
@@ -831,7 +831,7 @@ export default function AdminEventsPage() {
                                         <a
                                           href={`/events/ticket/${reg.ticketCode}`}
                                           target="_blank"
-                                          className="text-ewc-gray hover:text-white p-0.5"
+                                          className="text-gray-400 hover:text-gray-900 p-0.5"
                                           title="View Ticket"
                                         >
                                           <Eye size={14} />
@@ -857,17 +857,17 @@ export default function AdminEventsPage() {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-10 px-4 overflow-y-auto">
           <div
-            className="absolute inset-0 bg-black/70"
+            className="absolute inset-0 bg-black/30"
             onClick={() => setShowModal(false)}
           />
-          <div className="relative w-full max-w-2xl bg-ewc-darker rounded-2xl shadow-2xl mb-10">
-            <div className="flex items-center justify-between p-5 border-b border-ewc-dark">
-              <h2 className="font-heading font-bold text-lg text-white">
+          <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-gray-100 mb-10">
+            <div className="flex items-center justify-between p-5 border-b border-gray-100">
+              <h2 className="font-heading font-bold text-lg text-gray-900">
                 {editingEvent ? "Edit Event" : "Create Event"}
               </h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-ewc-gray hover:text-white"
+                className="text-gray-400 hover:text-gray-900"
               >
                 <X size={20} />
               </button>
@@ -879,7 +879,7 @@ export default function AdminEventsPage() {
             >
               {/* Title */}
               <div>
-                <label className="text-xs text-ewc-gray font-heading uppercase tracking-wider block mb-1">
+                <label className="text-xs text-gray-500 font-heading uppercase tracking-wider block mb-1">
                   Title *
                 </label>
                 <input
@@ -889,14 +889,14 @@ export default function AdminEventsPage() {
                   onChange={(e) =>
                     setForm({ ...form, title: e.target.value })
                   }
-                  className="w-full bg-ewc-dark border border-ewc-dark rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none"
                   placeholder="Event title"
                 />
               </div>
 
               {/* Description */}
               <div>
-                <label className="text-xs text-ewc-gray font-heading uppercase tracking-wider block mb-1">
+                <label className="text-xs text-gray-500 font-heading uppercase tracking-wider block mb-1">
                   Description
                 </label>
                 <textarea
@@ -905,7 +905,7 @@ export default function AdminEventsPage() {
                   onChange={(e) =>
                     setForm({ ...form, description: e.target.value })
                   }
-                  className="w-full bg-ewc-dark border border-ewc-dark rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none resize-none"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none resize-none"
                   placeholder="Event description..."
                 />
               </div>
@@ -913,7 +913,7 @@ export default function AdminEventsPage() {
               {/* Date / Time Row */}
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="text-xs text-ewc-gray font-heading uppercase tracking-wider block mb-1">
+                  <label className="text-xs text-gray-500 font-heading uppercase tracking-wider block mb-1">
                     Date *
                   </label>
                   <input
@@ -923,11 +923,11 @@ export default function AdminEventsPage() {
                     onChange={(e) =>
                       setForm({ ...form, date: e.target.value })
                     }
-                    className="w-full bg-ewc-dark border border-ewc-dark rounded-lg px-3 py-2.5 text-sm text-white focus:border-ewc-burgundy focus:outline-none"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 focus:border-ewc-burgundy focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-ewc-gray font-heading uppercase tracking-wider block mb-1">
+                  <label className="text-xs text-gray-500 font-heading uppercase tracking-wider block mb-1">
                     Start Time
                   </label>
                   <input
@@ -936,12 +936,12 @@ export default function AdminEventsPage() {
                     onChange={(e) =>
                       setForm({ ...form, time: e.target.value })
                     }
-                    className="w-full bg-ewc-dark border border-ewc-dark rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none"
                     placeholder="10:00 AM"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-ewc-gray font-heading uppercase tracking-wider block mb-1">
+                  <label className="text-xs text-gray-500 font-heading uppercase tracking-wider block mb-1">
                     End Time
                   </label>
                   <input
@@ -950,7 +950,7 @@ export default function AdminEventsPage() {
                     onChange={(e) =>
                       setForm({ ...form, endTime: e.target.value })
                     }
-                    className="w-full bg-ewc-dark border border-ewc-dark rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none"
                     placeholder="12:00 PM"
                   />
                 </div>
@@ -959,7 +959,7 @@ export default function AdminEventsPage() {
               {/* Location / Category / Image */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-ewc-gray font-heading uppercase tracking-wider block mb-1">
+                  <label className="text-xs text-gray-500 font-heading uppercase tracking-wider block mb-1">
                     Location
                   </label>
                   <input
@@ -968,12 +968,12 @@ export default function AdminEventsPage() {
                     onChange={(e) =>
                       setForm({ ...form, location: e.target.value })
                     }
-                    className="w-full bg-ewc-dark border border-ewc-dark rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none"
                     placeholder="Venue address"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-ewc-gray font-heading uppercase tracking-wider block mb-1">
+                  <label className="text-xs text-gray-500 font-heading uppercase tracking-wider block mb-1">
                     Category
                   </label>
                   <select
@@ -981,7 +981,7 @@ export default function AdminEventsPage() {
                     onChange={(e) =>
                       setForm({ ...form, category: e.target.value })
                     }
-                    className="w-full bg-ewc-dark border border-ewc-dark rounded-lg px-3 py-2.5 text-sm text-white focus:border-ewc-burgundy focus:outline-none"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 focus:border-ewc-burgundy focus:outline-none"
                   >
                     {CATEGORIES.map((c) => (
                       <option key={c} value={c}>
@@ -993,7 +993,7 @@ export default function AdminEventsPage() {
               </div>
 
               <div>
-                <label className="text-xs text-ewc-gray font-heading uppercase tracking-wider block mb-1">
+                <label className="text-xs text-gray-500 font-heading uppercase tracking-wider block mb-1">
                   Image URL
                 </label>
                 <input
@@ -1002,7 +1002,7 @@ export default function AdminEventsPage() {
                   onChange={(e) =>
                     setForm({ ...form, image: e.target.value })
                   }
-                  className="w-full bg-ewc-dark border border-ewc-dark rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none"
                   placeholder="https://..."
                 />
               </div>
@@ -1016,9 +1016,9 @@ export default function AdminEventsPage() {
                     onChange={(e) =>
                       setForm({ ...form, featured: e.target.checked })
                     }
-                    className="rounded border-ewc-dark bg-ewc-dark text-ewc-burgundy focus:ring-ewc-burgundy"
+                    className="rounded border-gray-300 bg-gray-50 text-ewc-burgundy focus:ring-ewc-burgundy"
                   />
-                  <span className="text-sm text-ewc-cream/70">Featured</span>
+                  <span className="text-sm text-gray-600">Featured</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -1030,9 +1030,9 @@ export default function AdminEventsPage() {
                         registrationOpen: e.target.checked,
                       })
                     }
-                    className="rounded border-ewc-dark bg-ewc-dark text-ewc-burgundy focus:ring-ewc-burgundy"
+                    className="rounded border-gray-300 bg-gray-50 text-ewc-burgundy focus:ring-ewc-burgundy"
                   />
-                  <span className="text-sm text-ewc-cream/70">
+                  <span className="text-sm text-gray-600">
                     Registration Open
                   </span>
                 </label>
@@ -1046,9 +1046,9 @@ export default function AdminEventsPage() {
                         requireApproval: e.target.checked,
                       })
                     }
-                    className="rounded border-ewc-dark bg-ewc-dark text-ewc-burgundy focus:ring-ewc-burgundy"
+                    className="rounded border-gray-300 bg-gray-50 text-ewc-burgundy focus:ring-ewc-burgundy"
                   />
-                  <span className="text-sm text-ewc-cream/70">
+                  <span className="text-sm text-gray-600">
                     Require Approval
                   </span>
                 </label>
@@ -1057,7 +1057,7 @@ export default function AdminEventsPage() {
               {/* Registration Settings */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-ewc-gray font-heading uppercase tracking-wider block mb-1">
+                  <label className="text-xs text-gray-500 font-heading uppercase tracking-wider block mb-1">
                     Registration Deadline
                   </label>
                   <input
@@ -1069,11 +1069,11 @@ export default function AdminEventsPage() {
                         registrationDeadline: e.target.value,
                       })
                     }
-                    className="w-full bg-ewc-dark border border-ewc-dark rounded-lg px-3 py-2.5 text-sm text-white focus:border-ewc-burgundy focus:outline-none"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 focus:border-ewc-burgundy focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-ewc-gray font-heading uppercase tracking-wider block mb-1">
+                  <label className="text-xs text-gray-500 font-heading uppercase tracking-wider block mb-1">
                     Max Capacity
                   </label>
                   <input
@@ -1082,7 +1082,7 @@ export default function AdminEventsPage() {
                     onChange={(e) =>
                       setForm({ ...form, maxCapacity: e.target.value })
                     }
-                    className="w-full bg-ewc-dark border border-ewc-dark rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none"
                     placeholder="Unlimited"
                     min="1"
                   />
@@ -1090,9 +1090,9 @@ export default function AdminEventsPage() {
               </div>
 
               {/* ─── Ticket Types ─── */}
-              <div className="border-t border-ewc-dark pt-5">
+              <div className="border-t border-gray-200 pt-5">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-heading font-bold text-white text-sm flex items-center gap-2">
+                  <h3 className="font-heading font-bold text-gray-900 text-sm flex items-center gap-2">
                     <Ticket size={14} className="text-ewc-burgundy" /> Ticket
                     Types
                   </h3>
@@ -1106,12 +1106,12 @@ export default function AdminEventsPage() {
                 </div>
 
                 {ticketTypes.length === 0 ? (
-                  <div className="bg-ewc-dark rounded-lg p-6 text-center">
+                  <div className="bg-gray-50 rounded-lg p-6 text-center">
                     <Ticket
                       size={24}
-                      className="mx-auto text-ewc-gray mb-2"
+                      className="mx-auto text-gray-300 mb-2"
                     />
-                    <p className="text-ewc-gray text-xs mb-2">
+                    <p className="text-gray-400 text-xs mb-2">
                       No ticket types. Add one to enable registration.
                     </p>
                     <button
@@ -1127,16 +1127,16 @@ export default function AdminEventsPage() {
                     {ticketTypes.map((t, idx) => (
                       <div
                         key={idx}
-                        className="bg-ewc-dark p-4 rounded-lg space-y-3"
+                        className="bg-gray-50 border border-gray-200 p-4 rounded-lg space-y-3"
                       >
                         <div className="flex items-center justify-between">
-                          <p className="text-xs text-ewc-gray font-heading uppercase">
+                          <p className="text-xs text-gray-500 font-heading uppercase">
                             Ticket #{idx + 1}
                           </p>
                           <button
                             type="button"
                             onClick={() => removeTicketType(idx)}
-                            className="text-ewc-gray hover:text-red-400"
+                            className="text-gray-400 hover:text-red-500"
                           >
                             <Trash2 size={14} />
                           </button>
@@ -1150,7 +1150,7 @@ export default function AdminEventsPage() {
                               onChange={(e) =>
                                 updateTicketType(idx, "name", e.target.value)
                               }
-                              className="w-full bg-ewc-darker border border-ewc-dark/50 rounded-lg px-3 py-2 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none"
+                              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none"
                               placeholder="Ticket name"
                             />
                           </div>
@@ -1165,7 +1165,7 @@ export default function AdminEventsPage() {
                                   e.target.value
                                 )
                               }
-                              className="w-full bg-ewc-darker border border-ewc-dark/50 rounded-lg px-3 py-2 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none"
+                              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none"
                               placeholder="Description (optional)"
                             />
                           </div>
@@ -1182,9 +1182,9 @@ export default function AdminEventsPage() {
                                   e.target.checked
                                 )
                               }
-                              className="rounded border-ewc-dark bg-ewc-darker text-ewc-burgundy focus:ring-ewc-burgundy"
+                              className="rounded border-gray-300 bg-white text-ewc-burgundy focus:ring-ewc-burgundy"
                             />
-                            <span className="text-xs text-ewc-cream/70">
+                            <span className="text-xs text-gray-600">
                               Free
                             </span>
                           </label>
@@ -1202,7 +1202,7 @@ export default function AdminEventsPage() {
                                     parseFloat(e.target.value) || 0
                                   )
                                 }
-                                className="w-full bg-ewc-darker border border-ewc-dark/50 rounded-lg px-3 py-2 text-sm text-white focus:border-ewc-burgundy focus:outline-none"
+                                className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 focus:border-ewc-burgundy focus:outline-none"
                                 placeholder="Price"
                               />
                             </div>
@@ -1221,7 +1221,7 @@ export default function AdminEventsPage() {
                                     : null
                                 )
                               }
-                              className="w-full bg-ewc-darker border border-ewc-dark/50 rounded-lg px-3 py-2 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none"
+                              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none"
                               placeholder="Qty (∞)"
                             />
                           </div>
@@ -1238,7 +1238,7 @@ export default function AdminEventsPage() {
                                   parseInt(e.target.value) || 1
                                 )
                               }
-                              className="w-full bg-ewc-darker border border-ewc-dark/50 rounded-lg px-3 py-2 text-sm text-white placeholder:text-ewc-gray focus:border-ewc-burgundy focus:outline-none"
+                              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-ewc-burgundy focus:outline-none"
                               placeholder="Max/Order"
                             />
                           </div>
@@ -1254,7 +1254,7 @@ export default function AdminEventsPage() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-5 py-2.5 text-sm text-ewc-gray hover:text-white border border-ewc-dark rounded-lg transition-colors"
+                  className="px-5 py-2.5 text-sm text-gray-500 hover:text-gray-900 border border-gray-200 rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
