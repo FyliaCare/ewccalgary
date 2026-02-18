@@ -85,7 +85,7 @@ export default function HomeContent() {
       {/* ─── Pastor's Welcome Lightbox ─── */}
       {showPastorLightbox && (
         <div
-          className={`fixed inset-0 z-[1000] flex items-center justify-center p-4 transition-all duration-300 ${
+          className={`fixed inset-0 z-[1000] flex items-center justify-center p-3 sm:p-4 transition-all duration-300 ${
             lightboxEnter ? "bg-black/60 backdrop-blur-sm" : "bg-black/0"
           }`}
           onClick={(e) => {
@@ -93,7 +93,7 @@ export default function HomeContent() {
           }}
         >
           <div
-            className={`relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl transition-all duration-300 ${
+            className={`relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 flex flex-col md:flex-row max-h-[92vh] md:max-h-[85vh] ${
               lightboxEnter
                 ? "opacity-100 scale-100 translate-y-0"
                 : "opacity-0 scale-95 translate-y-4"
@@ -107,34 +107,33 @@ export default function HomeContent() {
               <X size={18} />
             </button>
 
-            {/* Pastor photo */}
-            <div className="relative w-full">
+            {/* Pastor photo — top on mobile, left on desktop */}
+            <div className="relative w-full md:w-[45%] flex-shrink-0 h-48 sm:h-56 md:h-auto">
               <Image
                 src="/PHL.png"
                 alt="Pastor Humphrey Lomotey"
-                width={512}
-                height={640}
-                className="w-full h-auto block"
-                sizes="(max-width: 512px) 100vw, 512px"
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 768px) 100vw, 380px"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-5">
-                <p className="text-white/80 text-xs font-heading font-semibold tracking-wider uppercase">
+              <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/50 via-transparent to-transparent" />
+              <div className="absolute bottom-3 left-4 md:bottom-5 md:left-5">
+                <p className="text-white/80 text-[10px] md:text-xs font-heading font-semibold tracking-wider uppercase">
                   Campus Pastor
                 </p>
-                <p className="text-white text-lg font-heading font-bold">
+                <p className="text-white text-base md:text-lg font-heading font-bold">
                   Humphrey Lomotey
                 </p>
               </div>
             </div>
 
-            {/* Message */}
-            <div className="p-5 sm:p-6">
-              <h3 className="font-heading font-bold text-lg sm:text-xl text-ewc-charcoal mb-3 leading-snug">
+            {/* Message — below on mobile, right on desktop */}
+            <div className="flex-1 flex flex-col justify-center p-5 sm:p-6 md:p-7 overflow-y-auto">
+              <h3 className="font-heading font-bold text-lg md:text-xl text-ewc-charcoal mb-2 md:mb-3 leading-snug">
                 Hey there, welcome! 👋
               </h3>
-              <div className="space-y-3 text-ewc-slate text-sm leading-relaxed">
+              <div className="space-y-2 md:space-y-3 text-ewc-slate text-[13px] md:text-sm leading-relaxed">
                 <p>
                   I&apos;m so glad you stopped by. Whether you found us by
                   searching, through a friend, or simply by God&apos;s leading —
@@ -153,11 +152,11 @@ export default function HomeContent() {
               </div>
 
               {/* CTAs */}
-              <div className="mt-5 flex flex-col sm:flex-row gap-3">
+              <div className="mt-4 md:mt-5 flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <Link
                   href="/community/register"
                   onClick={closePastorLightbox}
-                  className="btn-burgundy flex-1 py-3 text-sm justify-center"
+                  className="btn-burgundy flex-1 py-2.5 md:py-3 text-sm justify-center"
                 >
                   <MessageCircle size={16} className="mr-2" />
                   Join the Community
@@ -165,13 +164,13 @@ export default function HomeContent() {
                 <Link
                   href="/community/login"
                   onClick={closePastorLightbox}
-                  className="flex-1 inline-flex items-center justify-center py-3 rounded-lg border-2 border-ewc-burgundy/20 text-ewc-burgundy font-heading font-semibold text-sm hover:bg-ewc-burgundy-50 transition-colors active:scale-95"
+                  className="flex-1 inline-flex items-center justify-center py-2.5 md:py-3 rounded-lg border-2 border-ewc-burgundy/20 text-ewc-burgundy font-heading font-semibold text-sm hover:bg-ewc-burgundy-50 transition-colors active:scale-95"
                 >
                   I Already Have an Account
                 </Link>
               </div>
 
-              <p className="text-center text-ewc-silver text-[11px] mt-4">
+              <p className="text-center text-ewc-silver text-[11px] mt-3 md:mt-4">
                 God bless you — see you Sunday! 🙏
               </p>
             </div>
