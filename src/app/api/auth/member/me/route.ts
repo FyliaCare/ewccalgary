@@ -17,7 +17,7 @@ export async function GET() {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const secret = process.env.NEXTAUTH_SECRET;
+    const secret = process.env.JWT_SECRET;
     if (!secret) {
       return NextResponse.json({ error: "Server error" }, { status: 500 });
     }
@@ -78,7 +78,7 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const secret = process.env.NEXTAUTH_SECRET;
+    const secret = process.env.JWT_SECRET;
     if (!secret) {
       return NextResponse.json({ error: "Server error" }, { status: 500 });
     }

@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       data: { isOnline: true, lastSeen: new Date() },
     });
 
-    const secret = process.env.NEXTAUTH_SECRET;
+    const secret = process.env.JWT_SECRET;
     if (!secret) {
       return NextResponse.json(
         { error: "Server configuration error" },

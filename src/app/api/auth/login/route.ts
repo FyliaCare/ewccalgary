@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate token — use jose instead of jsonwebtoken for consistency
-    const secret = process.env.NEXTAUTH_SECRET;
+    const secret = process.env.JWT_SECRET;
     if (!secret) {
       return NextResponse.json(
         { error: "Server configuration error" },

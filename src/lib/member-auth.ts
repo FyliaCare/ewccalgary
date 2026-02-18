@@ -10,7 +10,7 @@ export async function getMemberFromToken(): Promise<{
     const token = cookieStore.get("member-token")?.value;
     if (!token) return null;
 
-    const secret = process.env.NEXTAUTH_SECRET;
+    const secret = process.env.JWT_SECRET;
     if (!secret) return null;
 
     const { payload } = await jwtVerify(

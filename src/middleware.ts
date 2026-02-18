@@ -139,9 +139,9 @@ async function verifyAuth(request: NextRequest, isApi = false) {
   }
 
   try {
-    const secret = process.env.NEXTAUTH_SECRET;
+    const secret = process.env.JWT_SECRET;
     if (!secret) {
-      console.error("NEXTAUTH_SECRET is not set");
+      console.error("JWT_SECRET is not set");
       if (isApi) {
         return NextResponse.json(
           { error: "Server configuration error" },

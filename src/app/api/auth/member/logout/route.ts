@@ -9,7 +9,7 @@ export async function POST() {
     const token = cookieStore.get("member-token")?.value;
 
     if (token) {
-      const secret = process.env.NEXTAUTH_SECRET;
+      const secret = process.env.JWT_SECRET;
       if (secret) {
         try {
           const { payload } = await jwtVerify(

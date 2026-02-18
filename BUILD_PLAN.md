@@ -486,9 +486,8 @@ Accent/Labels:     Montserrat (Medium / Uppercase tracking)
 # Database
 DATABASE_URL="file:./dev.db"
 
-# NextAuth
-NEXTAUTH_SECRET="your-secret-key"
-NEXTAUTH_URL="http://localhost:3000"
+# JWT Secret
+JWT_SECRET="your-secret-key"
 
 # Admin Credentials (initial setup)
 ADMIN_EMAIL="admin@ewccalgary.ca"
