@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { MessageCircle, Users, Hash, Lock } from "lucide-react";
+import { timeAgo } from "@/lib/validation";
 
 export default function ChatRoomsListPage() {
   const [rooms, setRooms] = useState<{
@@ -10,7 +11,7 @@ export default function ChatRoomsListPage() {
     name: string;
     description: string | null;
     type: string;
-    unreadCount: number;
+    unread: number;
     _count: { members: number; messages: number };
     lastMessage?: {
       content: string;
@@ -34,16 +35,7 @@ export default function ChatRoomsListPage() {
     return () => clearInterval(i);
   }, [fetchRooms]);
 
-  const timeAgo = (dateStr: string) => {
-    const diff = Date.now() - new Date(dateStr).getTime();
-    const mins = Math.floor(diff / 60000);
-    if (mins < 1) return "now";
-    if (mins < 60) return `${mins}m`;
-    const hrs = Math.floor(mins / 60);
-    if (hrs < 24) return `${hrs}h`;
-    const days = Math.floor(hrs / 24);
-    return `${days}d`;
-  };
+
 
   return (
     <div className="min-h-full">
@@ -105,9 +97,9 @@ export default function ChatRoomsListPage() {
                     <h3 className="text-white text-[15px] font-medium truncate">
                       {room.name}
                     </h3>
-                    {room.unreadCount > 0 && (
+                    {room.unread > 0 && (
                       <span className="bg-ewc-burgundy text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center flex-shrink-0 badge-pulse">
-                        {room.unreadCount > 99 ? "99+" : room.unreadCount}
+                        {room.unread > 99 ? "99+" : room.unread}
                       </span>
                     )}
                   </div>

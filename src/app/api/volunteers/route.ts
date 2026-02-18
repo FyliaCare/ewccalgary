@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendVolunteerConfirmation } from "@/lib/email";
+import {
+  isValidEmail,
+  sanitizeString,
+  sanitizeContent,
+} from "@/lib/validation";
 
 export async function GET() {
   try {
@@ -42,8 +47,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!isValidEmail(email)) {
+      return NextResponse.json(
+        { error: "Invalid email address" },
+        { status: 400 }
+      );
+    }
+
+    const sanitizedFirstName = sanitizeString(firstName, 200);
+    const sanitizedLastName = sanitizeString(lastName, 200);
+    const sanitizedEmail = sanitizeString(email, 254).toLowerCase();
+    const sanitizedPhone = sanitizeString(phone, 20);
+
     // Check for existing application
-    const existing = await prisma.volunteer.findUnique({ where: { email } });
+    const existing = await prisma.volunteer.findUnique({ where: { email: sanitizedEmail } });
     if (existing) {
       return NextResponse.json(
         { error: "A volunteer application with this email already exists" },
@@ -84,16 +101,16 @@ export async function POST(request: NextRequest) {
 
     const volunteer = await prisma.volunteer.create({
       data: {
-        firstName,
-        lastName,
-        email,
-        phone,
-        address: address || null,
+        firstName: sanitizedFirstName,
+        lastName: sanitizedLastName,
+        email: sanitizedEmail,
+        phone: sanitizedPhone,
+        address: address ? sanitizeString(address, 500) : null,
         dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
-        gender: gender || null,
-        skills: skills || null,
-        experience: experience || null,
-        availability: availability || null,
+        gender: gender ? sanitizeString(gender, 20) : null,
+        skills: skills ? sanitizeContent(skills, 2000) : null,
+        experience: experience ? sanitizeContent(experience, 2000) : null,
+        availability: availability ? sanitizeString(availability, 200) : null,
         notes: extraInfo || "",
         status: "pending",
         department: deptConnect,
@@ -103,9 +120,9 @@ export async function POST(request: NextRequest) {
 
     // Send confirmation email (non-blocking — don't fail the request if email fails)
     sendVolunteerConfirmation({
-      firstName,
-      lastName,
-      email,
+      firstName: sanitizedFirstName,
+      lastName: sanitizedLastName,
+      email: sanitizedEmail,
       department: departmentName || "Not specified",
     }).catch((err) => console.error("Email send failed:", err));
 

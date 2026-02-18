@@ -141,6 +141,15 @@ model ContactMessage {
 
 // ─── Community / Social Platform ───────────────────
 
+model EmailVerification {
+  id        String   @id @default(cuid())
+  memberId  String
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
 model Member {
   id            String              @id @default(cuid())
   email         String              @unique
@@ -165,6 +174,7 @@ model Member {
   dmReceived    DirectMessage[]     @relation("DMReceiver")
   convMember1   DirectConversation[] @relation("ConvMember1")
   convMember2   DirectConversation[] @relation("ConvMember2")
+  emailVerifications EmailVerification[]
 }
 
 model ChatRoom {

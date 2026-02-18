@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Mail, Plus, Search, X, MessageCircle } from "lucide-react";
 import { useCommunity } from "../layout";
+import { timeAgo } from "@/lib/validation";
 
 interface DmConversation {
   id: string;
@@ -19,7 +20,7 @@ interface DmConversation {
     senderId: string;
     createdAt: string;
   };
-  unreadCount: number;
+  unread: number;
   updatedAt: string;
 }
 
@@ -57,21 +58,27 @@ export default function DMListPage() {
     return () => clearInterval(interval);
   }, [fetchConversations]);
 
-  const searchMembers = async (q: string) => {
+  const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const searchMembers = (q: string) => {
     setSearch(q);
     if (q.length < 2) {
       setSearchResults([]);
       return;
     }
-    setSearching(true);
-    try {
-      const res = await fetch(`/api/chat/members?search=${encodeURIComponent(q)}`);
-      if (res.ok) {
-        const members = await res.json();
-        setSearchResults(members.filter((m: MemberResult) => m.id !== member?.id));
-      }
-    } catch { /* silent */ }
-    setSearching(false);
+    // Debounce API calls by 300ms
+    if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
+    searchTimerRef.current = setTimeout(async () => {
+      setSearching(true);
+      try {
+        const res = await fetch(`/api/chat/members?search=${encodeURIComponent(q)}`);
+        if (res.ok) {
+          const members = await res.json();
+          setSearchResults(members.filter((m: MemberResult) => m.id !== member?.id));
+        }
+      } catch { /* silent */ }
+      setSearching(false);
+    }, 300);
   };
 
   const startConversation = async (otherMemberId: string) => {
@@ -90,16 +97,7 @@ export default function DMListPage() {
     setStarting(false);
   };
 
-  const timeAgo = (dateStr: string) => {
-    const diff = Date.now() - new Date(dateStr).getTime();
-    const mins = Math.floor(diff / 60000);
-    if (mins < 1) return "now";
-    if (mins < 60) return `${mins}m`;
-    const hrs = Math.floor(mins / 60);
-    if (hrs < 24) return `${hrs}h`;
-    const days = Math.floor(hrs / 24);
-    return `${days}d`;
-  };
+
 
   return (
     <div className="min-h-full">
@@ -240,18 +238,18 @@ export default function DMListPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <h3 className={`text-[15px] truncate ${
-                      conv.unreadCount > 0 ? "text-white font-semibold" : "text-white font-medium"
+                      conv.unread > 0 ? "text-white font-semibold" : "text-white font-medium"
                     }`}>
                       {conv.otherMember.displayName}
                     </h3>
-                    {conv.unreadCount > 0 && (
+                    {conv.unread > 0 && (
                       <span className="bg-ewc-burgundy text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center flex-shrink-0 badge-pulse">
-                        {conv.unreadCount > 99 ? "99+" : conv.unreadCount}
+                        {conv.unread > 99 ? "99+" : conv.unread}
                       </span>
                     )}
                   </div>
                   <p className={`text-xs truncate mt-0.5 ${
-                    conv.unreadCount > 0 ? "text-ewc-silver" : "text-ewc-silver/60"
+                    conv.unread > 0 ? "text-ewc-silver" : "text-ewc-silver/60"
                   }`}>
                     {conv.lastMessage ? (
                       <>

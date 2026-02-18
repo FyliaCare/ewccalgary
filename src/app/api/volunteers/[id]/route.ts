@@ -1,5 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { sanitizeString } from "@/lib/validation";
+
+// Whitelist of fields that can be updated via PATCH
+const ALLOWED_UPDATE_FIELDS = [
+  "firstName",
+  "lastName",
+  "email",
+  "phone",
+  "address",
+  "dateOfBirth",
+  "gender",
+  "skills",
+  "experience",
+  "availability",
+  "status",
+  "notes",
+] as const;
+
+const ALLOWED_STATUSES = ["pending", "approved", "rejected"];
 
 export async function GET(
   request: NextRequest,
@@ -34,16 +53,34 @@ export async function PATCH(
 ) {
   try {
     const body = await request.json();
-    const { status, departmentId, ...rest } = body;
 
-    const updateData: Record<string, unknown> = { ...rest };
-
-    if (status) {
-      updateData.status = status;
+    // Only allow whitelisted fields — prevents mass-assignment attacks
+    const updateData: Record<string, unknown> = {};
+    for (const field of ALLOWED_UPDATE_FIELDS) {
+      if (body[field] !== undefined) {
+        if (field === "status") {
+          if (!ALLOWED_STATUSES.includes(body[field])) {
+            return NextResponse.json(
+              { error: `Invalid status. Must be one of: ${ALLOWED_STATUSES.join(", ")}` },
+              { status: 400 }
+            );
+          }
+          updateData[field] = body[field];
+        } else if (field === "dateOfBirth") {
+          updateData[field] = body[field] ? new Date(body[field]) : null;
+        } else if (typeof body[field] === "string") {
+          updateData[field] = sanitizeString(body[field], 1000);
+        } else {
+          updateData[field] = body[field];
+        }
+      }
     }
 
-    if (departmentId) {
-      updateData.department = { connect: { id: departmentId } };
+    // Handle department connection separately
+    if (body.departmentId) {
+      updateData.department = { connect: { id: body.departmentId } };
+    } else if (body.departmentId === null) {
+      updateData.department = { disconnect: true };
     }
 
     const volunteer = await prisma.volunteer.update({
@@ -63,7 +100,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {

@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendEventRegistrationConfirmation } from "@/lib/email";
+import {
+  isValidEmail,
+  sanitizeString,
+} from "@/lib/validation";
 
 function generateTicketCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -48,6 +52,18 @@ export async function POST(
         { status: 400 }
       );
     }
+
+    if (!isValidEmail(email)) {
+      return NextResponse.json(
+        { error: "Invalid email address" },
+        { status: 400 }
+      );
+    }
+
+    const sanitizedFirstName = sanitizeString(firstName, 200);
+    const sanitizedLastName = sanitizeString(lastName, 200);
+    const sanitizedEmail = sanitizeString(email, 254);
+    const sanitizedPhone = phone ? sanitizeString(phone, 20) : null;
 
     const qty = Math.max(1, Math.min(numberOfTickets || 1, 20));
 
@@ -105,89 +121,109 @@ export async function POST(
       );
     }
 
-    // Check ticket type capacity
-    if (ticketType.quantity !== null) {
-      // Count total tickets issued for this type (sum numberOfTickets)
-      const issuedResult = await prisma.eventRegistration.aggregate({
-        where: {
-          ticketTypeId: ticketType.id,
-          status: { not: "cancelled" },
-        },
-        _sum: { numberOfTickets: true },
-      });
-      const issued = issuedResult._sum.numberOfTickets || 0;
-      if (issued + qty > ticketType.quantity) {
-        return NextResponse.json(
-          { error: "Not enough tickets available" },
-          { status: 400 }
-        );
+    // Use a transaction to prevent race conditions on capacity checks
+    const registration = await prisma.$transaction(async (tx) => {
+      // Check ticket type capacity inside transaction
+      if (ticketType.quantity !== null) {
+        const issuedResult = await tx.eventRegistration.aggregate({
+          where: {
+            ticketTypeId: ticketType.id,
+            status: { not: "cancelled" },
+          },
+          _sum: { numberOfTickets: true },
+        });
+        const issued = issuedResult._sum.numberOfTickets || 0;
+        if (issued + qty > ticketType.quantity) {
+          throw new Error("NOT_ENOUGH_TICKETS");
+        }
       }
-    }
 
-    // Check overall event capacity
-    if (event.maxCapacity !== null) {
-      const totalResult = await prisma.eventRegistration.aggregate({
-        where: {
+      // Check overall event capacity inside transaction
+      if (event.maxCapacity !== null) {
+        const totalResult = await tx.eventRegistration.aggregate({
+          where: {
+            eventId: event.id,
+            status: { not: "cancelled" },
+          },
+          _sum: { numberOfTickets: true },
+        });
+        const totalIssued = totalResult._sum.numberOfTickets || 0;
+        if (totalIssued + qty > event.maxCapacity) {
+          throw new Error("EVENT_FULL");
+        }
+      }
+
+      // Generate unique ticket code with collision check
+      let ticketCode = generateTicketCode();
+      let attempts = 0;
+      while (attempts < 20) {
+        const existing = await tx.eventRegistration.findUnique({
+          where: { ticketCode },
+        });
+        if (!existing) break;
+        ticketCode = generateTicketCode();
+        attempts++;
+        if (attempts >= 20) {
+          throw new Error("TICKET_CODE_GENERATION_FAILED");
+        }
+      }
+
+      const status = event.requireApproval ? "pending" : "confirmed";
+
+      return await tx.eventRegistration.create({
+        data: {
           eventId: event.id,
-          status: { not: "cancelled" },
+          ticketTypeId: ticketType.id,
+          ticketCode,
+          firstName: sanitizedFirstName,
+          lastName: sanitizedLastName,
+          email: sanitizedEmail,
+          phone: sanitizedPhone,
+          numberOfTickets: qty,
+          status,
         },
-        _sum: { numberOfTickets: true },
+        include: { ticketType: true, event: true },
       });
-      const totalIssued = totalResult._sum.numberOfTickets || 0;
-      if (totalIssued + qty > event.maxCapacity) {
-        return NextResponse.json(
-          { error: "Event is at full capacity" },
-          { status: 400 }
-        );
-      }
-    }
-
-    // Generate unique ticket code
-    let ticketCode = generateTicketCode();
-    let attempts = 0;
-    while (attempts < 10) {
-      const existing = await prisma.eventRegistration.findUnique({
-        where: { ticketCode },
-      });
-      if (!existing) break;
-      ticketCode = generateTicketCode();
-      attempts++;
-    }
-
-    const status = event.requireApproval ? "pending" : "confirmed";
-
-    const registration = await prisma.eventRegistration.create({
-      data: {
-        eventId: event.id,
-        ticketTypeId: ticketType.id,
-        ticketCode,
-        firstName,
-        lastName,
-        email,
-        phone: phone || null,
-        numberOfTickets: qty,
-        status,
-      },
-      include: { ticketType: true, event: true },
     });
 
     // Send confirmation email (non-blocking)
     sendEventRegistrationConfirmation({
-      firstName,
-      lastName,
-      email,
+      firstName: sanitizedFirstName,
+      lastName: sanitizedLastName,
+      email: sanitizedEmail,
       eventTitle: event.title,
       eventDate: event.date.toISOString(),
       eventTime: event.time,
       eventLocation: event.location,
       ticketType: ticketType.name,
-      ticketCode,
+      ticketCode: registration.ticketCode,
       numberOfTickets: qty,
-      status,
+      status: registration.status,
     }).catch(() => {});
 
     return NextResponse.json(registration, { status: 201 });
   } catch (error) {
+    // Handle expected business-logic errors from the transaction
+    if (error instanceof Error) {
+      if (error.message === "NOT_ENOUGH_TICKETS") {
+        return NextResponse.json(
+          { error: "Not enough tickets available" },
+          { status: 400 }
+        );
+      }
+      if (error.message === "EVENT_FULL") {
+        return NextResponse.json(
+          { error: "Event is at full capacity" },
+          { status: 400 }
+        );
+      }
+      if (error.message === "TICKET_CODE_GENERATION_FAILED") {
+        return NextResponse.json(
+          { error: "Failed to generate ticket code. Please try again." },
+          { status: 500 }
+        );
+      }
+    }
     console.error("Error creating registration:", error);
     return NextResponse.json(
       { error: "Failed to register" },

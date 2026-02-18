@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCommunity } from "../layout";
 import {
   User,
@@ -20,12 +20,25 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [form, setForm] = useState({
-    firstName: member?.firstName || "",
-    lastName: member?.lastName || "",
-    displayName: member?.displayName || "",
-    bio: member?.bio || "",
-    avatar: member?.avatar || "",
+    firstName: "",
+    lastName: "",
+    displayName: "",
+    bio: "",
+    avatar: "",
   });
+
+  // Sync form state when member data loads or changes
+  useEffect(() => {
+    if (member) {
+      setForm({
+        firstName: member.firstName || "",
+        lastName: member.lastName || "",
+        displayName: member.displayName || "",
+        bio: member.bio || "",
+        avatar: member.avatar || "",
+      });
+    }
+  }, [member]);
 
   const handleSave = async () => {
     setSaving(true);

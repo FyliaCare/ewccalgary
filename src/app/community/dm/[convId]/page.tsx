@@ -81,35 +81,42 @@ export default function DMConversationPage() {
     } catch { /* silent */ }
   }, [convId]);
 
-  const pollMessages = useCallback(async () => {
-    try {
-      const res = await fetch(`/api/chat/dm/${convId}/messages`);
-      if (res.ok) {
-        const data = await res.json();
-        const msgs = data.messages as DmMessage[];
-        if (msgs.length > 0) {
-          const latestId = msgs[msgs.length - 1].id;
-          if (latestId !== lastMsgIdRef.current) {
-            lastMsgIdRef.current = latestId;
-            setMessages(msgs);
-            if (atBottom) {
-              setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
-            }
-          }
-        }
-      }
-    } catch { /* silent */ }
-  }, [convId, atBottom]);
+  // Use a ref for atBottom so SSE handler doesn't cause reconnections
+  const atBottomRef = useRef(atBottom);
+  useEffect(() => { atBottomRef.current = atBottom; }, [atBottom]);
 
   useEffect(() => {
     fetchConversationInfo();
     fetchMessages();
   }, [fetchConversationInfo, fetchMessages]);
 
+  // SSE: real-time message stream (replaces 3-second polling)
   useEffect(() => {
-    const interval = setInterval(pollMessages, 3000);
-    return () => clearInterval(interval);
-  }, [pollMessages]);
+    const eventSource = new EventSource(`/api/chat/dm/${convId}/stream`);
+
+    eventSource.onmessage = (event) => {
+      try {
+        const msg = JSON.parse(event.data) as DmMessage;
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === msg.id)) return prev;
+          return [...prev, msg];
+        });
+        lastMsgIdRef.current = msg.id;
+        if (atBottomRef.current) {
+          setTimeout(
+            () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }),
+            100
+          );
+        }
+      } catch { /* malformed event */ }
+    };
+
+    eventSource.onerror = () => {
+      // EventSource auto-reconnects with Last-Event-ID
+    };
+
+    return () => eventSource.close();
+  }, [convId]);
 
   useEffect(() => {
     if (messages.length > 0 && atBottom) {
@@ -146,7 +153,10 @@ export default function DMConversationPage() {
       });
       if (res.ok) {
         const msg = await res.json();
-        setMessages((prev) => [...prev, msg]);
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === msg.id)) return prev;
+          return [...prev, msg];
+        });
         lastMsgIdRef.current = msg.id;
         setNewMessage("");
         if (textareaRef.current) textareaRef.current.style.height = "auto";
@@ -256,7 +266,7 @@ export default function DMConversationPage() {
               <p className="text-ewc-silver text-sm">
                 Say hello to {otherMember?.displayName?.split(" ")[0] || "them"}!
               </p>
-              <p className="text-ewc-silver/40 text-xs mt-1">Messages are private and encrypted</p>
+              <p className="text-ewc-silver/40 text-xs mt-1">Messages are private</p>
             </div>
           </div>
         ) : (

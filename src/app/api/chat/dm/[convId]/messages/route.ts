@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getMemberFromToken } from "@/lib/member-auth";
+import { sanitizeContent } from "@/lib/validation";
 
 // GET — fetch messages in conversation
 export async function GET(
@@ -84,7 +85,8 @@ export async function POST(
     const { convId } = await params;
     const { content, type } = await request.json();
 
-    if (!content || !content.trim()) {
+    const sanitizedContent = sanitizeContent(content, 5000);
+    if (!sanitizedContent) {
       return NextResponse.json(
         { error: "Message required" },
         { status: 400 }
@@ -110,8 +112,8 @@ export async function POST(
         conversationId: convId,
         senderId: auth.memberId,
         receiverId,
-        content: content.trim(),
-        type: type || "text",
+        content: sanitizedContent,
+        type: ["text", "image", "link"].includes(type) ? type : "text",
       },
       include: {
         sender: {

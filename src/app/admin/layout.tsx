@@ -15,7 +15,7 @@ import {
   Menu,
   ExternalLink,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -35,6 +35,28 @@ export default function AdminLayout({
   const pathname = usePathname();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [verified, setVerified] = useState(false);
+
+  // Client-side auth verification — prevents rendering admin UI before middleware redirects
+  useEffect(() => {
+    if (pathname === "/admin/login") {
+      setVerified(true);
+      return;
+    }
+    // Make a lightweight API call to verify auth status
+    // This catches cases where the token expired during client-side navigation
+    fetch("/api/departments")
+      .then((res) => {
+        if (res.status === 401) {
+          router.push("/admin/login");
+        } else {
+          setVerified(true);
+        }
+      })
+      .catch(() => {
+        setVerified(true); // On network error, let server-side middleware handle it
+      });
+  }, [pathname, router]);
 
   const handleLogout = async () => {
     try {
@@ -48,6 +70,15 @@ export default function AdminLayout({
 
   if (pathname === "/admin/login") {
     return <>{children}</>;
+  }
+
+  // Don't render admin UI until auth is verified
+  if (!verified) {
+    return (
+      <div className="min-h-screen bg-ewc-black flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-ewc-burgundy border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
   }
 
   return (

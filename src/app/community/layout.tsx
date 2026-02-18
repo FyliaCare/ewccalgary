@@ -99,7 +99,7 @@ export default function CommunityLayout({
         if (roomsRes.ok) {
           const rooms = await roomsRes.json();
           const total = rooms.reduce(
-            (sum: number, r: { unreadCount: number }) => sum + (r.unreadCount || 0),
+            (sum: number, r: { unread?: number }) => sum + (r.unread || 0),
             0
           );
           setUnreadRooms(total);
@@ -107,7 +107,7 @@ export default function CommunityLayout({
         if (dmRes.ok) {
           const dms = await dmRes.json();
           const total = dms.reduce(
-            (sum: number, d: { unreadCount: number }) => sum + (d.unreadCount || 0),
+            (sum: number, d: { unread?: number }) => sum + (d.unread || 0),
             0
           );
           setUnreadDMs(total);
@@ -130,6 +130,7 @@ export default function CommunityLayout({
     };
     const handleTouchEnd = (e: TouchEvent) => {
       const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+      // Sidebar is on the right — swipe right (positive delta) to push it offscreen
       if (deltaX > 60) {
         setSidebarOpen(false);
       }

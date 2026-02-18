@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getMemberFromToken } from "@/lib/member-auth";
+import { sanitizeString, sanitizeContent } from "@/lib/validation";
 
 // GET — list rooms the member belongs to (with unread counts)
 export async function GET() {
@@ -74,7 +75,7 @@ export async function GET() {
   }
 }
 
-// POST — create a new room (leaders/moderators only, or anyone for now)
+// POST — create a new room (restrict announcement rooms to moderators/leaders)
 export async function POST(request: Request) {
   try {
     const auth = await getMemberFromToken();
@@ -91,13 +92,40 @@ export async function POST(request: Request) {
       );
     }
 
+    const sanitizedName = sanitizeString(name, 100);
+    const sanitizedDesc = sanitizeContent(description || "", 500);
+
+    if (!sanitizedName) {
+      return NextResponse.json(
+        { error: "Room name cannot be empty" },
+        { status: 400 }
+      );
+    }
+
+    const allowedTypes = ["public", "private", "announcement"];
+    const roomType = allowedTypes.includes(type) ? type : "public";
+
+    // Only moderators and leaders can create announcement rooms
+    if (roomType === "announcement") {
+      const member = await prisma.member.findUnique({
+        where: { id: auth.memberId },
+        select: { role: true },
+      });
+      if (!member || !(["moderator", "leader", "admin"].includes(member.role))) {
+        return NextResponse.json(
+          { error: "Only moderators and leaders can create announcement rooms" },
+          { status: 403 }
+        );
+      }
+    }
+
     const room = await prisma.chatRoom.create({
       data: {
-        name,
-        description: description || null,
-        icon: icon || "MessageCircle",
-        type: type || "public",
-        color: color || "#7B2D3B",
+        name: sanitizedName,
+        description: sanitizedDesc || null,
+        icon: sanitizeString(icon || "MessageCircle", 50),
+        type: roomType,
+        color: sanitizeString(color || "#7B2D3B", 20),
         createdBy: auth.memberId,
         members: {
           create: {

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+const ALLOWED_REG_STATUSES = ["pending", "confirmed", "cancelled", "waitlisted"];
+
 // PATCH — update registration (check-in, cancel, approve)
 export async function PATCH(
   request: NextRequest,
@@ -11,11 +13,32 @@ export async function PATCH(
     const { status, checkedIn, notes } = body;
 
     const updateData: Record<string, unknown> = {};
-    if (status !== undefined) updateData.status = status;
-    if (notes !== undefined) updateData.notes = notes;
+    if (status !== undefined) {
+      if (!ALLOWED_REG_STATUSES.includes(status)) {
+        return NextResponse.json(
+          { error: `Invalid status. Must be one of: ${ALLOWED_REG_STATUSES.join(", ")}` },
+          { status: 400 }
+        );
+      }
+      updateData.status = status;
+    }
+    if (notes !== undefined) {
+      updateData.notes = typeof notes === "string" ? notes.slice(0, 2000) : null;
+    }
     if (checkedIn !== undefined) {
-      updateData.checkedIn = checkedIn;
+      updateData.checkedIn = Boolean(checkedIn);
       updateData.checkedInAt = checkedIn ? new Date() : null;
+    }
+
+    // Verify registration belongs to this event
+    const existingReg = await prisma.eventRegistration.findUnique({
+      where: { id: params.regId },
+    });
+    if (!existingReg || existingReg.eventId !== params.id) {
+      return NextResponse.json(
+        { error: "Registration not found for this event" },
+        { status: 404 }
+      );
     }
 
     const registration = await prisma.eventRegistration.update({
@@ -40,6 +63,17 @@ export async function DELETE(
   { params }: { params: { id: string; regId: string } }
 ) {
   try {
+    // Verify registration belongs to this event
+    const existingReg = await prisma.eventRegistration.findUnique({
+      where: { id: params.regId },
+    });
+    if (!existingReg || existingReg.eventId !== params.id) {
+      return NextResponse.json(
+        { error: "Registration not found for this event" },
+        { status: 404 }
+      );
+    }
+
     await prisma.eventRegistration.delete({
       where: { id: params.regId },
     });

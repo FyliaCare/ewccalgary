@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { SignJWT } from "jose";
+import { isValidEmail } from "@/lib/validation";
 
 export async function POST(request: Request) {
   try {
@@ -10,6 +11,13 @@ export async function POST(request: Request) {
     if (!email || !password) {
       return NextResponse.json(
         { error: "Email and password are required" },
+        { status: 400 }
+      );
+    }
+
+    if (!isValidEmail(email)) {
+      return NextResponse.json(
+        { error: "Invalid email format" },
         { status: 400 }
       );
     }

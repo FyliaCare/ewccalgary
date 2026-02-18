@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
 import { prisma } from "@/lib/prisma";
+import {
+  sanitizeString,
+  sanitizeContent,
+  isValidAvatarUrl,
+} from "@/lib/validation";
 
 export async function GET() {
   try {
@@ -97,7 +102,30 @@ export async function PATCH(request: Request) {
     const updateData: Record<string, unknown> = {};
     for (const field of allowedFields) {
       if (body[field] !== undefined) {
-        updateData[field] = body[field];
+        if (field === "avatar") {
+          // Validate avatar URL
+          if (body[field] && !isValidAvatarUrl(body[field])) {
+            return NextResponse.json(
+              { error: "Invalid avatar URL. Must be a valid HTTPS URL." },
+              { status: 400 }
+            );
+          }
+          updateData[field] = body[field] ? sanitizeString(body[field], 2048) : null;
+        } else if (field === "bio") {
+          updateData[field] = sanitizeContent(body[field], 500);
+        } else if (field === "phone") {
+          updateData[field] = sanitizeString(body[field], 20);
+        } else {
+          // firstName, lastName, displayName
+          const sanitized = sanitizeString(body[field], 100);
+          if (sanitized.length === 0 && (field === "firstName" || field === "lastName" || field === "displayName")) {
+            return NextResponse.json(
+              { error: `${field} cannot be empty` },
+              { status: 400 }
+            );
+          }
+          updateData[field] = sanitized;
+        }
       }
     }
 

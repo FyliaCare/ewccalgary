@@ -15,6 +15,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { useCommunity } from "./layout";
+import { timeAgo } from "@/lib/validation";
 
 interface Room {
   id: string;
@@ -23,7 +24,7 @@ interface Room {
   type: "public" | "private" | "announcement";
   icon: string | null;
   pinned: boolean;
-  unreadCount: number;
+  unread: number;
   _count: { members: number; messages: number };
   lastMessage?: {
     content: string;
@@ -110,16 +111,7 @@ export default function CommunityHubPage() {
     }
   };
 
-  const timeAgo = (dateStr: string) => {
-    const diff = Date.now() - new Date(dateStr).getTime();
-    const mins = Math.floor(diff / 60000);
-    if (mins < 1) return "now";
-    if (mins < 60) return `${mins}m`;
-    const hrs = Math.floor(mins / 60);
-    if (hrs < 24) return `${hrs}h`;
-    const days = Math.floor(hrs / 24);
-    return `${days}d`;
-  };
+
 
   const pinnedRooms = rooms.filter((r) => r.pinned);
   const otherRooms = rooms.filter((r) => !r.pinned);
@@ -359,9 +351,9 @@ function RoomCard({
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <h3 className="text-white text-[15px] font-medium truncate">{room.name}</h3>
-          {room.unreadCount > 0 && (
+          {room.unread > 0 && (
             <span className="bg-ewc-burgundy text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center flex-shrink-0 badge-pulse">
-              {room.unreadCount > 99 ? "99+" : room.unreadCount}
+              {room.unread > 99 ? "99+" : room.unread}
             </span>
           )}
         </div>

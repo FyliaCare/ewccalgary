@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getMemberFromToken } from "@/lib/member-auth";
+import { sanitizeContent } from "@/lib/validation";
 
 // GET — list messages in a room (paginated)
 export async function GET(
@@ -95,7 +96,8 @@ export async function POST(
     const { roomId } = await params;
     const { content, type, replyToId } = await request.json();
 
-    if (!content || !content.trim()) {
+    const sanitizedContent = sanitizeContent(content, 5000);
+    if (!sanitizedContent) {
       return NextResponse.json(
         { error: "Message content is required" },
         { status: 400 }
@@ -124,8 +126,8 @@ export async function POST(
       data: {
         roomId,
         senderId: auth.memberId,
-        content: content.trim(),
-        type: type || "text",
+        content: sanitizedContent,
+        type: ["text", "image", "link", "system", "scripture"].includes(type) ? type : "text",
         replyToId: replyToId || null,
       },
       include: {

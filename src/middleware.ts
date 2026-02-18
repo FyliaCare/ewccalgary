@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
+import {
+  checkRateLimit,
+  AUTH_RATE_LIMIT,
+  REGISTER_RATE_LIMIT,
+  CONTACT_RATE_LIMIT,
+} from "@/lib/rate-limit";
 
 const protectedAdminRoutes = [
   "/admin",
@@ -26,6 +32,43 @@ export async function middleware(request: NextRequest) {
   // Add pathname header for layout to detect admin routes
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", pathname);
+
+  // ─── Rate limiting for auth & sensitive POST endpoints ───
+  if (request.method === "POST") {
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
+
+    let rateLimitResult = null;
+
+    if (
+      pathname === "/api/auth/login" ||
+      pathname === "/api/auth/member/login"
+    ) {
+      rateLimitResult = checkRateLimit(`auth:${ip}`, AUTH_RATE_LIMIT);
+    } else if (pathname === "/api/auth/member/register") {
+      rateLimitResult = checkRateLimit(`register:${ip}`, REGISTER_RATE_LIMIT);
+    } else if (pathname === "/api/contact") {
+      rateLimitResult = checkRateLimit(`contact:${ip}`, CONTACT_RATE_LIMIT);
+    }
+
+    if (rateLimitResult && !rateLimitResult.allowed) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(rateLimitResult.retryAfterSeconds),
+            "X-RateLimit-Remaining": "0",
+            "X-RateLimit-Reset": String(
+              Math.ceil(rateLimitResult.resetAt / 1000)
+            ),
+          },
+        }
+      );
+    }
+  }
 
   // Allow login page, login API, and member auth routes
   if (
@@ -108,7 +151,21 @@ async function verifyAuth(request: NextRequest, isApi = false) {
       return NextResponse.redirect(new URL("/admin/login", request.url));
     }
 
-    await jwtVerify(token, new TextEncoder().encode(secret));
+    const { payload } = await jwtVerify(token, new TextEncoder().encode(secret));
+
+    // Verify token type is admin (not a member token)
+    if (payload.type && payload.type !== "admin") {
+      // This is a member token, not an admin token
+      if (isApi) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+      const response = NextResponse.redirect(
+        new URL("/admin/login", request.url)
+      );
+      response.cookies.delete("admin-token");
+      return response;
+    }
+
     return NextResponse.next({
       request: { headers: reqHeaders },
     });

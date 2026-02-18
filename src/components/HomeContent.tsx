@@ -14,6 +14,8 @@ import {
   Instagram,
   Sparkles,
   Globe,
+  X,
+  MessageCircle,
 } from "lucide-react";
 import Image from "next/image";
 import VolunteerModal from "@/components/VolunteerModal";
@@ -41,6 +43,29 @@ const quickLinks = [
 export default function HomeContent() {
   const [showVolunteerModal, setShowVolunteerModal] = useState(false);
   const [showVolunteerPrompt, setShowVolunteerPrompt] = useState(false);
+  const [showPastorLightbox, setShowPastorLightbox] = useState(false);
+  const [lightboxEnter, setLightboxEnter] = useState(false);
+
+  // Show pastor lightbox after 5s on first-ever visit
+  useEffect(() => {
+    const hasSeen = localStorage.getItem("ewc-pastor-welcome");
+    if (!hasSeen) {
+      const timer = setTimeout(() => {
+        setShowPastorLightbox(true);
+        // Trigger entrance animation on next frame
+        requestAnimationFrame(() => setLightboxEnter(true));
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  function closePastorLightbox() {
+    setLightboxEnter(false);
+    setTimeout(() => {
+      setShowPastorLightbox(false);
+      localStorage.setItem("ewc-pastor-welcome", "true");
+    }, 300);
+  }
 
   // Show the volunteer prompt after 8 seconds, but only once per session
   useEffect(() => {
@@ -65,6 +90,102 @@ export default function HomeContent() {
 
   return (
     <>
+      {/* ─── Pastor's Welcome Lightbox ─── */}
+      {showPastorLightbox && (
+        <div
+          className={`fixed inset-0 z-[1000] flex items-center justify-center p-4 transition-all duration-300 ${
+            lightboxEnter ? "bg-black/60 backdrop-blur-sm" : "bg-black/0"
+          }`}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closePastorLightbox();
+          }}
+        >
+          <div
+            className={`relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ${
+              lightboxEnter
+                ? "opacity-100 scale-100 translate-y-0"
+                : "opacity-0 scale-95 translate-y-4"
+            }`}
+          >
+            {/* Close button */}
+            <button
+              onClick={closePastorLightbox}
+              className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors active:scale-90"
+            >
+              <X size={18} />
+            </button>
+
+            {/* Pastor photo */}
+            <div className="relative w-full aspect-[4/3] overflow-hidden">
+              <Image
+                src="/PHL.png"
+                alt="Pastor Humphrey Lomotey"
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 512px) 100vw, 512px"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-5">
+                <p className="text-white/80 text-xs font-heading font-semibold tracking-wider uppercase">
+                  Campus Pastor
+                </p>
+                <p className="text-white text-lg font-heading font-bold">
+                  Humphrey Lomotey
+                </p>
+              </div>
+            </div>
+
+            {/* Message */}
+            <div className="p-5 sm:p-6">
+              <h3 className="font-heading font-bold text-lg sm:text-xl text-ewc-charcoal mb-3 leading-snug">
+                Hey there, welcome! 👋
+              </h3>
+              <div className="space-y-3 text-ewc-slate text-sm leading-relaxed">
+                <p>
+                  I&apos;m so glad you stopped by. Whether you found us by
+                  searching, through a friend, or simply by God&apos;s leading —
+                  I want you to know that <strong>you&apos;re not here by accident</strong>.
+                </p>
+                <p>
+                  I&apos;d love to be your pastor and walk with you on this
+                  journey of faith. EWC Calgary is more than a church — it&apos;s
+                  a family, and there&apos;s a seat saved just for you.
+                </p>
+                <p>
+                  Have you joined our community platform yet? It&apos;s where
+                  our members connect, share, and grow together throughout
+                  the week. I&apos;d love to see you there!
+                </p>
+              </div>
+
+              {/* CTAs */}
+              <div className="mt-5 flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/community/register"
+                  onClick={closePastorLightbox}
+                  className="btn-burgundy flex-1 py-3 text-sm justify-center"
+                >
+                  <MessageCircle size={16} className="mr-2" />
+                  Join the Community
+                </Link>
+                <Link
+                  href="/community/login"
+                  onClick={closePastorLightbox}
+                  className="flex-1 inline-flex items-center justify-center py-3 rounded-lg border-2 border-ewc-burgundy/20 text-ewc-burgundy font-heading font-semibold text-sm hover:bg-ewc-burgundy-50 transition-colors active:scale-95"
+                >
+                  I Already Have an Account
+                </Link>
+              </div>
+
+              <p className="text-center text-ewc-silver text-[11px] mt-4">
+                God bless you — see you Sunday! 🙏
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Volunteer Prompt Banner — slides in from bottom */}
       {showVolunteerPrompt && (
         <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-[999] w-[92%] max-w-lg animate-slide-up safe-area-bottom">

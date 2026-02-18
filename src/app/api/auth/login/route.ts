@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-
-const JWT_SECRET = process.env.NEXTAUTH_SECRET;
-
-if (!JWT_SECRET) {
-  console.error("FATAL: NEXTAUTH_SECRET environment variable is not set");
-}
+import { SignJWT } from "jose";
+import { isValidEmail } from "@/lib/validation";
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,6 +12,13 @@ export async function POST(request: NextRequest) {
     if (!email || !password) {
       return NextResponse.json(
         { error: "Email and password are required" },
+        { status: 400 }
+      );
+    }
+
+    if (!isValidEmail(email)) {
+      return NextResponse.json(
+        { error: "Invalid email format" },
         { status: 400 }
       );
     }
@@ -39,19 +41,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate token
-    if (!JWT_SECRET) {
+    // Generate token — use jose instead of jsonwebtoken for consistency
+    const secret = process.env.NEXTAUTH_SECRET;
+    if (!secret) {
       return NextResponse.json(
         { error: "Server configuration error" },
         { status: 500 }
       );
     }
 
-    const token = jwt.sign(
-      { id: admin.id, email: admin.email, role: admin.role },
-      JWT_SECRET,
-      { expiresIn: "24h" }
-    );
+    const token = await new SignJWT({
+      id: admin.id,
+      email: admin.email,
+      role: admin.role,
+      type: "admin",
+    })
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime("24h")
+      .sign(new TextEncoder().encode(secret));
 
     // Set cookie
     const response = NextResponse.json({

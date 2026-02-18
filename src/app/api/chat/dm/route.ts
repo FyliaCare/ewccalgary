@@ -85,7 +85,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { memberId } = await request.json();
+    const { otherMemberId: memberId } = await request.json();
 
     if (!memberId || memberId === auth.memberId) {
       return NextResponse.json({ error: "Invalid member" }, { status: 400 });

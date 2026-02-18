@@ -31,8 +31,20 @@ export default function CommunityRegisterPage() {
       setError("Passwords do not match.");
       return;
     }
-    if (form.password.length < 6) {
-      setError("Password must be at least 6 characters.");
+    if (form.password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+    if (!/[a-z]/.test(form.password)) {
+      setError("Password must contain at least one lowercase letter.");
+      return;
+    }
+    if (!/[A-Z]/.test(form.password)) {
+      setError("Password must contain at least one uppercase letter.");
+      return;
+    }
+    if (!/[0-9]/.test(form.password)) {
+      setError("Password must contain at least one number.");
       return;
     }
 
@@ -166,9 +178,9 @@ export default function CommunityRegisterPage() {
                 value={form.password}
                 onChange={handleChange}
                 required
-                minLength={6}
+                minLength={8}
                 className="w-full px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white text-[15px] placeholder:text-ewc-silver/40 focus:outline-none focus:border-ewc-burgundy focus:ring-1 focus:ring-ewc-burgundy transition-all pr-12"
-                placeholder="Min. 6 characters"
+                placeholder="Min. 8 characters, mixed case + number"
               />
               <button
                 type="button"

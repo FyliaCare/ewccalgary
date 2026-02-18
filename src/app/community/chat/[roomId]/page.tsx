@@ -121,35 +121,43 @@ export default function ChatRoomPage() {
     } catch { /* silent */ }
   }, [roomId]);
 
-  const pollMessages = useCallback(async () => {
-    try {
-      const res = await fetch(`/api/chat/rooms/${roomId}/messages`);
-      if (res.ok) {
-        const data = await res.json();
-        const newMsgs = data.messages as Message[];
-        if (newMsgs.length > 0) {
-          const latestId = newMsgs[newMsgs.length - 1].id;
-          if (latestId !== lastMessageIdRef.current) {
-            lastMessageIdRef.current = latestId;
-            setMessages(newMsgs);
-            if (atBottom) {
-              setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
-            }
-          }
-        }
-      }
-    } catch { /* silent */ }
-  }, [roomId, atBottom]);
+  // Use a ref for atBottom so SSE handler doesn't cause reconnections
+  const atBottomRef = useRef(atBottom);
+  useEffect(() => { atBottomRef.current = atBottom; }, [atBottom]);
 
   useEffect(() => {
     fetchRoom();
     fetchMessages();
   }, [fetchRoom, fetchMessages]);
 
+  // SSE: real-time message stream (replaces 3-second polling)
   useEffect(() => {
-    const interval = setInterval(pollMessages, 3000);
-    return () => clearInterval(interval);
-  }, [pollMessages]);
+    const eventSource = new EventSource(`/api/chat/rooms/${roomId}/stream`);
+
+    eventSource.onmessage = (event) => {
+      try {
+        const msg = JSON.parse(event.data) as Message;
+        setMessages((prev) => {
+          // Avoid duplicates (e.g., own message already added optimistically)
+          if (prev.some((m) => m.id === msg.id)) return prev;
+          return [...prev, msg];
+        });
+        lastMessageIdRef.current = msg.id;
+        if (atBottomRef.current) {
+          setTimeout(
+            () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }),
+            100
+          );
+        }
+      } catch { /* malformed event */ }
+    };
+
+    eventSource.onerror = () => {
+      // EventSource auto-reconnects with Last-Event-ID
+    };
+
+    return () => eventSource.close();
+  }, [roomId]);
 
   useEffect(() => {
     if (messages.length > 0 && atBottom) {
@@ -215,7 +223,10 @@ export default function ChatRoomPage() {
 
       if (res.ok) {
         const msg = await res.json();
-        setMessages((prev) => [...prev, msg]);
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === msg.id)) return prev;
+          return [...prev, msg];
+        });
         lastMessageIdRef.current = msg.id;
         setNewMessage("");
         setReplyTo(null);
@@ -241,7 +252,8 @@ export default function ChatRoomPage() {
       if (res.ok) {
         setShowEmojiFor(null);
         setLongPressMsg(null);
-        pollMessages();
+        // Re-fetch messages to get updated reactions
+        fetchMessages();
       }
     } catch { /* silent */ }
   };

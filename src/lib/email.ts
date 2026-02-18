@@ -1,4 +1,6 @@
 import nodemailer from "nodemailer";
+import { escapeHtml } from "@/lib/validation";
+import crypto from "crypto";
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.gmail.com",
@@ -52,16 +54,16 @@ export async function sendVolunteerConfirmation(data: VolunteerEmailData) {
           <p>Volunteer Application Received</p>
         </div>
         <div class="content">
-          <h2>Welcome, ${data.firstName}! 🙏</h2>
+          <h2>Welcome, ${escapeHtml(data.firstName)}! 🙏</h2>
           <p>Thank you for signing up to volunteer at <strong>Empowerment Worship Centre — Calgary Campus</strong>. We're excited to have you join the team!</p>
           
           <div class="detail">
             <span>Name</span>
-            <strong>${data.firstName} ${data.lastName}</strong>
+            <strong>${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</strong>
           </div>
           <div class="detail">
             <span>Department</span>
-            <strong>${data.department}</strong>
+            <strong>${escapeHtml(data.department)}</strong>
           </div>
           
           <p><strong>What happens next?</strong></p>
@@ -125,16 +127,16 @@ export async function sendContactNotification(data: ContactEmailData) {
         <div class="content">
           <div class="detail">
             <span>From</span>
-            <strong>${data.name} (${data.email})</strong>
+            <strong>${escapeHtml(data.name)} (${escapeHtml(data.email)})</strong>
           </div>
           <div class="detail">
             <span>Subject</span>
-            <strong>${data.subject}</strong>
+            <strong>${escapeHtml(data.subject)}</strong>
           </div>
           <div class="message-box">
-            <p style="color: #d4d4d4; line-height: 1.6; margin: 0;">${data.message}</p>
+            <p style="color: #d4d4d4; line-height: 1.6; margin: 0;">${escapeHtml(data.message)}</p>
           </div>
-          <p style="margin-top: 15px;"><a href="mailto:${data.email}" style="color: #933548;">Reply to ${data.name}</a></p>
+          <p style="margin-top: 15px;"><a href="mailto:${escapeHtml(data.email)}" style="color: #933548;">Reply to ${escapeHtml(data.name)}</a></p>
         </div>
       </div>
     </body>
@@ -205,34 +207,34 @@ export async function sendEventRegistrationConfirmation(
           <p>${isConfirmed ? "🎉 Registration Confirmed" : "⏳ Registration Pending Approval"}</p>
         </div>
         <div class="content">
-          <h2>${isConfirmed ? `You're registered, ${data.firstName}!` : `Almost there, ${data.firstName}!`}</h2>
+          <h2>${isConfirmed ? `You're registered, ${escapeHtml(data.firstName)}!` : `Almost there, ${escapeHtml(data.firstName)}!`}</h2>
           <p>${
             isConfirmed
-              ? `Your registration for <strong>${data.eventTitle}</strong> has been confirmed. Here are your event details:`
-              : `Your registration for <strong>${data.eventTitle}</strong> has been received and is pending approval. We'll notify you once it's confirmed.`
+              ? `Your registration for <strong>${escapeHtml(data.eventTitle)}</strong> has been confirmed. Here are your event details:`
+              : `Your registration for <strong>${escapeHtml(data.eventTitle)}</strong> has been received and is pending approval. We'll notify you once it's confirmed.`
           }</p>
 
           <div class="detail">
             <span>Event</span>
-            <strong>${data.eventTitle}</strong>
+            <strong>${escapeHtml(data.eventTitle)}</strong>
           </div>
           <div class="detail">
             <span>Date</span>
-            <strong>${data.eventDate}</strong>
+            <strong>${escapeHtml(data.eventDate)}</strong>
           </div>
           ${
             data.eventTime
-              ? `<div class="detail"><span>Time</span><strong>${data.eventTime}</strong></div>`
+              ? `<div class="detail"><span>Time</span><strong>${escapeHtml(data.eventTime)}</strong></div>`
               : ""
           }
           ${
             data.eventLocation
-              ? `<div class="detail"><span>Location</span><strong>${data.eventLocation}</strong></div>`
+              ? `<div class="detail"><span>Location</span><strong>${escapeHtml(data.eventLocation)}</strong></div>`
               : ""
           }
           <div class="detail">
             <span>Ticket</span>
-            <strong>${data.ticketType} × ${data.numberOfTickets}</strong>
+            <strong>${escapeHtml(data.ticketType)} × ${data.numberOfTickets}</strong>
           </div>
 
           <div class="ticket-box">
@@ -265,5 +267,86 @@ export async function sendEventRegistrationConfirmation(
     console.log(`Event registration email sent to ${data.email}`);
   } catch (error) {
     console.error("Failed to send event registration email:", error);
+  }
+}
+
+// ─── Email Verification ───────────────────
+
+/**
+ * Generate a cryptographically random verification token
+ */
+export function generateVerificationToken(): string {
+  return crypto.randomBytes(32).toString("hex");
+}
+
+interface VerificationEmailData {
+  firstName: string;
+  email: string;
+  token: string;
+}
+
+export async function sendVerificationEmail(data: VerificationEmailData) {
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://ewccalgary.ca";
+  const verifyUrl = `${siteUrl}/api/auth/member/verify?token=${data.token}`;
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a0a; color: #e5e5e5; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 0 auto; background: #1a1a1a; border-radius: 8px; overflow: hidden; }
+        .header { background: linear-gradient(135deg, #933548, #7B2D3B); padding: 30px; text-align: center; }
+        .header h1 { color: #ffffff; font-size: 24px; margin: 0; }
+        .header p { color: #ffffff; opacity: 0.7; font-size: 14px; margin-top: 5px; }
+        .content { padding: 30px; }
+        .content h2 { color: #933548; font-size: 20px; }
+        .content p { line-height: 1.6; color: #d4d4d4; }
+        .btn { display: inline-block; background: #933548; color: #ffffff !important; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 20px 0; font-size: 16px; }
+        .footer { padding: 20px 30px; border-top: 1px solid #2a2a2a; text-align: center; }
+        .footer p { color: #666; font-size: 12px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>EWC Calgary</h1>
+          <p>Email Verification</p>
+        </div>
+        <div class="content">
+          <h2>Welcome, ${escapeHtml(data.firstName)}! 🙏</h2>
+          <p>Thank you for joining the <strong>EWC Calgary Community</strong>. Please verify your email address to complete your registration.</p>
+
+          <div style="text-align: center;">
+            <a href="${verifyUrl}" class="btn">Verify My Email</a>
+          </div>
+
+          <p style="color: #a0a0a0; font-size: 13px;">If the button doesn't work, copy and paste this link into your browser:</p>
+          <p style="color: #a0a0a0; font-size: 12px; word-break: break-all;">${verifyUrl}</p>
+
+          <p style="color: #a0a0a0; font-size: 13px;">This link expires in 24 hours. If you didn't create an account, you can safely ignore this email.</p>
+
+          <p>God bless you!<br><strong>EWC Calgary Team</strong></p>
+        </div>
+        <div class="footer">
+          <p>Empowerment Worship Centre — Calgary Campus</p>
+          <p>225 Chaparral Drive SE, Calgary, Alberta, Canada</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    await transporter.sendMail({
+      from: `"EWC Calgary" <${process.env.SMTP_USER}>`,
+      to: data.email,
+      subject: "Verify Your Email — EWC Calgary Community",
+      html,
+    });
+    console.log(`Verification email sent to ${data.email}`);
+  } catch (error) {
+    console.error("Failed to send verification email:", error);
   }
 }

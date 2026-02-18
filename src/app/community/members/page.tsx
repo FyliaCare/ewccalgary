@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   Users,
@@ -10,6 +10,7 @@ import {
   WifiOff,
 } from "lucide-react";
 import { useCommunity } from "../layout";
+import { timeAgoVerbose as timeAgo } from "@/lib/validation";
 
 interface MemberInfo {
   id: string;
@@ -45,9 +46,15 @@ export default function MembersDirectoryPage() {
     fetchMembers();
   }, [fetchMembers]);
 
+  const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const handleSearch = (q: string) => {
     setSearch(q);
-    fetchMembers(q);
+    // Debounce API calls by 300ms
+    if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
+    searchTimerRef.current = setTimeout(() => {
+      fetchMembers(q);
+    }, 300);
   };
 
   const startDM = async (otherMemberId: string) => {
@@ -70,17 +77,7 @@ export default function MembersDirectoryPage() {
   const onlineMembers = members.filter((m) => m.isOnline);
   const offlineMembers = members.filter((m) => !m.isOnline);
 
-  const timeAgo = (dateStr: string) => {
-    const diff = Date.now() - new Date(dateStr).getTime();
-    const mins = Math.floor(diff / 60000);
-    if (mins < 1) return "just now";
-    if (mins < 60) return `${mins}m ago`;
-    const hrs = Math.floor(mins / 60);
-    if (hrs < 24) return `${hrs}h ago`;
-    const days = Math.floor(hrs / 24);
-    if (days < 7) return `${days}d ago`;
-    return new Date(dateStr).toLocaleDateString();
-  };
+
 
   return (
     <div className="min-h-full">
