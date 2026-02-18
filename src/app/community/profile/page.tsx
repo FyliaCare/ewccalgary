@@ -5,6 +5,7 @@ import { useCommunity } from "../layout";
 import {
   User,
   Mail,
+  Phone,
   Save,
   LogOut,
   CheckCircle,
@@ -25,7 +26,9 @@ export default function ProfilePage() {
     displayName: "",
     bio: "",
     avatar: "",
+    phone: "",
   });
+  const [saveError, setSaveError] = useState("");
 
   // Sync form state when member data loads or changes
   useEffect(() => {
@@ -36,25 +39,32 @@ export default function ProfilePage() {
         displayName: member.displayName || "",
         bio: member.bio || "",
         avatar: member.avatar || "",
+        phone: member.phone || "",
       });
     }
   }, [member]);
 
   const handleSave = async () => {
     setSaving(true);
+    setSaveError("");
     try {
       const res = await fetch("/api/auth/member/me", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
+      const data = await res.json();
       if (res.ok) {
         refreshMember();
         setEditing(false);
         setSaved(true);
         setTimeout(() => setSaved(false), 2000);
+      } else {
+        setSaveError(data.error || "Failed to save profile. Please try again.");
       }
-    } catch { /* silent */ }
+    } catch {
+      setSaveError("Network error. Please try again.");
+    }
     setSaving(false);
   };
 
@@ -153,6 +163,17 @@ export default function ProfilePage() {
                     <p className="text-white text-[15px] truncate">{member.email}</p>
                   </div>
                 </div>
+                {member.phone && (
+                  <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.03]">
+                    <div className="w-9 h-9 bg-ewc-burgundy/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <Phone className="w-4 h-4 text-ewc-burgundy-light" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-ewc-silver/60 text-[11px] uppercase tracking-wider">Phone</p>
+                      <p className="text-white text-[15px] truncate">{member.phone}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -239,7 +260,27 @@ export default function ProfilePage() {
                   className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-[15px] focus:outline-none focus:border-ewc-burgundy placeholder:text-ewc-silver/30 resize-none transition-colors"
                 />
               </div>
+              <div>
+                <label className="text-ewc-silver/60 text-[11px] uppercase tracking-wider mb-1.5 block">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  value={form.phone}
+                  onChange={(e) =>
+                    setForm({ ...form, phone: e.target.value })
+                  }
+                  placeholder="+1 (555) 123-4567"
+                  className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-[15px] focus:outline-none focus:border-ewc-burgundy placeholder:text-ewc-silver/30 transition-colors"
+                />
+              </div>
             </div>
+
+            {saveError && (
+              <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm px-4 py-3 rounded-xl scale-in">
+                {saveError}
+              </div>
+            )}
 
             <div className="flex gap-3">
               <button

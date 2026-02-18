@@ -24,7 +24,12 @@ interface MemberData {
   lastName: string;
   avatar: string | null;
   bio: string | null;
+  phone: string | null;
+  role: string;
+  verified: boolean;
   isOnline: boolean;
+  lastSeen: string;
+  createdAt: string;
 }
 
 interface CommunityContextType {
@@ -70,11 +75,15 @@ export default function CommunityLayout({
       if (res.ok) {
         const data = await res.json();
         setMember(data);
-      } else {
+      } else if (res.status === 401) {
+        // Only redirect to login on auth failure, not server errors
         setMember(null);
         if (!isAuthPage) {
-          router.push("/community/login");
+          router.push("/community/login?expired=true");
         }
+      } else {
+        // Server error — keep current state, don't kick user out
+        setMember(null);
       }
     } catch {
       setMember(null);
@@ -178,7 +187,21 @@ export default function CommunityLayout({
     );
   }
 
-  if (!member) return null;
+  // If not authenticated and not on auth page, show loading until redirect completes
+  if (!member) {
+    return (
+      <CommunityContext.Provider value={{ member, refreshMember: fetchMember }}>
+        <div className="h-screen bg-ewc-navy flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4 fade-in">
+            <div className="w-16 h-16 bg-ewc-burgundy rounded-2xl flex items-center justify-center shadow-lg">
+              <MessageCircle className="w-8 h-8 text-white" />
+            </div>
+            <div className="w-8 h-8 border-2 border-ewc-burgundy border-t-transparent rounded-full animate-spin" />
+          </div>
+        </div>
+      </CommunityContext.Provider>
+    );
+  }
 
   const navItems = [
     { href: "/community", label: "Hub", icon: Home, badge: 0 },

@@ -35,6 +35,10 @@ export default function CommunityRegisterPage() {
       setError("Password must be at least 8 characters.");
       return;
     }
+    if (form.password.length > 128) {
+      setError("Password cannot exceed 128 characters.");
+      return;
+    }
     if (!/[a-z]/.test(form.password)) {
       setError("Password must contain at least one lowercase letter.");
       return;
@@ -65,13 +69,13 @@ export default function CommunityRegisterPage() {
       const data = await res.json();
       if (!res.ok) {
         setError(data.error || "Registration failed");
+        setLoading(false);
         return;
       }
 
       router.push("/community");
     } catch {
       setError("Network error. Please try again.");
-    } finally {
       setLoading(false);
     }
   };

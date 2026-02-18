@@ -50,10 +50,8 @@ export async function GET(request: Request) {
         where: { id: verification.id },
       });
 
-      const siteUrl =
-        process.env.NEXT_PUBLIC_SITE_URL || "https://ewccalgary.ca";
       return NextResponse.redirect(
-        `${siteUrl}/community?verified=already`
+        new URL("/community/login?verified=already", request.url)
       );
     }
 
@@ -68,10 +66,10 @@ export async function GET(request: Request) {
       where: { id: verification.id },
     });
 
-    // Redirect to community with success indicator
-    const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || "https://ewccalgary.ca";
-    return NextResponse.redirect(`${siteUrl}/community?verified=true`);
+    // Redirect to login with success indicator (user may not be logged in)
+    return NextResponse.redirect(
+      new URL("/community/login?verified=true", request.url)
+    );
   } catch (error) {
     console.error("Email verification error:", error);
     return NextResponse.json(

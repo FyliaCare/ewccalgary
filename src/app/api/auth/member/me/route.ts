@@ -62,7 +62,10 @@ export async function GET() {
 
     return NextResponse.json(member);
   } catch {
-    return NextResponse.json({ error: "Invalid session" }, { status: 401 });
+    // Clear the invalid cookie so the browser doesn't keep sending it
+    const response = NextResponse.json({ error: "Invalid session" }, { status: 401 });
+    response.cookies.delete("member-token");
+    return response;
   }
 }
 

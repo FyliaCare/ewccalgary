@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { MessageCircle, Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { MessageCircle, Eye, EyeOff, ArrowLeft, CheckCircle, AlertCircle } from "lucide-react";
 
 export default function CommunityLoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const expired = searchParams.get("expired") === "true";
+  const verified = searchParams.get("verified");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -28,13 +31,13 @@ export default function CommunityLoginPage() {
       const data = await res.json();
       if (!res.ok) {
         setError(data.error || "Login failed");
+        setLoading(false);
         return;
       }
 
       router.push("/community");
     } catch {
       setError("Network error. Please try again.");
-    } finally {
       setLoading(false);
     }
   };
@@ -63,6 +66,24 @@ export default function CommunityLoginPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {verified === "true" && (
+            <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/30 text-green-400 text-sm px-4 py-3 rounded-xl scale-in">
+              <CheckCircle className="w-4 h-4 flex-shrink-0" />
+              Email verified successfully! You can now sign in.
+            </div>
+          )}
+          {verified === "already" && (
+            <div className="flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm px-4 py-3 rounded-xl scale-in">
+              <CheckCircle className="w-4 h-4 flex-shrink-0" />
+              Your email is already verified. Sign in to continue.
+            </div>
+          )}
+          {expired && !error && (
+            <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm px-4 py-3 rounded-xl scale-in">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              Your session has expired. Please sign in again.
+            </div>
+          )}
           {error && (
             <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm px-4 py-3 rounded-xl scale-in">
               {error}
